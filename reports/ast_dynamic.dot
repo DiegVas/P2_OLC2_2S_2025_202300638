@@ -1,0 +1,13 @@
+digraph AST {
+    rankdir=TB;
+    node [fontname="Arial", shape=box, style=filled];
+    edge [fontname="Arial"];
+
+    node4 [label="PROGRAM", fillcolor=lightsteelblue];
+    node5 [label="INTEGER[] a", fillcolor=lightsteelblue];
+    node6 [label="INTEGER[][] b", fillcolor=lightsteelblue];
+    node7 [label="matrix_data", fillcolor=lightgreen];
+    node6 -> node7 [label="right"];
+    node5 -> node6 [label="next", style=dashed];
+    node4 -> node5 [label="next", style=dashed];
+}

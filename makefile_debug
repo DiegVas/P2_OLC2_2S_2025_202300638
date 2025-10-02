@@ -1,0 +1,113 @@
+CC = gcc
+FLEX = flex
+BISON = bison
+SRC = src
+INC = include
+BUILD = build
+
+LEXER = $(SRC)/parser/lexer.l
+PARSER = $(SRC)/parser/parser.y
+MAIN = $(SRC)/main.c
+
+# Archivos modulares de la UI
+UI_DIR = $(SRC)/UI
+UI_FILES = $(UI_DIR)/UI.c \
+           $(UI_DIR)/menu.c \
+           $(UI_DIR)/toolbar.c \
+           $(UI_DIR)/editor.c \
+           $(UI_DIR)/console.c \
+           $(UI_DIR)/reports.c \
+           $(UI_DIR)/styles.c \
+           $(UI_DIR)/main_window.c
+
+# Directorio de análisis semántico
+PARSER_DIR = $(SRC)/parser/semantic
+PARSER_FILES = $(PARSER_DIR)/semantic.c \
+               $(PARSER_DIR)/execute.c
+
+# Archivos modulares de estructuras
+STRUCTURES_DIR = $(SRC)/structures
+STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
+                  $(STRUCTURES_DIR)/ASTNode.c \
+                  $(STRUCTURES_DIR)/Errors.c \
+                  $(STRUCTURES_DIR)/SymbolTable.c
+
+GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0`
+
+# Flags básicas
+CFLAGS_BASE = -I$(INC) -I$(UI_DIR)
+WARNINGS = -Wno-deprecated-declarations -Wall -Wextra
+
+# Flags de debug
+DEBUG_FLAGS = -g -O0 -DDEBUG -fsanitize=address -fsanitize=undefined -fstack-protector-strong
+
+# Flags de release
+RELEASE_FLAGS = -O2 -DNDEBUG
+
+# Por defecto compilar en debug
+CFLAGS = $(CFLAGS_BASE) $(WARNINGS) $(DEBUG_FLAGS)
+
+# Target principal
+all: clean-build debug
+
+# Forzar recompilación completa para debug
+debug: 
+	@echo "Compilando en modo DEBUG..."
+	@mkdir -p $(BUILD)
+	$(BISON) -d -o $(BUILD)/parser.tab.c $(PARSER)
+	cp $(BUILD)/parser.tab.h $(INC)/parser.tab.h
+	$(FLEX) -o $(BUILD)/lexer.yy.c $(LEXER)
+	$(CC) $(CFLAGS_BASE) $(WARNINGS) $(DEBUG_FLAGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) -o $(BUILD)/main $(GTK_FLAGS)
+	@echo "Compilación DEBUG completada"
+
+# Compilar sin sanitizers
+nosanit:
+	@echo "Compilando SIN sanitizers..."
+	@mkdir -p $(BUILD)
+	$(BISON) -d -o $(BUILD)/parser.tab.c $(PARSER)
+	cp $(BUILD)/parser.tab.h $(INC)/parser.tab.h
+	$(FLEX) -o $(BUILD)/lexer.yy.c $(LEXER)
+	$(CC) $(CFLAGS_BASE) $(WARNINGS) -g -O0 -DDEBUG $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) -o $(BUILD)/main $(GTK_FLAGS)
+	@echo "Compilación SIN sanitizers completada"
+
+# Compilar para release
+release:
+	@echo "Compilando en modo RELEASE..."
+	@mkdir -p $(BUILD)
+	$(BISON) -d -o $(BUILD)/parser.tab.c $(PARSER)
+	cp $(BUILD)/parser.tab.h $(INC)/parser.tab.h
+	$(FLEX) -o $(BUILD)/lexer.yy.c $(LEXER)
+	$(CC) $(CFLAGS_BASE) $(WARNINGS) $(RELEASE_FLAGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) -o $(BUILD)/main $(GTK_FLAGS)
+	@echo "Compilación RELEASE completada"
+
+# Ejecutar con debugging habilitado
+run: debug
+	@echo "Ejecutando programa con debugging..."
+	G_DEBUG=all $(BUILD)/main
+
+# Ejecutar con valgrind
+valgrind: debug
+	@echo "Ejecutando con valgrind..."
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=/usr/share/gtk-3.0/valgrind/gtk.supp $(BUILD)/main 2>&1 | tee valgrind.log
+
+# Limpiar solo el directorio build
+clean-build:
+	@rm -f $(BUILD)/*
+	@rm -f $(INC)/parser.tab.h
+
+# Limpiar completamente
+clean:
+	rm -rf $(BUILD)
+	rm -f $(INC)/parser.tab.h
+	rm -f valgrind.log
+
+# Mostrar información
+info:
+	@echo "Archivos fuente:"
+	@echo "  UI: $(UI_FILES)"
+	@echo "  Parser: $(PARSER_FILES)"
+	@echo "  Structures: $(STRUCTURES_FILES)"
+	@echo "Flags DEBUG: $(CFLAGS_BASE) $(WARNINGS) $(DEBUG_FLAGS)"
+	@echo "GTK: $(GTK_FLAGS)"
+
+.PHONY: all debug nosanit release run valgrind clean clean-build info

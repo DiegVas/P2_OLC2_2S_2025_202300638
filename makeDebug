@@ -1,0 +1,125 @@
+CC = gcc
+FLEX = flex
+BISON = bison
+SRC = src
+INC = include
+BUILD = build
+
+LEXER = $(SRC)/parser/lexer.l
+PARSER = $(SRC)/parser/parser.y
+MAIN = $(SRC)/main.c
+
+# Archivos modulares de la UI
+UI_DIR = $(SRC)/UI
+UI_FILES = $(UI_DIR)/UI.c \
+           $(UI_DIR)/menu.c \
+           $(UI_DIR)/toolbar.c \
+           $(UI_DIR)/editor.c \
+           $(UI_DIR)/console.c \
+           $(UI_DIR)/reports.c \
+           $(UI_DIR)/styles.c \
+           $(UI_DIR)/main_window.c
+
+# Directorio de análisis semantico
+PARSER_DIR = $(SRC)/parser/semantic
+PARSER_FILES = $(PARSER_DIR)/semantic.c \
+               $(PARSER_DIR)/execute.c \
+               $(PARSER_DIR)/evaluate.c \
+               $(PARSER_DIR)/utils.c \
+               $(PARSER_DIR)/get_semantic_enums.c \
+               $(PARSER_DIR)/casting_operations.c \
+               $(PARSER_DIR)/comparative_operations.c \
+               $(PARSER_DIR)/ListEvaluate.c \
+               $(PARSER_DIR)/create_error.c
+
+# Archivos modulares de estructuras
+STRUCTURES_DIR = $(SRC)/structures
+STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
+                  $(STRUCTURES_DIR)/Errors.c \
+                  $(STRUCTURES_DIR)/SymbolTable.c \
+                  $(STRUCTURES_DIR)/If_Node.c \
+                  $(STRUCTURES_DIR)/Switch_case.c \
+                  $(STRUCTURES_DIR)/List.c \
+                  $(STRUCTURES_DIR)/Expression_list.c \
+                  $(STRUCTURES_DIR)/FuctionNode.c
+
+# Archivos de reportes
+REPORTS_DIR = $(SRC)/reports
+REPORTS_FILES = $(REPORTS_DIR)/ast_generator.c \
+                $(REPORTS_DIR)/ast_execute.c \
+                $(REPORTS_DIR)/utils.c \
+                $(REPORTS_DIR)/ast_evaluate.c
+
+GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0`
+
+# Flags para debugging - incluye símbolos de debug y desactiva optimizaciones
+DEBUG_FLAGS = -g -O0 -DDEBUG -fsanitize=address -fsanitize=undefined -fstack-protector-strong
+# Flags para silenciar advertencias de GTK
+WARNINGS = -Wno-deprecated-declarations
+
+# Target principal para debugging
+debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) $(DEBUG_FLAGS) $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug $(GTK_FLAGS) -luuid -lm
+
+# Target para debugging básico (sin sanitizers para usar con valgrind)
+debug-basic: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -g -O0 -DDEBUG $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug_basic $(GTK_FLAGS) -luuid -lm
+
+# Generación de archivos del parser y lexer (igual que el Makefile original)
+$(BUILD)/parser.tab.c $(BUILD)/parser.tab.h: $(PARSER)
+	$(BISON) -d -o $(BUILD)/parser.tab.c $(PARSER)
+	cp $(BUILD)/parser.tab.h $(INC)/parser.tab.h
+
+$(BUILD)/lexer.yy.c: $(LEXER)
+	$(FLEX) -o $(BUILD)/lexer.yy.c $(LEXER)
+
+# Target para ejecutar con gdb
+gdb: debug-basic
+	gdb $(BUILD)/main_debug_basic
+
+# Target para ejecutar con valgrind (detección de memory leaks)
+valgrind: debug-basic
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose $(BUILD)/main_debug_basic
+
+# Target para valgrind con más detalles
+valgrind-full: debug-basic
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes --show-reachable=yes --track-fds=yes $(BUILD)/main_debug_basic
+
+# Target para ejecutar directamente con sanitizers activados
+run-debug: debug
+	./$(BUILD)/main_debug
+
+# Target para ver stack traces con core dumps
+core-debug: debug-basic
+	ulimit -c unlimited && ./$(BUILD)/main_debug_basic
+
+# Target para debugging de stack overflows
+stack-debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -g -O0 -DDEBUG -fstack-usage -Wstack-usage=8192 $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_stack $(GTK_FLAGS) -luuid -lm
+
+# Limpieza
+clean:
+	rm -f $(BUILD)/*
+
+# Target para mostrar ayuda
+help:
+	@echo "=== DEBUGGING MAKEFILE ==="
+	@echo "Targets disponibles:"
+	@echo "  debug        - Compila con sanitizers (AddressSanitizer + UndefinedBehaviorSanitizer)"
+	@echo "  debug-basic  - Compila con símbolos de debug (compatible con valgrind)"
+	@echo "  gdb          - Compila y ejecuta con gdb"
+	@echo "  valgrind     - Compila y ejecuta con valgrind (memory leaks)"
+	@echo "  valgrind-full- Valgrind con todos los detalles"
+	@echo "  run-debug    - Ejecuta directamente con sanitizers"
+	@echo "  core-debug   - Permite core dumps para análisis post-mortem"
+	@echo "  stack-debug  - Compila con detección de stack overflow"
+	@echo "  clean        - Limpia archivos compilados"
+	@echo "  help         - Muestra esta ayuda"
+	@echo ""
+	@echo "=== RECOMENDACIONES ==="
+	@echo "Para problemas de memoria:     make valgrind"
+	@echo "Para stack overflow:           make stack-debug"
+	@echo "Para debugging interactivo:    make gdb"
+	@echo "Para detección automática:     make run-debug"
+
+.PHONY: debug debug-basic gdb valgrind valgrind-full run-debug core-debug stack-debug clean help

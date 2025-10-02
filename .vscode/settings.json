@@ -1,0 +1,12 @@
+{
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "parser.h": "c",
+    "stdio.h": "c",
+    "semantic.h": "c",
+    "string.h": "c",
+    "stdlib.h": "c",
+    "ast.h": "c",
+    "uuid.h": "c"
+  }
+}

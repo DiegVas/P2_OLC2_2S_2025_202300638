@@ -1,0 +1,8 @@
+AST - Árbol de Sintaxis Abstracta del Programa
+==============================================
+
+├─ [INSTRUCTION] PROGRAM <void>
+├─ [INSTRUCTION] INTEGER[] a <INTEGER>
+├─ [INSTRUCTION] INTEGER[][] b <INTEGER>
+  └─ RIGHT:
+    ├─ [LITERAL] matrix_data
