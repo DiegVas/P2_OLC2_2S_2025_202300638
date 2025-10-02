@@ -44,11 +44,17 @@ STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
                   $(STRUCTURES_DIR)/Expression_list.c \
                   $(STRUCTURES_DIR)/FuctionNode.c
 
+#Archivos modulares de ARM
+ARM_DIR = $(SRC)/parser/ARM
+ARM_FILES = $(ARM_DIR)/arm.c \
+            $(ARM_DIR)/arm_declarate.c
+                  
+# Archivos modulares de reportes
 REPORTS_DIR = $(SRC)/reports
-STRUCTURES_FILES += $(REPORTS_DIR)/ast_generator.c \
-                    $(REPORTS_DIR)/ast_execute.c \
-                    $(REPORTS_DIR)/utils.c \
-                    $(REPORTS_DIR)/ast_evaluate.c
+REPORTS_FILES = $(REPORTS_DIR)/ast_generator.c \
+                $(REPORTS_DIR)/ast_execute.c \
+                $(REPORTS_DIR)/utils.c \
+                $(REPORTS_DIR)/ast_evaluate.c
 
 
 GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0`
@@ -56,8 +62,8 @@ GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0`
 # Flags para silenciar advertencias de GTK
 WARNINGS = -Wno-deprecated-declarations
 
-all: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES)
-	$(CC) -I$(INC) -I$(UI_DIR) $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(REPORTS_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) -o $(BUILD)/main $(GTK_FLAGS) -luuid -lm
+all: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -I$(ARM_DIR) $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(REPORTS_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) -o $(BUILD)/main $(GTK_FLAGS) -luuid -lm
 
 $(BUILD)/parser.tab.c $(BUILD)/parser.tab.h: $(PARSER)
 	$(BISON) -d -o $(BUILD)/parser.tab.c $(PARSER)

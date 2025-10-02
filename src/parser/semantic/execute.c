@@ -1,8 +1,10 @@
 #include "../structures/parser.h"
+#include "../ARM/arm.h"
 #include "semantic.h"
 #include <string.h>
 
 extern symbol_table *SymbolTable_General;
+extern ARM_data *arm_global_data;
 
 void semantic_analysis_execute(Instruccion *instruction, Context *context)
 {
@@ -196,6 +198,8 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         new_symbol->environment = context->nombre;
         new_symbol->line = &(instruction->line);
         new_symbol->column = &(instruction->column);
+
+        arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate(new_symbol->id, new_symbol->dataType, new_symbol->value)); // 1 para true
 
         fprintf(stderr, "Nuevo símbolo: %s, Tipo: %s, Valor: %s\n",
                 new_symbol->id, new_symbol->dataType, new_symbol->value);
