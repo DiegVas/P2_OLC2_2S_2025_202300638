@@ -22,6 +22,8 @@ bool is_valid_cast(OperativeType from, OperativeType to)
     {
         return true;
     }
+
+    
     return false;
 }
 

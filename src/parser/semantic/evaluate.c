@@ -35,29 +35,30 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     switch (type)
     {
     case EXP_INTEGER:
-        free(result->value);
-        free(result->dataType);
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0") : strdup(expr->value);
         result->dataType = strdup("INTEGER");
+        result->declared_in_arm = true;
+
         break;
     case EXP_FLOAT:
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0.0") : strdup(expr->value);
         result->dataType = strdup("FLOAT");
+        result->declared_in_arm = true;
         break;
     case EXP_STRING:
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("NULL") : strdup(expr->value);
         result->dataType = strdup("STRING");
+        result->declared_in_arm = true;
         break;
     case EXP_BOOLEAN:
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("false") : strdup(expr->value);
         result->dataType = strdup("BOOLEAN");
+        result->declared_in_arm = true;
         break;
     case EXP_CHARACTER:
     {
         if (strcmp(expr->value, "UNDEFINED") == 0)
-        {
             result->value = strdup("'\0'");
-        }
         else
         {
             // Procesar secuencias de escape Unicode y caracteres especiales
@@ -155,11 +156,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             result->value = formatted_char;
         }
         result->dataType = "CHARACTER";
+        result->declared_in_arm = true;
         break;
     }
     case EXP_DOUBLE:
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0.0") : strdup(expr->value);
         result->dataType = "DOUBLE";
+        result->declared_in_arm = true;
         break;
     case EXP_NULL:
         result->value = strdup("NULL");
@@ -902,4 +905,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     default:
         return NULL;
     }
+
+    return result;
+
 }

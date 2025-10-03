@@ -199,7 +199,15 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         new_symbol->line = &(instruction->line);
         new_symbol->column = &(instruction->column);
 
-        arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate(new_symbol->id, new_symbol->dataType, new_symbol->value)); // 1 para true
+        if (evaluated_value->declared_in_arm)
+        {
+            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate(new_symbol->id, new_symbol->dataType, new_symbol->value));
+        }
+        else
+        {
+            arm_global_data->bss = arm_declarate_bss(new_symbol->id, new_symbol->dataType);
+            fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
+        }
 
         fprintf(stderr, "Nuevo símbolo: %s, Tipo: %s, Valor: %s\n",
                 new_symbol->id, new_symbol->dataType, new_symbol->value);

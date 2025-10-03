@@ -39,6 +39,9 @@ typedef struct symbol
     Function *functionValues; // Para funciones
     int dimensions;           // Numero de dimensiones del arreglo
 
+    //* Para manejo de declaracion en arm
+    bool declared_in_arm;
+
     int *line;
     int *column;
 } symbol;

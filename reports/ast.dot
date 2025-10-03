@@ -1,14 +1,30 @@
 digraph AST {
 node [shape=box];
 node0 [label="INICIO"];
+node9 [label="DECLARATION"];
+node13 [label="INTEGER"];
+node12 [label="a"];
+node11 [label="="];
+node10 [label="18"];
 node1 [label="DECLARATION"];
-node5 [label="CHARACTER"];
-node4 [label="a"];
-node3 [label="="];
-node2 [label="a"];
+node8 [label="INTEGER"];
+node7 [label="a"];
+node6 [label="="];
+node2 [label="SUM"];
+node5 [label="15"];
+node4 [label="+"];
+node3 [label="15"];
+node0 -> node9;
+node9 -> node13;
+node9 -> node12;
+node9 -> node11;
+node9 -> node10;
 node0 -> node1;
-node1 -> node5;
-node1 -> node4;
-node1 -> node3;
+node1 -> node8;
+node1 -> node7;
+node1 -> node6;
 node1 -> node2;
+node2 -> node5;
+node2 -> node4;
+node2 -> node3;
 }

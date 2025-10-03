@@ -13,9 +13,6 @@ void semantic_analysis()
     extern ErrorList *list_errors;
     extern symbol_table *SymbolTable_General;
 
-
-    
-
     Symbol_table_destroy(SymbolTable_General);
     SymbolTable_General = Symbol_table_create();
 
@@ -23,12 +20,11 @@ void semantic_analysis()
     contextGlobal->nombre = "Global";
     contextGlobal->symbols_context = Symbol_table_create();
 
-    
     arm_global_data = arm_data_create();
 
     generate_simple_ast(list_tokens);
 
-     InstruccionNode *curr = list_tokens->head;
+    InstruccionNode *curr = list_tokens->head;
     while (curr)
     {
 
@@ -40,6 +36,6 @@ void semantic_analysis()
 
     arm_global_data->text = arm_text_add(arm_global_data->text, arm_text_exit());
     fprintf(stderr, "%s\n", arm_global_data->data);
+    fprintf(stderr, "%s\n", arm_global_data->bss);
     fprintf(stderr, "%s\n", arm_global_data->text);
-
 }
