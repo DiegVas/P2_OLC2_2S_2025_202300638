@@ -1,4 +1,5 @@
 #include "semantic.h"
+#include "../ARM/arm.h"
 
 bool is_valid_cast(OperativeType from, OperativeType to)
 {
@@ -23,12 +24,11 @@ bool is_valid_cast(OperativeType from, OperativeType to)
         return true;
     }
 
-    
     return false;
 }
 
 // Función para aplicar casting automático
-symbol *apply_casting_auto(symbol *value, const char *target_type)
+symbol *apply_casting_auto(symbol *value, const char *target_type, Context *context)
 {
     // Verificar que value no sea NULL
     if (value == NULL)
@@ -65,10 +65,28 @@ symbol *apply_casting_auto(symbol *value, const char *target_type)
     case TYPE_FLOAT:
         if (from_type == TYPE_CHARACTER)
         {
+
+            {
+                //"scvtf   d1, s2"
+                char bufferARM[128];
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s%d, w%d\n", context->num_register_s, context->num_register_w - 1);
+                strcat(bufferARM, "\n");
+                value->text_section = arm_data_add(value->text_section, bufferARM);
+            }
+
             sprintf(buffer, "%.2f", (float)value->value[0]); // char a float
         }
         else if (from_type == TYPE_INTEGER)
         {
+
+            {
+                //"scvtf   d1, w2"
+                char bufferARM[128];
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s%d, w%d\n", context->num_register_s, context->num_register_w - 1);
+                strcat(bufferARM, "\n");
+                value->text_section = arm_data_add(value->text_section, bufferARM);
+            }
+
             sprintf(buffer, "%.2f", (float)atoi(value->value)); // int a float
         }
         break;
@@ -76,14 +94,41 @@ symbol *apply_casting_auto(symbol *value, const char *target_type)
     case TYPE_DOUBLE:
         if (from_type == TYPE_CHARACTER)
         {
+
+            {
+                //"scvtf   d1, w2"
+                char bufferARM[128];
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d%d, w%d\n", context->num_register_d, context->num_register_w - 1);
+                strcat(bufferARM, "\n");
+                value->text_section = arm_data_add(value->text_section, bufferARM);
+            }
+
             sprintf(buffer, "%.6f", (double)value->value[0]); // char a double
         }
         else if (from_type == TYPE_INTEGER)
         {
+
+            {
+                //"scvtf   d1, w2"
+                char bufferARM[128];
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d%d, w%d\n", context->num_register_d, context->num_register_w - 1);
+                strcat(bufferARM, "\n");
+                value->text_section = arm_data_add(value->text_section, bufferARM);
+            }
+
             sprintf(buffer, "%.6f", (double)atoi(value->value)); // int a double
         }
         else if (from_type == TYPE_FLOAT)
         {
+
+            {
+                //"fcvt   d1, s2"
+                char bufferARM[128];
+                snprintf(bufferARM, sizeof(bufferARM), "fcvt   d%d, s%d\n", context->num_register_d, context->num_register_s - 1);
+                strcat(bufferARM, "\n");
+                value->text_section = arm_data_add(value->text_section, bufferARM);
+            }
+
             sprintf(buffer, "%.6f", (double)atof(value->value)); // float a double
         }
         break;
@@ -94,6 +139,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type)
     }
 
     casted->value = strdup(buffer);
+    casted->text_section = value->text_section ? strdup(value->text_section) : NULL;
     return casted;
 }
 

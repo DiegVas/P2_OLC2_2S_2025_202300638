@@ -92,7 +92,7 @@ symbol *evaluate_expression(Expression *expr, Context *context);
 ExecuteType get_instruction_type(const char *type_str);
 ExpressionType get_expression_type(const char *type_str);
 symbol *perform_arithmetic_operation(Expression *left, Expression *right, Context *context, char operation);
-symbol *apply_casting_auto(symbol *value, const char *target_type);
+symbol *apply_casting_auto(symbol *value, const char *target_type, Context *context);
 symbol *apply_casting_manual(symbol *value, const char *target_type);
 ConvertedValue convert_operand(symbol *operand);
 char *process_escape_sequences(const char *input);

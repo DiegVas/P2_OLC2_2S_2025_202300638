@@ -51,7 +51,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             snprintf(buffer, sizeof(buffer), "    mov     w%d, #%s\n", context->num_register_w, result->value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_w;
             context->num_register_w++;
         }
@@ -66,7 +66,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             snprintf(buffer, sizeof(buffer), "    fmov    s%d, #%sf\n", context->num_register_s, result->value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_s;
             context->num_register_s++;
         }
@@ -81,7 +81,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             snprintf(buffer, sizeof(buffer), "    ldr     x%d, =%s\n", context->num_register_x, result->value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_x;
             context->num_register_x++;
         }
@@ -97,7 +97,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             char buffer[128];
             int bool_value = (strcmp(result->value, "true") == 0) ? 1 : 0;
             snprintf(buffer, sizeof(buffer), "    mov     w%d, #%d\n", context->num_register_w, bool_value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_w;
             context->num_register_w++;
         }
@@ -210,7 +210,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             snprintf(buffer, sizeof(buffer), "    mov     w%d, #%s\n", context->num_register_w, result->value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_w;
             context->num_register_w++;
         }
@@ -226,7 +226,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             snprintf(buffer, sizeof(buffer), "    fmov    d%d, #%s\n", context->num_register_d, result->value);
-            result->text_section = arm_text_add(result->text_section, buffer);
+            result->text_section = arm_data_add(result->text_section, buffer);
             result->num_register = context->num_register_d;
             context->num_register_d++;
         }
@@ -812,7 +812,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     char buffer[128];
 
                     snprintf(buffer, sizeof(buffer), "  ldr    x%d, =%s\n", context->num_register_x, sym->id);
-                    result_copy->text_section = arm_text_add(result_copy->text_section, buffer);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     context->num_register_x++;
 
                     if (strcmp(sym->dataType, "DOUBLE") == 0 || strcmp(sym->dataType, "FLOAT") == 0)
@@ -844,7 +844,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                         snprintf(buffer, sizeof(buffer), "  ldr     %s%d, [x%d]\n\n", arm_load, arm_num_register, context->num_register_x - 1);
                     }
 
-                    result_copy->text_section = arm_text_add(result_copy->text_section, buffer);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     result_copy->num_register = arm_num_register;
                 }
 

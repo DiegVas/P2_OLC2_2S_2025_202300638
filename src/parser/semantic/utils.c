@@ -1,4 +1,5 @@
 #include "semantic.h"
+#include "../ARM/arm.h"
 #include <math.h>
 
 void reset_registers(Context *context)
@@ -44,6 +45,23 @@ ConvertedValue convert_operand(symbol *operand)
     {
         cv.num_value = atof(operand->value);
         cv.result_type = TYPE_DOUBLE;
+    }
+    else if (strcmp(operand->dataType, "CHARACTER") == 0)
+    {
+        fprintf(stderr, "Converting CHARACTER with value: %s\n", operand->value); // Debug line
+        if (strlen(operand->value) == 1)
+        {
+            cv.num_value = (int)operand->value[0];
+        }
+        else if (strlen(operand->value) == 3 && operand->value[0] == '\'' && operand->value[2] == '\'')
+        {
+            cv.num_value = (int)operand->value[1];
+        }
+        else
+        {
+            cv.num_value = 0; // Valor por defecto en caso de formato inesperado
+        }
+        cv.result_type = TYPE_INTEGER; // Promover CHARACTER a INTEGER
     }
 
     return cv;
@@ -106,6 +124,181 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
 
     // Determinar el tipo de resultado (el más "grande")
     OperativeType result_type = (cv_left.result_type > cv_right.result_type) ? cv_left.result_type : cv_right.result_type;
+
+    {
+
+        // Codigo arm promver a double si alguno es char, int o float
+        if (result_type == TYPE_DOUBLE)
+        {
+            if (cv_left.result_type != TYPE_DOUBLE)
+            {
+
+                char *arm_register = "d";
+                char *arm_intruction = "scvtf";
+                int arm_num_register = context->num_register_d - 1;
+
+                if (cv_left.result_type == TYPE_INTEGER || cv_left.result_type == TYPE_CHARACTER)
+                {
+                    arm_register = "w";
+                    arm_num_register = context->num_register_w - 1;
+                }
+                else if (cv_left.result_type == TYPE_FLOAT)
+                {
+                    arm_register = "s";
+                    arm_num_register = context->num_register_s - 1;
+                    arm_intruction = "fcvt";
+                }
+
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "%s   d%d, %s%d\n", arm_intruction, context->num_register_d, arm_register, arm_num_register);
+                left->text_section = arm_data_add(left->text_section, buffer);
+                left->num_register = context->num_register_d;
+                left->declared_in_arm = true;
+                context->num_register_d++;
+            }
+            if (cv_right.result_type != TYPE_DOUBLE)
+            {
+
+                char *arm_register = "d";
+                int arm_num_register = context->num_register_d - 1;
+                char *arm_intruction = "scvtf";
+
+                if (cv_right.result_type == TYPE_INTEGER || cv_right.result_type == TYPE_CHARACTER)
+                {
+                    arm_register = "w";
+                    arm_num_register = context->num_register_w - 1;
+                }
+                else if (cv_right.result_type == TYPE_FLOAT)
+                {
+                    arm_register = "s";
+                    arm_num_register = context->num_register_s - 1;
+                    arm_intruction = "fcvt";
+                }
+
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "%s   d%d, %s%d\n", arm_intruction, context->num_register_d, arm_register, arm_num_register);
+                right->text_section = arm_data_add(right->text_section, buffer);
+                right->num_register = context->num_register_d;
+                right->declared_in_arm = true;
+                context->num_register_d++;
+            }
+        }
+        else if (result_type == TYPE_FLOAT)
+        {
+            if (cv_left.result_type != TYPE_FLOAT)
+            {
+                char *arm_register = "s";
+                char *arm_intruction = "scvtf";
+                int arm_num_register = context->num_register_s - 1;
+
+                if (cv_left.result_type == TYPE_INTEGER || cv_left.result_type == TYPE_CHARACTER)
+                {
+                    arm_register = "w";
+                    arm_num_register = context->num_register_w - 1;
+                }
+                else if (cv_left.result_type == TYPE_DOUBLE)
+                {
+                    arm_register = "d";
+                    arm_num_register = context->num_register_d - 1;
+                    arm_intruction = "fcvt";
+                }
+
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "%s   s%d, %s%d\n", arm_intruction, context->num_register_s, arm_register, arm_num_register);
+                left->text_section = arm_data_add(left->text_section, buffer);
+                left->num_register = context->num_register_s;
+                left->declared_in_arm = true;
+                context->num_register_s++;
+            }
+            if (cv_right.result_type != TYPE_FLOAT)
+            {
+                char *arm_register = "s";
+                int arm_num_register = context->num_register_s - 1;
+                char *arm_intruction = "scvtf";
+
+                if (cv_right.result_type == TYPE_INTEGER || cv_right.result_type == TYPE_CHARACTER)
+                {
+                    arm_register = "w";
+                    arm_num_register = context->num_register_w - 1;
+                }
+                else if (cv_right.result_type == TYPE_DOUBLE)
+                {
+                    arm_register = "d";
+                    arm_num_register = context->num_register_d - 1;
+                    arm_intruction = "fcvt";
+                }
+
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "%s   s%d, %s%d\n", arm_intruction, context->num_register_s, arm_register, arm_num_register);
+                right->text_section = arm_data_add(right->text_section, buffer);
+                right->num_register = context->num_register_s;
+                right->declared_in_arm = true;
+                context->num_register_s++;
+            }
+        }
+
+        result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->text_section = arm_data_add(result->text_section, right->text_section);
+
+        switch (operation)
+        {
+        case '+':
+            if (result_type == TYPE_DOUBLE)
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "fadd    d%d, d%d, d%d\n", context->num_register_d, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_d;
+                context->num_register_d++;
+            }
+            else if (result_type == TYPE_FLOAT)
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "fadd    s%d, s%d, s%d\n", context->num_register_s, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_s;
+                context->num_register_s++;
+            }
+            else // INTEGER
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "add     w%d, w%d, w%d\n", context->num_register_w, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_w;
+                context->num_register_w++;
+            }
+            break;
+        case '-':
+            if (result_type == TYPE_DOUBLE)
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "fsub    d%d, d%d, d%d\n", context->num_register_d, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_d;
+                context->num_register_d++;
+            }
+            else if (result_type == TYPE_FLOAT)
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "fsub    s%d, s%d, s%d\n", context->num_register_s, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_s;
+                context->num_register_s++;
+            }
+            else // INTEGER
+            {
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "sub     w%d, w%d, w%d\n", context->num_register_w, left->num_register, right->num_register);
+                result->text_section = arm_data_add(result->text_section, buffer);
+                result->num_register = context->num_register_w;
+                context->num_register_w++;
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
 
     // Realizar la operación
     double final_result;

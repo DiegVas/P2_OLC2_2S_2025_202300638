@@ -15,6 +15,10 @@ ARM_data *arm_data_create()
 
 char *arm_data_add(char *original, char *to_add)
 {
+    if (!original)
+        original = "";
+    if (!to_add)
+        to_add = "";
     char *new_data = malloc(strlen(original) + strlen(to_add) + 1);
     strcpy(new_data, original);
     strcat(new_data, to_add);

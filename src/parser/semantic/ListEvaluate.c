@@ -79,7 +79,7 @@ VectorList *evaluate_vector(char *dataType, VectorList *vec, Context *evaluateCo
             symbol *da = evaluate_expression(current->exprData, evaluateContext);
             if (da != NULL)
             {
-                da = apply_casting_auto(da, dataType);
+                da = apply_casting_auto(da, dataType, evaluateContext);
                 current->value = da;
             }
             else

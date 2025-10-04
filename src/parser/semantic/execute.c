@@ -158,6 +158,8 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         symbol *evaluated_value = evaluate_expression(instruction->value, context);
 
+        // fprintf(stderr, "Arm code after evaluating expression:\n%s\n", evaluated_value->text_section);
+
         // Validar que la evaluación no retornó NULL
         if (!evaluated_value)
         {
@@ -167,7 +169,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         fprintf(stderr, "Evaluated value: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
-        evaluated_value = apply_casting_auto(evaluated_value, instruction->type);
+        evaluated_value = apply_casting_auto(evaluated_value, instruction->type, context);
 
         fprintf(stderr, "After casting, value: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
@@ -209,7 +211,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         }
         else
         {
-            arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
+            arm_global_data->text = arm_data_add(arm_global_data->text, evaluated_value->text_section);
             arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
 
             //* Asignar el ultimo registro usado para la variable
@@ -230,7 +232,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             else if (strcmp(new_symbol->dataType, "DOUBLE") == 0)
             {
                 arm_register = "d";
-                arm_num_register = context->num_register_d;
+                arm_num_register = context->num_register_d == 0 ? 1 : context->num_register_d;
             }
             else
             {
@@ -238,12 +240,14 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 arm_num_register = context->num_register_x;
             }
             {
-                arm_register = "w";
 
                 char buffer[128];
-                snprintf(buffer, sizeof(buffer), "    ldr     %s%d, =%s\n    str     w%d, [%s%d]\n", arm_register, arm_num_register, new_symbol->id, context->num_register_w, arm_register, arm_num_register);
+                snprintf(buffer, sizeof(buffer), "ldr x%d, =%s\n", context->num_register_x, new_symbol->id);
+                arm_global_data->text = arm_data_add(arm_global_data->text, buffer);
 
-                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+                snprintf(buffer, sizeof(buffer), "str %s%d, [x%d]\n", arm_register, arm_num_register - 1, context->num_register_x);
+                arm_global_data->text = arm_data_add(arm_global_data->text, buffer);
+
                 arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n"); // llamada al sistema para reservar espacio en bss
                 fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
             }
@@ -400,7 +404,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     return;
                 }
 
-                symbol *evaluated_value = apply_casting_auto(evaluated_assign, sym_to_update->dataType);
+                symbol *evaluated_value = apply_casting_auto(evaluated_assign, sym_to_update->dataType, context);
                 if (strcmp(sym_to_update->dataType, evaluated_value->dataType) != 0)
                 {
                     //! Error: Tipo de dato no coincide
