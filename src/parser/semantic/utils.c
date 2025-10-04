@@ -1,6 +1,14 @@
 #include "semantic.h"
 #include <math.h>
 
+void reset_registers(Context *context)
+{
+    context->num_register_x = 1;
+    context->num_register_s = 0;
+    context->num_register_d = 0;
+    context->num_register_w = 1;
+}
+
 ConvertedValue convert_operand(symbol *operand)
 {
     ConvertedValue cv = {0};
@@ -47,6 +55,9 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
 
     symbol *left = evaluate_expression(exp_left, context);
     symbol *right = evaluate_expression(exp_right, context);
+
+    fprintf(stderr, "Left operand ARM code: %s\n", left->text_section);
+    fprintf(stderr, "Right operand ARM code: %s\n", right->text_section);
 
     // Verificar que ambos operandos sean válidos
     if (left == NULL || right == NULL)

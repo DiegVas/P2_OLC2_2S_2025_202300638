@@ -1,5 +1,5 @@
-#include "../structures/parser.h"
 #include <string.h>
+#include "../structures/parser.h"
 
 void semantic_analysis();
 void semantic_analysis_execute(Instruccion *instruction, Context *context);
@@ -126,3 +126,6 @@ symbol *access_multidimensional_array(List *array, ExpressionList *indices, Cont
 bool assign_multidimensional_array(List *array, ExpressionList *indices, Context *context, symbol *new_value, int expected_dimensions);
 
 // AST relacionado
+
+///* Menajoe de arm
+void reset_registers(Context *context);

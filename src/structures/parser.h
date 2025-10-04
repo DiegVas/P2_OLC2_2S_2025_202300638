@@ -41,6 +41,8 @@ typedef struct symbol
 
     //* Para manejo de declaracion en arm
     bool declared_in_arm;
+    int num_register;
+    char *text_section;
 
     int *line;
     int *column;
@@ -67,6 +69,12 @@ typedef struct Context
     bool continue_instruction;
     bool break_instruction;
     symbol *return_value;
+
+    //* Para manejo de arm
+    int num_register_x;
+    int num_register_s;
+    int num_register_d;
+    int num_register_w;
 
 } Context;
 
@@ -352,5 +360,9 @@ List *create_multidimensional_array(int *dimensions, int num_dimensions, const c
 
 // Función para reinicializar el parser
 void reset_parser_state();
+
+///* Seccion para manejo de ARM
+
+void add_text_section(char **original, const char *to_add);
 
 #endif // PARSER_H

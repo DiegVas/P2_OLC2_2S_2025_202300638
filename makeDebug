@@ -20,17 +20,26 @@ UI_FILES = $(UI_DIR)/UI.c \
            $(UI_DIR)/styles.c \
            $(UI_DIR)/main_window.c
 
-# Directorio de análisis semantico
+
+# Directorio de análisis semántico
 PARSER_DIR = $(SRC)/parser/semantic
 PARSER_FILES = $(PARSER_DIR)/semantic.c \
-               $(PARSER_DIR)/execute.c \
-               $(PARSER_DIR)/evaluate.c \
-               $(PARSER_DIR)/utils.c \
-               $(PARSER_DIR)/get_semantic_enums.c \
-               $(PARSER_DIR)/casting_operations.c \
-               $(PARSER_DIR)/comparative_operations.c \
-               $(PARSER_DIR)/ListEvaluate.c \
-               $(PARSER_DIR)/create_error.c
+			   $(PARSER_DIR)/execute.c \
+			   $(PARSER_DIR)/evaluate.c \
+			   $(PARSER_DIR)/utils.c \
+			   $(PARSER_DIR)/get_semantic_enums.c \
+			   $(PARSER_DIR)/casting_operations.c \
+			   $(PARSER_DIR)/comparative_operations.c \
+			   $(PARSER_DIR)/ListEvaluate.c \
+			   $(PARSER_DIR)/create_error.c
+
+# Archivos modulares de ARM
+ARM_DIR = $(SRC)/parser/ARM
+ARM_FILES = $(ARM_DIR)/arm.c \
+			$(ARM_DIR)/arm_declarate.c \
+			$(ARM_DIR)/arm_evaluate.c \
+			$(ARM_DIR)/arm_casting.c \
+			$(ARM_DIR)/arm_load.c
 
 # Archivos modulares de estructuras
 STRUCTURES_DIR = $(SRC)/structures
@@ -57,13 +66,15 @@ DEBUG_FLAGS = -g -O0 -DDEBUG -fsanitize=address -fsanitize=undefined -fstack-pro
 # Flags para silenciar advertencias de GTK
 WARNINGS = -Wno-deprecated-declarations
 
+
 # Target principal para debugging
-debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
-	$(CC) -I$(INC) -I$(UI_DIR) $(DEBUG_FLAGS) $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug $(GTK_FLAGS) -luuid -lm
+debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -I$(ARM_DIR) $(DEBUG_FLAGS) $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug $(GTK_FLAGS) -luuid -lm
+
 
 # Target para debugging básico (sin sanitizers para usar con valgrind)
-debug-basic: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
-	$(CC) -I$(INC) -I$(UI_DIR) -g -O0 -DDEBUG $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug_basic $(GTK_FLAGS) -luuid -lm
+debug-basic: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -I$(ARM_DIR) -g -O0 -DDEBUG $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES) -o $(BUILD)/main_debug_basic $(GTK_FLAGS) -luuid -lm
 
 # Generación de archivos del parser y lexer (igual que el Makefile original)
 $(BUILD)/parser.tab.c $(BUILD)/parser.tab.h: $(PARSER)
@@ -93,9 +104,10 @@ run-debug: debug
 core-debug: debug-basic
 	ulimit -c unlimited && ./$(BUILD)/main_debug_basic
 
+
 # Target para debugging de stack overflows
-stack-debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES)
-	$(CC) -I$(INC) -I$(UI_DIR) -g -O0 -DDEBUG -fstack-usage -Wstack-usage=8192 $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(REPORTS_FILES) -o $(BUILD)/main_stack $(GTK_FLAGS) -luuid -lm
+stack-debug: $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES)
+	$(CC) -I$(INC) -I$(UI_DIR) -I$(ARM_DIR) -g -O0 -DDEBUG -fstack-usage -Wstack-usage=8192 $(WARNINGS) $(BUILD)/parser.tab.c $(BUILD)/lexer.yy.c $(MAIN) $(UI_FILES) $(STRUCTURES_FILES) $(PARSER_FILES) $(ARM_FILES) $(REPORTS_FILES) -o $(BUILD)/main_stack $(GTK_FLAGS) -luuid -lm
 
 # Limpieza
 clean:

@@ -47,14 +47,17 @@ STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
 #Archivos modulares de ARM
 ARM_DIR = $(SRC)/parser/ARM
 ARM_FILES = $(ARM_DIR)/arm.c \
-            $(ARM_DIR)/arm_declarate.c
+            $(ARM_DIR)/arm_declarate.c \
+            $(ARM_DIR)/arm_evaluate.c \
+            $(ARM_DIR)/arm_casting.c \
+            $(ARM_DIR)/arm_load.c
                   
 # Archivos modulares de reportes
 REPORTS_DIR = $(SRC)/reports
 REPORTS_FILES = $(REPORTS_DIR)/ast_generator.c \
                 $(REPORTS_DIR)/ast_execute.c \
                 $(REPORTS_DIR)/utils.c \
-                $(REPORTS_DIR)/ast_evaluate.c
+                $(REPORTS_DIR)/ast_evaluate.c 
 
 
 GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0`

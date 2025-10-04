@@ -23,8 +23,14 @@ char *arm_data_add(char *original, char *to_add)
 
 char *arm_text_add(char *original, char *to_add)
 {
+    if (!original)
+        original = "";
+    if (!to_add)
+        to_add = "";
     size_t len = strlen(original) + strlen(to_add) + 2 * strlen(to_add) + 1;
     char *new_text = malloc(len);
+    if (!new_text)
+        return NULL;
     strcpy(new_text, original);
 
     const char *src = to_add;
@@ -43,14 +49,6 @@ char *arm_text_add(char *original, char *to_add)
     }
     *dst = '\0';
     return new_text;
-}
-
-char *arm_bss_add(char *original, char *to_add)
-{
-    char *new_bss = malloc(strlen(original) + strlen(to_add) + 1);
-    strcpy(new_bss, original);
-    strcat(new_bss, to_add);
-    return new_bss;
 }
 
 char *arm_text_exit()
