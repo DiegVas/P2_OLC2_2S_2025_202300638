@@ -70,12 +70,6 @@ typedef struct Context
     bool break_instruction;
     symbol *return_value;
 
-    //* Para manejo de arm
-    int num_register_x;
-    int num_register_s;
-    int num_register_d;
-    int num_register_w;
-
 } Context;
 
 // * Tabla de errores
@@ -113,6 +107,11 @@ typedef struct Expression
     struct Expression *left;
     struct Expression *right;
     struct ExpressionList *list;
+
+    //* Para menejo de arm
+    char *register_type;
+    int num_register;
+
 } Expression;
 
 typedef struct ExpressionNode

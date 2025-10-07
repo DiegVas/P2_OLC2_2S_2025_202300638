@@ -26,6 +26,7 @@ PARSER_FILES = $(PARSER_DIR)/semantic.c \
                $(PARSER_DIR)/execute.c \
                $(PARSER_DIR)/evaluate.c \
                $(PARSER_DIR)/utils.c \
+               $(PARSER_DIR)/arithmetic_operations.c \
                $(PARSER_DIR)/get_semantic_enums.c \
                $(PARSER_DIR)/casting_operations.c \
                $(PARSER_DIR)/comparative_operations.c \

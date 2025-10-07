@@ -21,11 +21,17 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         return error_result;
     }
 
+    if (!expr->num_register)
+    {
+        expr->num_register = 0;
+    }
+
     ExpressionType type = get_expression_type(expr->type);
 
     extern symbol_table *SymbolTable_General;
 
     symbol *result = (symbol *)calloc(1, sizeof(symbol));
+    result->num_register = expr->num_register;
 
     // Inicializar siempre los campos básicos para evitar punteros corruptos
     result->value = strdup("UNDEFINED");
@@ -34,7 +40,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     result->environment = strdup("UNDEFINED");
     result->id = strdup("UNDEFINED");
     result->declared_in_arm = false;
-    result->num_register = -1;
     result->text_section = "";
 
     Expression *exprIZQ = expr->left;
@@ -43,73 +48,68 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     switch (type)
     {
     case EXP_INTEGER:
+    {
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0") : strdup(expr->value);
         result->dataType = strdup("INTEGER");
         result->declared_in_arm = true;
 
-        // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "    mov     w%d, #%s\n", context->num_register_w, result->value);
+            snprintf(buffer, sizeof(buffer), "mov     w%d, #%s\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_w;
-            context->num_register_w++;
         }
 
         break;
+    }
     case EXP_FLOAT:
+    {
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0.0") : strdup(expr->value);
         result->dataType = strdup("FLOAT");
         result->declared_in_arm = true;
 
-        // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "    fmov    s%d, #%sf\n", context->num_register_s, result->value);
+            snprintf(buffer, sizeof(buffer), "fmov    s%d, #%sf\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_s;
-            context->num_register_s++;
         }
 
         break;
+    }
     case EXP_STRING:
+    {
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("NULL") : strdup(expr->value);
         result->dataType = strdup("STRING");
         result->declared_in_arm = true;
 
-        // Generar código ARM para cargar la dirección de la cadena en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "    ldr     x%d, =%s\n", context->num_register_x, result->value);
+            snprintf(buffer, sizeof(buffer), "ldr     x%d, =%s\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_x;
-            context->num_register_x++;
         }
 
         break;
+    }
     case EXP_BOOLEAN:
+    {
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("false") : strdup(expr->value);
         result->dataType = strdup("BOOLEAN");
         result->declared_in_arm = true;
 
-        // Generar código ARM para cargar el valor booleano en un registro
         {
             char buffer[128];
             int bool_value = (strcmp(result->value, "true") == 0) ? 1 : 0;
-            snprintf(buffer, sizeof(buffer), "    mov     w%d, #%d\n", context->num_register_w, bool_value);
+            snprintf(buffer, sizeof(buffer), "mov     w%d, #%d\n", expr->num_register, bool_value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_w;
-            context->num_register_w++;
         }
 
         break;
+    }
     case EXP_CHARACTER:
     {
         if (strcmp(expr->value, "UNDEFINED") == 0)
             result->value = strdup("'\0'");
         else
         {
-            // Procesar secuencias de escape Unicode y caracteres especiales
             char *formatted_char = (char *)calloc(16, sizeof(char));
             const char *input = expr->value;
 
@@ -157,7 +157,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             }
             else if (strncmp(input, "\\", 1) == 0 && strlen(input) >= 2)
             {
-                // Otras secuencias de escape (\n, \t, \r, \\, \', etc.)
                 char escape_char = input[1];
                 switch (escape_char)
                 {
@@ -209,15 +208,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "    mov     w%d, #%s\n", context->num_register_w, result->value);
+            snprintf(buffer, sizeof(buffer), "mov     w%d, #%s\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_w;
-            context->num_register_w++;
         }
 
         break;
     }
     case EXP_DOUBLE:
+    {
         result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("0.0") : strdup(expr->value);
         result->dataType = "DOUBLE";
         result->declared_in_arm = true;
@@ -225,17 +223,18 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "    fmov    d%d, #%s\n", context->num_register_d, result->value);
+            snprintf(buffer, sizeof(buffer), "fmov    d%d, #%s\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
-            result->num_register = context->num_register_d;
-            context->num_register_d++;
         }
 
         break;
+    }
     case EXP_NULL:
+    {
         result->value = strdup("NULL");
         result->dataType = "NULL";
         break;
+    }
     case EXP_SUM:
         return perform_arithmetic_operation(exprIZQ, exprDER, context, '+');
     case EXP_SUBTRACT:
@@ -808,46 +807,36 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 {
 
                     char *arm_load = NULL;
-                    int arm_num_register = 0;
                     char buffer[128];
 
-                    snprintf(buffer, sizeof(buffer), "  ldr    x%d, =%s\n", context->num_register_x, sym->id);
+                    snprintf(buffer, sizeof(buffer), "ldr   x%d, =%s\n", expr->num_register, sym->id);
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
-                    context->num_register_x++;
-
                     if (strcmp(sym->dataType, "DOUBLE") == 0 || strcmp(sym->dataType, "FLOAT") == 0)
                     {
                         arm_load = strcmp(sym->dataType, "DOUBLE") == 0 ? "d" : "s";
-                        arm_num_register = strcmp(sym->dataType, "DOUBLE") == 0 ? context->num_register_d : context->num_register_s;
-                        context->num_register_d = strcmp(sym->dataType, "DOUBLE") == 0 ? context->num_register_d + 1 : context->num_register_d;
-                        context->num_register_s = strcmp(sym->dataType, "FLOAT") == 0 ? context->num_register_s + 1 : context->num_register_s;
                     }
                     else if (strcmp(sym->dataType, "INTEGER") == 0 || strcmp(sym->dataType, "CHARACTER") == 0 || strcmp(sym->dataType, "BOOLEAN") == 0)
                     {
                         arm_load = "w";
-                        arm_num_register = context->num_register_w;
-                        context->num_register_w++;
                     }
                     else
                     {
                         arm_load = "x";
-                        arm_num_register = context->num_register_x;
-                        context->num_register_x++;
                     }
 
                     if (strcmp(sym->dataType, "CHARACTER") == 0)
                     {
-                        snprintf(buffer, sizeof(buffer), "  ldrsb     %s%d, [x%d]\n\n", arm_load, arm_num_register, context->num_register_x - 1);
+                        snprintf(buffer, sizeof(buffer), "ldrsb     %s%d, [x%d]\n\n", arm_load, expr->num_register, expr->num_register);
                     }
                     else
                     {
-                        snprintf(buffer, sizeof(buffer), "  ldr     %s%d, [x%d]\n\n", arm_load, arm_num_register, context->num_register_x - 1);
+                        snprintf(buffer, sizeof(buffer), "ldr   %s%d, [x%d]\n\n", arm_load, expr->num_register, expr->num_register);
                     }
 
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
-                    result_copy->num_register = arm_num_register;
                 }
 
+                result_copy->num_register = expr->num_register;
                 return result_copy;
             }
 

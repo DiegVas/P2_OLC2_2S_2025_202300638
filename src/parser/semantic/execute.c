@@ -1,4 +1,4 @@
-#include "../structures/parser.h"
+#include "../../structures/parser.h"
 #include "../ARM/arm.h"
 #include "semantic.h"
 #include <string.h>
@@ -152,13 +152,9 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             return;
         }
 
-        reset_registers(context);
-
         fprintf(stderr, "Declaración de variable detectada para ID: %s\n", instruction->id);
 
         symbol *evaluated_value = evaluate_expression(instruction->value, context);
-
-        // fprintf(stderr, "Arm code after evaluating expression:\n%s\n", evaluated_value->text_section);
 
         // Validar que la evaluación no retornó NULL
         if (!evaluated_value)
@@ -211,42 +207,28 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         }
         else
         {
-            arm_global_data->text = arm_data_add(arm_global_data->text, evaluated_value->text_section);
+            arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
             arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
 
-            //* Asignar el ultimo registro usado para la variable
+            {
 
-            char *arm_register = "";
-            int arm_num_register = -1;
-
-            if (strcmp(new_symbol->dataType, "INTEGER") == 0 || strcmp(new_symbol->dataType, "CHARACTER") == 0 || strcmp(new_symbol->dataType, "BOOLEAN") == 0)
-            {
-                arm_register = "w";
-                arm_num_register = context->num_register_w;
-            }
-            else if (strcmp(new_symbol->dataType, "FLOAT") == 0)
-            {
-                arm_register = "s";
-                arm_num_register = context->num_register_s;
-            }
-            else if (strcmp(new_symbol->dataType, "DOUBLE") == 0)
-            {
-                arm_register = "d";
-                arm_num_register = context->num_register_d == 0 ? 1 : context->num_register_d;
-            }
-            else
-            {
-                arm_register = "x";
-                arm_num_register = context->num_register_x;
-            }
-            {
+                char *register_type = "w";
+                if (strcmp(new_symbol->dataType, "DOUBLE") == 0)
+                {
+                    register_type = "d";
+                }
+                else if (strcmp(new_symbol->dataType, "FLOAT") == 0)
+                {
+                    register_type = "s";
+                }
 
                 char buffer[128];
-                snprintf(buffer, sizeof(buffer), "ldr x%d, =%s\n", context->num_register_x, new_symbol->id);
-                arm_global_data->text = arm_data_add(arm_global_data->text, buffer);
 
-                snprintf(buffer, sizeof(buffer), "str %s%d, [x%d]\n", arm_register, arm_num_register - 1, context->num_register_x);
-                arm_global_data->text = arm_data_add(arm_global_data->text, buffer);
+                snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", new_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+                snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
                 arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n"); // llamada al sistema para reservar espacio en bss
                 fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);

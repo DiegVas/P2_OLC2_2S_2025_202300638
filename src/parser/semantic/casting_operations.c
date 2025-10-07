@@ -53,11 +53,14 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
     // Realizar la conversión del valor
     char buffer[64];
+    char bufferARM[128];
     switch (to_type)
     {
     case TYPE_INTEGER:
         if (from_type == TYPE_CHARACTER)
         {
+
+            snprintf(bufferARM, sizeof(bufferARM), "ldrsb w0, [w0]\n");
             sprintf(buffer, "%d", (int)value->value[0]); // char a int
         }
         break;
@@ -68,8 +71,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
             {
                 //"scvtf   d1, s2"
-                char bufferARM[128];
-                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s%d, w%d\n", context->num_register_s, context->num_register_w - 1);
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s0, w0\n");
                 strcat(bufferARM, "\n");
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }
@@ -81,8 +83,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
             {
                 //"scvtf   d1, w2"
-                char bufferARM[128];
-                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s%d, w%d\n", context->num_register_s, context->num_register_w - 1);
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   s0, w0\n");
                 strcat(bufferARM, "\n");
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }
@@ -97,8 +98,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
             {
                 //"scvtf   d1, w2"
-                char bufferARM[128];
-                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d%d, w%d\n", context->num_register_d, context->num_register_w - 1);
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d0, w0\n");
                 strcat(bufferARM, "\n");
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }
@@ -110,8 +110,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
             {
                 //"scvtf   d1, w2"
-                char bufferARM[128];
-                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d%d, w%d\n", context->num_register_d, context->num_register_w - 1);
+                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d0, w0\n");
                 strcat(bufferARM, "\n");
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }
@@ -123,8 +122,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
 
             {
                 //"fcvt   d1, s2"
-                char bufferARM[128];
-                snprintf(bufferARM, sizeof(bufferARM), "fcvt   d%d, s%d\n", context->num_register_d, context->num_register_s - 1);
+                snprintf(bufferARM, sizeof(bufferARM), "fcvt   d0, s0\n");
                 strcat(bufferARM, "\n");
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }

@@ -1,3 +1,6 @@
+#include "../structures/parser.h"
+#include "../semantic/semantic.h"
+
 typedef struct ARM_data
 {
 
@@ -26,3 +29,8 @@ char *arm_declarate_boolean(char *id, int value);
 
 // ? Declaracion en bss
 char *arm_declarate_bss(char *id, char *type);
+
+//* Operaciones Aritmeticas
+void promote_to_double_arm(symbol *operand, OperativeType type);
+void get_arm_op_and_reg(char operation, OperativeType result_type, char **operation_arm, char **register_type);
+void promote_to_float_arm(symbol *operand, OperativeType type);

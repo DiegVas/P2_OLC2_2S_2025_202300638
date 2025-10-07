@@ -1,8 +1,11 @@
 #include <string.h>
-#include "../structures/parser.h"
+#include "../../structures/parser.h"
 
 void semantic_analysis();
 void semantic_analysis_execute(Instruccion *instruction, Context *context);
+
+#ifndef SEMANTIC_H
+#define SEMANTIC_H
 
 typedef enum
 {
@@ -128,4 +131,5 @@ bool assign_multidimensional_array(List *array, ExpressionList *indices, Context
 // AST relacionado
 
 ///* Menajoe de arm
-void reset_registers(Context *context);
+
+#endif // SEMANTIC_H
