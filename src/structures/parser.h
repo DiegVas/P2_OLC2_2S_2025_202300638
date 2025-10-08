@@ -43,6 +43,7 @@ typedef struct symbol
     bool declared_in_arm;
     int num_register;
     char *text_section;
+    char *data_section;
 
     int *line;
     int *column;

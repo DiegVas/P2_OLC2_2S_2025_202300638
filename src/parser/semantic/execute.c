@@ -208,6 +208,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         else
         {
             arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
+            arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
             arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
 
             {
@@ -224,7 +225,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
-                arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n"); // llamada al sistema para reservar espacio en bss
+                arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n \n"); // llamada al sistema para reservar espacio en bss
                 fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
             }
         }

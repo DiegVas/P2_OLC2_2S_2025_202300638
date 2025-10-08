@@ -255,7 +255,9 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
     casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
 
     casted->value = strdup(buffer);
+    casted->data_section = value->data_section;
     casted->num_register = value->num_register;
+    casted->data_section = value->data_section;
     fprintf(stderr, "Casting applied from %s to %s: %s\n", value->dataType, target_type, casted->value);
     return casted;
 }

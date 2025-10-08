@@ -1,10 +1,14 @@
 #include "semantic.h"
 #include "../structures/parser.h"
+#include "../ARM/arm.h"
 #include <string.h>
 
 symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, Context *context, char *operator)
 {
     symbol *result = (symbol *)calloc(1, sizeof(symbol));
+
+    exprIZQ->num_register = 1;
+    exprDER->num_register = 2;
 
     symbol *left = evaluate_expression(exprIZQ, context);
 
@@ -48,19 +52,50 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         bool left_bool = boolean_value(left->value);
         bool right_bool = boolean_value(right->value);
 
+        char bufferARM[256];
+        char *armOperation = "";
+        result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->text_section = arm_data_add(result->text_section, right->text_section);
+
         if (strcmp(operator, "==") == 0)
+        {
+            armOperation = "eq";
             result->value = left_bool == right_bool ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "!=") == 0)
+        {
+            armOperation = "ne";
             result->value = left_bool != right_bool ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "&&") == 0)
+        {
+            armOperation = "and";
             result->value = left_bool && right_bool ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "||") == 0)
+        {
+            armOperation = "or";
             result->value = left_bool || right_bool ? strdup("true") : strdup("false");
+        }
         else
         {
             result->dataType = strdup("UNDEFINED");
             result->value = strdup("Only '==' and '!=' operators are supported for BOOLEAN type");
             return result;
+        }
+
+        if (strcmp(armOperation, "and") == 0 || strcmp(armOperation, "or") == 0)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "and w0, w%d, w%d\n", exprIZQ->num_register, exprDER->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+        else
+        {
+
+            snprintf(bufferARM, sizeof(bufferARM), "cmp w%d, w%d\n", exprIZQ->num_register, exprDER->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+            snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", armOperation);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
         }
     }
     else if (cv_left.result_type == TYPE_STRING)
@@ -93,18 +128,50 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         else
             comparison = 0;
 
+        result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->text_section = arm_data_add(result->text_section, right->text_section);
+
+        char bufferARM[256];
+        char *cmpARM = "cmp";
+        char *registerType = "w";
+        char *opARM = "ne";
+
+        if (strcmp(left->dataType, "FLOAT") == 0 || strcmp(left->dataType, "DOUBLE") == 0)
+        {
+            cmpARM = "fcmp";
+            registerType = "d";
+        }
+
         if (strcmp(operator, "==") == 0)
+        {
+            opARM = "eq";
             result->value = (comparison == 0) ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "!=") == 0)
+        {
+            opARM = "ne";
             result->value = (comparison != 0) ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "<") == 0)
+        {
+            opARM = "lt";
             result->value = (comparison < 0) ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, "<=") == 0)
+        {
+            opARM = "le";
             result->value = (comparison <= 0) ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, ">") == 0)
+        {
+            opARM = "gt";
             result->value = (comparison > 0) ? strdup("true") : strdup("false");
+        }
         else if (strcmp(operator, ">=") == 0)
+        {
+            opARM = "ge";
             result->value = (comparison >= 0) ? strdup("true") : strdup("false");
+        }
         else
         {
             result->dataType = strdup("UNDEFINED");
@@ -112,6 +179,11 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
             fprintf(stderr, "Unknown comparative operator: %s\n", operator);
             return result;
         }
+
+        snprintf(bufferARM, sizeof(bufferARM), "%s %s%d, %s%d\n", cmpARM, registerType, exprIZQ->num_register, registerType, exprDER->num_register);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+        snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", opARM);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else
     {

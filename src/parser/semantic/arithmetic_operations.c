@@ -144,7 +144,9 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         }
 
         result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->data_section = arm_data_add(result->data_section, left->data_section);
         result->text_section = arm_data_add(result->text_section, right->text_section);
+        result->data_section = arm_data_add(result->data_section, right->data_section);
 
         char buffer[128];
         char *operation_arm = "";
@@ -225,6 +227,5 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         sprintf(result->value, "%d", (int)final_result);
         break;
     }
-
     return result;
 }

@@ -41,6 +41,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     result->id = strdup("UNDEFINED");
     result->declared_in_arm = false;
     result->text_section = "";
+    result->data_section = "";
 
     Expression *exprIZQ = expr->left;
     Expression *exprDER = expr->right;
@@ -72,7 +73,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             char floatRegister[16];
             snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
             arm_global_data->count_floats++;
-            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_float(floatRegister, atof(result->value)));
+            result->data_section = arm_data_add(arm_global_data->data, arm_declarate_float(floatRegister, atof(result->value)));
             snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, floatRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -232,7 +233,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             char doubleRegister[16];
             snprintf(doubleRegister, sizeof(doubleRegister), "%s_%d", "double", arm_global_data->count_doubles);
             arm_global_data->count_doubles++;
-            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_double(doubleRegister, atof(result->value)));
+            result->data_section = arm_data_add(result->data_section, arm_declarate_double(doubleRegister, atof(result->value)));
             snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, doubleRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -324,6 +325,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         bool cv_left = boolean_value(left->value);
         result->dataType = "BOOLEAN";
         result->value = (cv_left == true) ? strdup("false") : strdup("true");
+
+        {
+            char buffer[128];
+            result->text_section = arm_data_add(result->text_section, left->text_section);
+            snprintf(buffer, sizeof(buffer), "eor     w%d, w%d, #1\n", expr->num_register, expr->num_register);
+            result->text_section = arm_data_add(result->text_section, buffer);
+        }
+
         return result;
     }
     case EXP_LESS:
