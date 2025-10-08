@@ -135,11 +135,11 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         {
             if (cv_left.result_type != TYPE_FLOAT)
             {
-                promote_to_float_arm(left, cv_left.result_type);
+                promote_to_double_arm(left, cv_left.result_type);
             }
             if (cv_right.result_type != TYPE_FLOAT)
             {
-                promote_to_float_arm(right, cv_right.result_type);
+                promote_to_double_arm(right, cv_right.result_type);
             }
         }
 

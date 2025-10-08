@@ -8,6 +8,8 @@ typedef struct ARM_data
     char *text;
     char *roadata;
     char *bss;
+    int count_doubles;
+    int count_floats;
 
 } ARM_data;
 
@@ -17,6 +19,9 @@ ARM_data *arm_data_create();
 char *arm_data_add(char *original, char *to_add);
 char *arm_text_add(char *original, char *to_add);
 char *arm_text_exit();
+
+//* Metodos auxiliares
+char *arm_register_type(const char *dataType);
 
 //* Declaraciones
 char *arm_declarate(char *id, char *type, char *value);
@@ -33,4 +38,3 @@ char *arm_declarate_bss(char *id, char *type);
 //* Operaciones Aritmeticas
 void promote_to_double_arm(symbol *operand, OperativeType type);
 void get_arm_op_and_reg(char operation, OperativeType result_type, char **operation_arm, char **register_type);
-void promote_to_float_arm(symbol *operand, OperativeType type);

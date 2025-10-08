@@ -213,14 +213,8 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             {
 
                 char *register_type = "w";
-                if (strcmp(new_symbol->dataType, "DOUBLE") == 0)
-                {
+                if (strcmp(new_symbol->dataType, "DOUBLE") == 0 || strcmp(new_symbol->dataType, "FLOAT") == 0)
                     register_type = "d";
-                }
-                else if (strcmp(new_symbol->dataType, "FLOAT") == 0)
-                {
-                    register_type = "s";
-                }
 
                 char buffer[128];
 
@@ -407,6 +401,23 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     insertError(list_errors, new_error);
                     return;
                 }
+
+                arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
+
+                char *register_type = "w";
+                if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
+                    register_type = "d";
+
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", sym_to_update->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+                snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+                snprintf(buffer, sizeof(buffer), "svc 0 \n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
                 sym_to_update->value = evaluated_assign->value;
                 return;
             }

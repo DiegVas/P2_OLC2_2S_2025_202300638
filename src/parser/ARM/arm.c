@@ -10,6 +10,8 @@ ARM_data *arm_data_create()
     data->text = ".text \n .global _start \n_start: \n";
     data->roadata = ".rodata \n";
     data->bss = ".bss \n";
+    data->count_doubles = 0;
+    data->count_floats = 0;
     return data;
 }
 

@@ -109,7 +109,6 @@ typedef struct Expression
     struct ExpressionList *list;
 
     //* Para menejo de arm
-    char *register_type;
     int num_register;
 
 } Expression;

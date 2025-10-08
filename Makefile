@@ -51,6 +51,7 @@ ARM_FILES = $(ARM_DIR)/arm.c \
             $(ARM_DIR)/arm_declarate.c \
             $(ARM_DIR)/arm_evaluate.c \
             $(ARM_DIR)/arm_casting.c \
+            $(ARM_DIR)/arm_utils.c \
             $(ARM_DIR)/arm_load.c
                   
 # Archivos modulares de reportes

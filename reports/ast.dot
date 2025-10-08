@@ -1,21 +1,19 @@
 digraph AST {
 node [shape=box];
 node0 [label="INICIO"];
-node6 [label="DECLARATION"];
-node13 [label="INTEGER"];
-node12 [label="b"];
+node6 [label="ASSIGNMENT"];
+node12 [label="a"];
 node11 [label="="];
 node7 [label="SUM"];
-node10 [label="a"];
+node10 [label="15"];
 node9 [label="+"];
-node8 [label="10"];
+node8 [label="15"];
 node1 [label="DECLARATION"];
-node5 [label="CHARACTER"];
+node5 [label="INTEGER"];
 node4 [label="a"];
 node3 [label="="];
-node2 [label="a"];
+node2 [label="15"];
 node0 -> node6;
-node6 -> node13;
 node6 -> node12;
 node6 -> node11;
 node6 -> node7;

@@ -69,7 +69,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "fmov    s%d, #%sf\n", expr->num_register, result->value);
+            char floatRegister[16];
+            snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
+            arm_global_data->count_floats++;
+            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_float(floatRegister, atof(result->value)));
+            snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, floatRegister);
+            result->text_section = arm_data_add(result->text_section, buffer);
+            snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
 
@@ -223,7 +229,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "fmov    d%d, #%s\n", expr->num_register, result->value);
+            char doubleRegister[16];
+            snprintf(doubleRegister, sizeof(doubleRegister), "%s_%d", "double", arm_global_data->count_doubles);
+            arm_global_data->count_doubles++;
+            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_double(doubleRegister, atof(result->value)));
+            snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, doubleRegister);
+            result->text_section = arm_data_add(result->text_section, buffer);
+            snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
 
@@ -575,7 +587,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         break;
     }
     case EXP_VECTOR_ACCESS:
-
+    {
         symbol *index_access = evaluate_expression(expr->left, context);
 
         if (strcmp(index_access->dataType, "INTEGER") != 0)
@@ -627,6 +639,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             ctx_search = ctx_search->after;
         }
+    }
     case EXP_MATRIX_ACCESS:
     {
         symbol *row_access = evaluate_expression(expr->left, context);
@@ -813,7 +826,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     if (strcmp(sym->dataType, "DOUBLE") == 0 || strcmp(sym->dataType, "FLOAT") == 0)
                     {
-                        arm_load = strcmp(sym->dataType, "DOUBLE") == 0 ? "d" : "s";
+                        arm_load = "d";
                     }
                     else if (strcmp(sym->dataType, "INTEGER") == 0 || strcmp(sym->dataType, "CHARACTER") == 0 || strcmp(sym->dataType, "BOOLEAN") == 0)
                     {

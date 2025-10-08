@@ -61,7 +61,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
         {
 
             snprintf(bufferARM, sizeof(bufferARM), "ldrsb w0, [w0]\n");
-            sprintf(buffer, "%d", (int)value->value[0]); // char a int
+            sprintf(buffer, "%d", (int)value->value[1]); // char a int
         }
         break;
 
@@ -76,7 +76,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
                 value->text_section = arm_data_add(value->text_section, bufferARM);
             }
 
-            sprintf(buffer, "%.2f", (float)value->value[0]); // char a float
+            sprintf(buffer, "%.2f", (float)value->value[1]); // char a float
         }
         else if (from_type == TYPE_INTEGER)
         {
@@ -96,14 +96,12 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
         if (from_type == TYPE_CHARACTER)
         {
 
-            {
-                //"scvtf   d1, w2"
-                snprintf(bufferARM, sizeof(bufferARM), "scvtf   d0, w0\n");
-                strcat(bufferARM, "\n");
-                value->text_section = arm_data_add(value->text_section, bufferARM);
-            }
+            //"scvtf   d1, w2"
+            snprintf(bufferARM, sizeof(bufferARM), "scvtf   d0, w0\n");
+            strcat(bufferARM, "\n");
+            value->text_section = arm_data_add(value->text_section, bufferARM);
 
-            sprintf(buffer, "%.6f", (double)value->value[0]); // char a double
+            sprintf(buffer, "%.6f", (double)value->value[1]); // char a double
         }
         else if (from_type == TYPE_INTEGER)
         {
@@ -184,6 +182,7 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
     }
 
     symbol *casted = (symbol *)calloc(1, sizeof(symbol));
+    casted->text_section = value->text_section ? strdup(value->text_section) : NULL;
     casted->dataType = strdup(target_type);
     casted->environment = value->environment ? strdup(value->environment) : NULL;
     casted->line = value->line;
@@ -191,22 +190,35 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
 
     // Realizar la conversión del valor (con pérdida de precisión)
     char buffer[64];
+    char buffer_ARM[128];
     switch (to_type)
     {
     case TYPE_CHARACTER:
         if (from_type == TYPE_DOUBLE)
         {
             // double a char (toma la parte entera y convierte a ASCII)
+
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "fcvtzs w%d, d%d\n", value->num_register, value->num_register);
+            casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "sxtb w%d, w%d\n", value->num_register, value->num_register);
+            casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
+
+            fprintf(stderr, "Casting DOUBLE to CHARACTER in ARM:\n%s", casted->text_section);
+
             sprintf(buffer, "%c", (char)((int)atof(value->value)));
         }
         else if (from_type == TYPE_FLOAT)
         {
             // float a char
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "fcvtzs w%d, s%d\n", value->num_register, value->num_register);
+            casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "sxtb w%d, w%d\n", value->num_register, value->num_register);
             sprintf(buffer, "%c", (char)((int)atof(value->value)));
         }
         else if (from_type == TYPE_INTEGER)
         {
             // int a char
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "sxtb w%d, w%d\n", value->num_register, value->num_register);
             sprintf(buffer, "%c", (char)atoi(value->value));
         }
         break;
@@ -215,11 +227,13 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
         if (from_type == TYPE_DOUBLE)
         {
             // double a int (trunca la parte decimal)
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "fcvtzs w%d, d%d\n", value->num_register, value->num_register);
             sprintf(buffer, "%d", (int)atof(value->value));
         }
         else if (from_type == TYPE_FLOAT)
         {
             // float a int (trunca la parte decimal)
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "fcvtzs w%d, s%d\n", value->num_register, value->num_register);
             sprintf(buffer, "%d", (int)atof(value->value));
         }
         break;
@@ -228,6 +242,7 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
         if (from_type == TYPE_DOUBLE)
         {
             // double a float (puede perder precisión)
+            snprintf(buffer_ARM, sizeof(buffer_ARM), "fcvt s%d, d%d\n", value->num_register, value->num_register);
             sprintf(buffer, "%.2f", (float)atof(value->value));
         }
         break;
@@ -237,6 +252,10 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
         break;
     }
 
+    casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
+
     casted->value = strdup(buffer);
+    casted->num_register = value->num_register;
+    fprintf(stderr, "Casting applied from %s to %s: %s\n", value->dataType, target_type, casted->value);
     return casted;
 }
