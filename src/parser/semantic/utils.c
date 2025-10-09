@@ -1,80 +1,45 @@
 #include "semantic.h"
 #include "../ARM/arm.h"
 #include <math.h>
+#include <sys/types.h>
 
-symbol *perfom_BITWISE(Expression *exp_left, Expression *exp_right, Context *context, char *operation)
+char *remove_last_instruction(const char *text)
 {
+    if (!text)
+        return NULL;
+    size_t len = strlen(text);
+    if (len == 0)
+        return strdup("");
 
-    exp_left->num_register = 1;
-    exp_right->num_register = 2;
-
-    symbol *left = evaluate_expression(exp_left, context);
-    symbol *right = evaluate_expression(exp_right, context);
-
-    ConvertedValue cv_left = convert_operand(left);
-    ConvertedValue cv_right = convert_operand(right);
-
-    if (cv_left.result_type != TYPE_INTEGER || cv_right.result_type != TYPE_INTEGER)
+    // Elimina saltos de línea al final
+    while (len > 0 && (text[len - 1] == '\n' || text[len - 1] == '\r'))
     {
-        symbol *result = (symbol *)calloc(1, sizeof(symbol));
-        result->dataType = strdup("UNDEFINED");
-        result->value = strdup("Bitwise operations do not support non-integer");
-        return result;
+        len--;
+    }
+    if (len == 0)
+        return strdup("\n");
+
+    // Busca el salto de línea anterior a la última instrucción (bucle manual)
+    ssize_t last_nl_pos = -1;
+    for (ssize_t i = len - 1; i >= 0; i--)
+    {
+        if (text[i] == '\n')
+        {
+            last_nl_pos = i;
+            break;
+        }
     }
 
-    symbol *result = (symbol *)calloc(1, sizeof(symbol));
+    if (last_nl_pos == -1)
+        return strdup("\n"); // Solo hay una instrucción
 
-    int left_val = (int)cv_left.num_value;
-    int right_val = (int)cv_right.num_value;
-    int final_result;
-
-    char bufferARM[128];
-
-    if (strcmp(operation, "&") == 0)
-    {
-        final_result = left_val & right_val;
-
-        snprintf(bufferARM, sizeof(bufferARM), "AND    w0, w%d, w%d\n", left->num_register, right->num_register);
-    }
-    else if (strcmp(operation, "|") == 0)
-    {
-        final_result = left_val | right_val;
-
-        snprintf(bufferARM, sizeof(bufferARM), "ORR    w0, w%d, w%d\n", left->num_register, right->num_register);
-    }
-    else if (strcmp(operation, "^") == 0)
-    {
-        final_result = left_val ^ right_val;
-
-        snprintf(bufferARM, sizeof(bufferARM), "EOR    w0, w%d, w%d\n", left->num_register, right->num_register);
-    }
-    else if (strcmp(operation, ">>") == 0)
-    {
-
-        final_result = left_val >> right_val;
-
-        snprintf(bufferARM, sizeof(bufferARM), "LSR    w0, w%d, #%d\n", left->num_register, right_val);
-    }
-    else if (strcmp(operation, "<<") == 0)
-    {
-        final_result = left_val << right_val;
-
-        snprintf(bufferARM, sizeof(bufferARM), "LSL    w0, w%d, #%d\n", left->num_register, right_val);
-    }
-    else
-    {
-        result->dataType = strdup("UNDEFINED");
-        result->value = strdup("Unknown bitwise operation");
-        return result;
-    }
-    result->text_section = arm_data_add(result->text_section, left->text_section);
-    result->dataType = strdup("INTEGER");
-    result->value = (char *)calloc(50, sizeof(char));
-    sprintf(result->value, "%d", final_result);
+    size_t new_len = last_nl_pos + 1; // +1 para incluir el salto de línea
+    char *result = (char *)calloc(new_len + 1, sizeof(char));
+    strncpy(result, text, new_len);
+    result[new_len] = '\0';
 
     return result;
 }
-
 char *process_escape_sequences(const char *input)
 {
     if (!input)
@@ -375,31 +340,19 @@ bool assign_multidimensional_array(List *array, ExpressionList *indices, Context
 {
 
     if (!array || !indices || !new_value || !context)
-    {
-
         return false;
-    }
 
     if (!indices->head)
-    {
-
         return false;
-    }
 
     ExpressionNode *current_index = indices->head;
     if (!current_index || !current_index->expr)
-    {
-
         return false;
-    }
 
     // Evaluar el primer índice
     symbol *index_symbol = evaluate_expression(current_index->expr, context);
     if (!index_symbol)
-    {
-
         return false;
-    }
 
     if (!index_symbol->dataType || strcmp(index_symbol->dataType, "INTEGER") != 0)
     {
@@ -456,7 +409,6 @@ bool assign_multidimensional_array(List *array, ExpressionList *indices, Context
             // Actualizar la expresión directamente (sin liberar memoria previa para evitar errores)
             current_data->exprData->type = new_value->dataType ? strdup(new_value->dataType) : strdup("UNDEFINED");
             current_data->exprData->value = new_value->value ? strdup(new_value->value) : strdup("NULL");
-
             return true;
         }
         else if (current_data->symData)

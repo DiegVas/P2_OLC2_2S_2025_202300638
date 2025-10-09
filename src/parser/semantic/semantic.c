@@ -39,4 +39,5 @@ void semantic_analysis()
     fprintf(stderr, "%s\n", arm_global_data->data);
     fprintf(stderr, "%s\n", arm_global_data->bss);
     fprintf(stderr, "%s\n", arm_global_data->text);
+    fprintf(stderr, "%s\n", arm_global_data->auxiliar_functions);
 }

@@ -100,6 +100,8 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
     }
 
     symbol *result = (symbol *)calloc(1, sizeof(symbol));
+    result->data_section = arm_data_add(result->data_section, left->data_section);
+    result->data_section = arm_data_add(result->data_section, right->data_section);
 
     // Si alguno es string, concatenar (solo para suma)
     if (operation == '+' && (cv_left.result_type == TYPE_STRING || cv_right.result_type == TYPE_STRING))
@@ -107,6 +109,24 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         result->dataType = strdup("STRING");
         char *left_str = (cv_left.result_type == TYPE_STRING) ? cv_left.str_value : left->value;
         char *right_str = (cv_right.result_type == TYPE_STRING) ? cv_right.str_value : right->value;
+
+        {
+            char bufferARM[128];
+
+            result->text_section = arm_data_add(result->text_section, left->num_register != 0 ? remove_last_instruction(left->text_section) : left->text_section);
+            result->text_section = arm_data_add(result->text_section, remove_last_instruction(right->text_section));
+
+            if (left->num_register == 0)
+            {
+
+                snprintf(bufferARM, sizeof(bufferARM), "mov x1, x0\n");
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
+
+            snprintf(bufferARM, sizeof(bufferARM), "bl string_concat\n");
+
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
 
         result->value = (char *)calloc(strlen(left_str) + strlen(right_str) + 1, sizeof(char));
         strcpy(result->value, left_str);
@@ -144,9 +164,7 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         }
 
         result->text_section = arm_data_add(result->text_section, left->text_section);
-        result->data_section = arm_data_add(result->data_section, left->data_section);
         result->text_section = arm_data_add(result->text_section, right->text_section);
-        result->data_section = arm_data_add(result->data_section, right->data_section);
 
         char buffer[128];
         char *operation_arm = "";

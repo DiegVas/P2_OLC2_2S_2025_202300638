@@ -409,6 +409,8 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
                     register_type = "d";
 
+                arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
+
                 char buffer[128];
                 snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", sym_to_update->id);
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);

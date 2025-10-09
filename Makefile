@@ -25,6 +25,7 @@ PARSER_DIR = $(SRC)/parser/semantic
 PARSER_FILES = $(PARSER_DIR)/semantic.c \
                $(PARSER_DIR)/execute.c \
                $(PARSER_DIR)/evaluate.c \
+               $(PARSER_DIR)/perfom_BITWISE.c \
                $(PARSER_DIR)/utils.c \
                $(PARSER_DIR)/arithmetic_operations.c \
                $(PARSER_DIR)/get_semantic_enums.c \
@@ -48,6 +49,7 @@ STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
 #Archivos modulares de ARM
 ARM_DIR = $(SRC)/parser/ARM
 ARM_FILES = $(ARM_DIR)/arm.c \
+            $(ARM_DIR)/arm_auxiliarFunctions.c \
             $(ARM_DIR)/arm_declarate.c \
             $(ARM_DIR)/arm_evaluate.c \
             $(ARM_DIR)/arm_casting.c \

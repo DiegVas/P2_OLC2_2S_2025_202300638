@@ -6,12 +6,14 @@
 ARM_data *arm_data_create()
 {
     ARM_data *data = malloc(sizeof(ARM_data));
-    data->data = ".data \n";
+    data->data = ".data \n .Lnewline: .byte 0x0A \n ";
     data->text = ".text \n .global _start \n_start: \n";
     data->roadata = ".rodata \n";
     data->bss = ".bss \n";
+    data->auxiliar_functions = arm_data_add("", concatFunction());
     data->count_doubles = 0;
     data->count_floats = 0;
+    data->count_strings = 0;
     return data;
 }
 

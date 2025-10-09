@@ -8,8 +8,10 @@ typedef struct ARM_data
     char *text;
     char *roadata;
     char *bss;
+    char *auxiliar_functions;
     int count_doubles;
     int count_floats;
+    int count_strings;
 
 } ARM_data;
 
@@ -38,3 +40,6 @@ char *arm_declarate_bss(char *id, char *type);
 //* Operaciones Aritmeticas
 void promote_to_double_arm(symbol *operand, OperativeType type);
 void get_arm_op_and_reg(char operation, OperativeType result_type, char **operation_arm, char **register_type);
+
+//* Funciones Auxiliares
+char *concatFunction();

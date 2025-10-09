@@ -73,7 +73,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             char floatRegister[16];
             snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
             arm_global_data->count_floats++;
-            result->data_section = arm_data_add(arm_global_data->data, arm_declarate_float(floatRegister, atof(result->value)));
+            result->data_section = arm_data_add(result->data_section, arm_declarate_float(floatRegister, atof(result->value)));
             snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, floatRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -90,7 +90,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "ldr     x%d, =%s\n", expr->num_register, result->value);
+            char stringRegister[16];
+            snprintf(stringRegister, sizeof(stringRegister), "%s_%d", "string", arm_global_data->count_strings);
+            arm_global_data->count_strings++;
+            result->data_section = arm_data_add(result->data_section, arm_declarate_string(stringRegister, result->value));
+            snprintf(buffer, sizeof(buffer), "ldr     x%d, =%s\n", expr->num_register, stringRegister);
+            result->text_section = arm_data_add(result->text_section, buffer);
+            snprintf(buffer, sizeof(buffer), "ldr     x%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
 
