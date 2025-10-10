@@ -11,6 +11,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
     // * Tabla de simbolos del contexto
     symbol_table *symbolTable_C = context->symbols_context;
+    arm_global_data->count_arithmetic_temps = 2;
 
     // ! Tabla de errores del contexto
     extern ErrorList *list_errors;

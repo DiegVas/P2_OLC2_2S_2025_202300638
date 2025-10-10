@@ -12,6 +12,7 @@ typedef struct ARM_data
     int count_floats;
     int count_strings;
     int count_buffers;
+    int count_arithmetic_temps;
 
 } ARM_data;
 

@@ -2,6 +2,8 @@
 #include "../ARM/arm.h"
 #include <math.h>
 
+extern ARM_data *arm_global_data;
+
 ConvertedValue convert_operand(symbol *operand)
 {
     ConvertedValue cv = {0};
@@ -176,6 +178,9 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         get_arm_op_and_reg(operation, result_type, &operation_arm, &register_type);
 
         snprintf(buffer, sizeof(buffer), "%s    %s0, %s%d, %s%d\n", operation_arm, register_type, register_type, left->num_register, register_type, right->num_register);
+        result->text_section = arm_data_add(result->text_section, buffer);
+        result->num_register = left->num_register + arm_global_data->count_arithmetic_temps++;
+        snprintf(buffer, sizeof(buffer), "mov    %s%d, %s0\n", register_type, result->num_register, register_type);
         result->text_section = arm_data_add(result->text_section, buffer);
     }
 
