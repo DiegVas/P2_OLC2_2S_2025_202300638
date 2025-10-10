@@ -201,34 +201,28 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         fprintf(stderr, "Evaluated value before ARM declaration: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
-        if (evaluated_value->declared_in_arm)
+        arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
+        arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
+        arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
+
         {
-            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate(new_symbol->id, new_symbol->dataType, new_symbol->value));
+
+            char *register_type = "x";
+            if (strcmp(new_symbol->dataType, "DOUBLE") == 0 || strcmp(new_symbol->dataType, "FLOAT") == 0)
+                register_type = "d";
+
+            char buffer[128];
+
+            snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", new_symbol->id);
+            arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+            snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
+            arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+            arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n \n"); // llamada al sistema para reservar espacio en bss
+            fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
         }
-        else
-        {
-            arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
-            arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
-            arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
 
-            {
-
-                char *register_type = "w";
-                if (strcmp(new_symbol->dataType, "DOUBLE") == 0 || strcmp(new_symbol->dataType, "FLOAT") == 0)
-                    register_type = "d";
-
-                char buffer[128];
-
-                snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", new_symbol->id);
-                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
-
-                snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
-                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
-
-                arm_global_data->text = arm_text_add(arm_global_data->text, "svc 0 \n \n"); // llamada al sistema para reservar espacio en bss
-                fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
-            }
-        }
         fprintf(stderr, "Nuevo símbolo: %s, Tipo: %s, Valor: %s\n",
                 new_symbol->id, new_symbol->dataType, new_symbol->value);
 
@@ -434,6 +428,9 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
     }
     case EXP_PRINTLN:
     {
+        instruction->value->num_register = 1;
+        fprintf(stderr, "Print detectado\n");
+        fprintf(stderr, "Instruccion tipo: %s\n", instruction->value->type);
         symbol *print_value = evaluate_expression(instruction->value, context);
 
         // Validar que la evaluación no retornó NULL
@@ -471,11 +468,53 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         if (strcmp(print_value->dataType, "STRING") == 0)
         {
             char *processed_string = process_escape_sequences(print_value->value);
+
+            {
+                char bufferArm[128];
+                arm_global_data->text = arm_text_add(arm_global_data->text, print_value->text_section);
+                arm_global_data->data = arm_data_add(arm_global_data->data, print_value->data_section);
+
+                if (print_value->num_register == 0)
+                {
+                    snprintf(bufferArm, sizeof(bufferArm), "mov x1, x0\n");
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
+                }
+
+                snprintf(bufferArm, sizeof(bufferArm), "adr x0, print\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
+                arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n");
+            }
+
             printf("%s\n", processed_string);
-            free(processed_string);
         }
         else
         {
+            char bufferArm[128];
+            const char *print_label;
+
+            if (strcmp(print_value->dataType, "INTEGER") == 0)
+                print_label = "print_int";
+            else if (strcmp(print_value->dataType, "FLOAT") == 0 || strcmp(print_value->dataType, "DOUBLE") == 0)
+                print_label = "print_float";
+            else
+                print_label = "print";
+
+            if (strcmp(print_value->dataType, "CHARACTER") == 0)
+                print_value->text_section = remove_last_instruction(print_value->text_section);
+
+            arm_global_data->text = arm_text_add(arm_global_data->text, print_value->text_section);
+            arm_global_data->data = arm_data_add(arm_global_data->data, print_value->data_section);
+
+            if (print_value->num_register == 0)
+            {
+                snprintf(bufferArm, sizeof(bufferArm), "mov x1, x0\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
+            }
+
+            snprintf(bufferArm, sizeof(bufferArm), "adr x0, %s\n", print_label);
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
+            arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n");
+
             printf("%s\n", print_value->value);
         }
         break;

@@ -74,7 +74,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
             arm_global_data->count_floats++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_float(floatRegister, atof(result->value)));
-            snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, floatRegister);
+            snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, floatRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
@@ -94,7 +94,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             snprintf(stringRegister, sizeof(stringRegister), "%s_%d", "string", arm_global_data->count_strings);
             arm_global_data->count_strings++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_string(stringRegister, result->value));
-            snprintf(buffer, sizeof(buffer), "ldr     x%d, =%s\n", expr->num_register, stringRegister);
+            snprintf(buffer, sizeof(buffer), "adr     x%d, %s\n", expr->num_register, stringRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr     x%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
@@ -235,12 +235,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
         // Generar código ARM para cargar el valor inmediato en un registro
         {
+
             char buffer[128];
             char doubleRegister[16];
+
             snprintf(doubleRegister, sizeof(doubleRegister), "%s_%d", "double", arm_global_data->count_doubles);
             arm_global_data->count_doubles++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_double(doubleRegister, atof(result->value)));
-            snprintf(buffer, sizeof(buffer), "ldr    x%d, =%s\n", expr->num_register, doubleRegister);
+            snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, doubleRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
@@ -432,6 +434,37 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         result->dataType = "STRING";
         result->value = (char *)calloc(2 * strlen(to_convert->value) + 3, sizeof(char)); // Extra space for quotes and null terminator
         sprintf(result->value, "\"%s\"", to_convert->value);
+
+        {
+            char bufferARM[128];
+            char bufferName[32];
+            char *toaFunction = "";
+            result->data_section = arm_data_add(result->data_section, to_convert->data_section);
+            result->text_section = arm_data_add(result->text_section, to_convert->text_section);
+            arm_global_data->count_buffers++;
+
+            snprintf(bufferName, sizeof(bufferName), "buffer%d", arm_global_data->count_buffers);
+            result->data_section = arm_data_add(result->data_section, arm_declarate_string(bufferName, ""));
+            snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+
+            fprintf(stderr, "Converting type %s to STRING\n", to_convert->dataType);
+
+            if (strcmp(to_convert->dataType, "INTEGER") == 0)
+                toaFunction = "itao";
+            else if (strcmp(to_convert->dataType, "FLOAT") == 0 || strcmp(to_convert->dataType, "DOUBLE") == 0)
+            {
+                snprintf(bufferARM, sizeof(bufferARM), "mov    w2, #5 \n");
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+                toaFunction = "ftoa";
+            }
+            else if (strcmp(to_convert->dataType, "BOOLEAN") == 0)
+                toaFunction = "booltoa";
+
+            snprintf(bufferARM, sizeof(bufferARM), "bl %s\n", toaFunction);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+
         return result;
         break;
     }
@@ -837,7 +870,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     char *arm_load = NULL;
                     char buffer[128];
 
-                    snprintf(buffer, sizeof(buffer), "ldr   x%d, =%s\n", expr->num_register, sym->id);
+                    snprintf(buffer, sizeof(buffer), "adr   x%d, %s\n", expr->num_register, sym->id);
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     if (strcmp(sym->dataType, "DOUBLE") == 0 || strcmp(sym->dataType, "FLOAT") == 0)
                     {

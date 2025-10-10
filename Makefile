@@ -49,7 +49,6 @@ STRUCTURES_FILES = $(STRUCTURES_DIR)/Instruction.c \
 #Archivos modulares de ARM
 ARM_DIR = $(SRC)/parser/ARM
 ARM_FILES = $(ARM_DIR)/arm.c \
-            $(ARM_DIR)/arm_auxiliarFunctions.c \
             $(ARM_DIR)/arm_declarate.c \
             $(ARM_DIR)/arm_evaluate.c \
             $(ARM_DIR)/arm_casting.c \

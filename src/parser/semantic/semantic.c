@@ -34,10 +34,7 @@ void semantic_analysis()
 
     Symbol_table_insertContext(SymbolTable_General, contextGlobal->symbols_context);
 
-    arm_global_data->text = arm_text_add(arm_global_data->text, arm_text_exit());
     arm_global_data->text = arm_data_add(arm_global_data->text, "\n");
-    fprintf(stderr, "%s\n", arm_global_data->data);
-    fprintf(stderr, "%s\n", arm_global_data->bss);
-    fprintf(stderr, "%s\n", arm_global_data->text);
-    fprintf(stderr, "%s\n", arm_global_data->auxiliar_functions);
+
+    print_arm(arm_global_data);
 }

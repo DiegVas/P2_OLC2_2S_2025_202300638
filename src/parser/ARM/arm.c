@@ -5,16 +5,42 @@
 
 ARM_data *arm_data_create()
 {
+
     ARM_data *data = malloc(sizeof(ARM_data));
-    data->data = ".data \n .Lnewline: .byte 0x0A \n ";
-    data->text = ".text \n .global _start \n_start: \n";
-    data->roadata = ".rodata \n";
+
+    data->extern_functions = ".global main \n"
+                             ".extern printf \n"
+                             ".extern itao \n"
+                             ".extern ftoa \n"
+                             ".extern booltoa \n";
+    data->data = ".data \n"
+                 "print: .asciz \"%s\\n\" \n"
+                 "print_int: .asciz \"%d\\n\" \n"
+                 "print_float: .asciz \"%f\\n\" \n";
     data->bss = ".bss \n";
-    data->auxiliar_functions = arm_data_add("", concatFunction());
+    data->text = ".text \n"
+                 "main: \n"
+                 "STP X29, X30, [SP, #-16]! \n"
+                 "MOV X29, SP \n";
+    data->final_text = "MOV W0, #0 \n"
+                       "LDP X29, X30, [SP], #16 \n"
+                       "mov x8, 93 \n"
+                       "svc 0 \n";
+
     data->count_doubles = 0;
     data->count_floats = 0;
     data->count_strings = 0;
+    data->count_buffers = 0;
     return data;
+}
+
+void print_arm(ARM_data *data)
+{
+    fprintf(stderr, "%s\n", data->extern_functions);
+    fprintf(stderr, "%s\n", data->data);
+    fprintf(stderr, "%s\n", data->bss);
+    fprintf(stderr, "%s\n", data->text);
+    fprintf(stderr, "%s\n", data->final_text);
 }
 
 char *arm_data_add(char *original, char *to_add)
@@ -57,13 +83,4 @@ char *arm_text_add(char *original, char *to_add)
     }
     *dst = '\0';
     return new_text;
-}
-
-char *arm_text_exit()
-{
-    char *exit_code = malloc(50);
-    strcpy(exit_code, "mov x0, 0 \n");
-    strcat(exit_code, "mov x8, 93 \n");
-    strcat(exit_code, "svc 0 \n");
-    return exit_code;
 }

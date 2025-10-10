@@ -3,15 +3,15 @@
 
 typedef struct ARM_data
 {
-
+    char *extern_functions;
     char *data;
     char *text;
-    char *roadata;
+    char *final_text;
     char *bss;
-    char *auxiliar_functions;
     int count_doubles;
     int count_floats;
     int count_strings;
+    int count_buffers;
 
 } ARM_data;
 
@@ -20,7 +20,6 @@ ARM_data *arm_data_create();
 //* Metodos de agregacion global
 char *arm_data_add(char *original, char *to_add);
 char *arm_text_add(char *original, char *to_add);
-char *arm_text_exit();
 
 //* Metodos auxiliares
 char *arm_register_type(const char *dataType);
@@ -41,5 +40,4 @@ char *arm_declarate_bss(char *id, char *type);
 void promote_to_double_arm(symbol *operand, OperativeType type);
 void get_arm_op_and_reg(char operation, OperativeType result_type, char **operation_arm, char **register_type);
 
-//* Funciones Auxiliares
-char *concatFunction();
+void print_arm(ARM_data *data);

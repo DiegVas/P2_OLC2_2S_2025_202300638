@@ -113,8 +113,11 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         {
             char bufferARM[128];
 
-            result->text_section = arm_data_add(result->text_section, left->num_register != 0 ? remove_last_instruction(left->text_section) : left->text_section);
-            result->text_section = arm_data_add(result->text_section, remove_last_instruction(right->text_section));
+            left->text_section = left->declared_in_arm ? remove_last_instruction(left->text_section) : left->text_section;
+            right->text_section = right->declared_in_arm ? remove_last_instruction(right->text_section) : right->text_section;
+
+            result->text_section = arm_data_add(result->text_section, left->text_section);
+            result->text_section = arm_data_add(result->text_section, right->text_section);
 
             if (left->num_register == 0)
             {
