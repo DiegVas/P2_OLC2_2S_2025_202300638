@@ -56,7 +56,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
         {
             char buffer[128];
-            snprintf(buffer, sizeof(buffer), "mov     w%d, #%s\n", expr->num_register, result->value);
+            char intRegister[16];
+            snprintf(intRegister, sizeof(intRegister), "%s_%d", "int", arm_global_data->count_int);
+            arm_global_data->count_int++;
+            result->data_section = arm_data_add(result->data_section, arm_declarate_int(intRegister, atoi(result->value)));
+            snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, intRegister);
+            result->text_section = arm_data_add(result->text_section, buffer);
+            snprintf(buffer, sizeof(buffer), "ldr    w%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
 
@@ -444,7 +450,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             arm_global_data->count_buffers++;
 
             snprintf(bufferName, sizeof(bufferName), "buffer%d", arm_global_data->count_buffers);
-            result->data_section = arm_data_add(result->data_section, arm_declarate_string(bufferName, ""));
+            result->data_section = arm_data_add(result->data_section, arm_declarate_bss(bufferName, "DOUBLE"));
             snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
@@ -463,6 +469,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             snprintf(bufferARM, sizeof(bufferARM), "bl %s\n", toaFunction);
             result->text_section = arm_data_add(result->text_section, bufferARM);
+
+            if (expr->num_register != 1)
+            {
+                snprintf(bufferARM, sizeof(bufferARM), "mov    x1, x%d\n", expr->num_register);
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
+
+            result->num_register = 1;
         }
 
         return result;

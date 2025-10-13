@@ -119,7 +119,16 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
             right->text_section = right->declared_in_arm ? remove_last_instruction(right->text_section) : right->text_section;
 
             result->text_section = arm_data_add(result->text_section, left->text_section);
+
+            //* Guardar el valor de x1 en la pila
+            snprintf(bufferARM, sizeof(bufferARM), "str     x1, [sp, #-16]!\n");
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+
             result->text_section = arm_data_add(result->text_section, right->text_section);
+
+            //* Cargar el valor de x1 desde la pila
+            snprintf(bufferARM, sizeof(bufferARM), "ldr     x1, [sp], #16\n");
+            result->text_section = arm_data_add(result->text_section, bufferARM);
 
             if (left->num_register == 0)
             {

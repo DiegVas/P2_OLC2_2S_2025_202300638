@@ -31,6 +31,7 @@ ARM_data *arm_data_create()
     data->count_floats = 0;
     data->count_strings = 0;
     data->count_buffers = 0;
+    data->count_int = 0;
     data->count_arithmetic_temps = 0;
     return data;
 }

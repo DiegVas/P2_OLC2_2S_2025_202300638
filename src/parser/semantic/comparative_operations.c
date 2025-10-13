@@ -74,7 +74,7 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         }
         else if (strcmp(operator, "||") == 0)
         {
-            armOperation = "or";
+            armOperation = "orr";
             result->value = left_bool || right_bool ? strdup("true") : strdup("false");
         }
         else
@@ -84,9 +84,9 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
             return result;
         }
 
-        if (strcmp(armOperation, "and") == 0 || strcmp(armOperation, "or") == 0)
+        if (strcmp(armOperation, "and") == 0 || strcmp(armOperation, "orr") == 0)
         {
-            snprintf(bufferARM, sizeof(bufferARM), "and w0, w%d, w%d\n", exprIZQ->num_register, exprDER->num_register);
+            snprintf(bufferARM, sizeof(bufferARM), "%s w0, w%d, w%d\n", armOperation, exprIZQ->num_register, exprDER->num_register);
             result->text_section = arm_data_add(result->text_section, bufferARM);
         }
         else
