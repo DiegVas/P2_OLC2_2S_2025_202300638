@@ -14,9 +14,7 @@ ARM_data *arm_data_create()
                              ".extern ftoa \n"
                              ".extern booltoa \n";
     data->data = ".data \n"
-                 "print: .asciz \"%s\\n\" \n"
-                 "print_int: .asciz \"%d\\n\" \n"
-                 "print_float: .asciz \"%f\\n\" \n";
+                 "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";
     data->text = ".text \n"
                  "main: \n"
@@ -33,6 +31,10 @@ ARM_data *arm_data_create()
     data->count_buffers = 0;
     data->count_int = 0;
     data->count_arithmetic_temps = 0;
+
+    data->count_if = 0;
+    data->count_else = 0;
+    data->count_elseif = 0;
     return data;
 }
 

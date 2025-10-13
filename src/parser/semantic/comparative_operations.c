@@ -54,7 +54,10 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
 
         char bufferARM[256];
         char *armOperation = "";
+
+        result->data_section = arm_data_add(result->data_section, left->data_section);
         result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->data_section = arm_data_add(result->data_section, right->data_section);
         result->text_section = arm_data_add(result->text_section, right->text_section);
 
         if (strcmp(operator, "==") == 0)
@@ -97,6 +100,9 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
             snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", armOperation);
             result->text_section = arm_data_add(result->text_section, bufferARM);
         }
+
+        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", exprIZQ->num_register);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else if (cv_left.result_type == TYPE_STRING)
     {
@@ -128,7 +134,9 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         else
             comparison = 0;
 
+        result->data_section = arm_data_add(result->data_section, left->data_section);
         result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->data_section = arm_data_add(result->data_section, right->data_section);
         result->text_section = arm_data_add(result->text_section, right->text_section);
 
         char bufferARM[256];
@@ -183,6 +191,9 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         snprintf(bufferARM, sizeof(bufferARM), "%s %s%d, %s%d\n", cmpARM, registerType, exprIZQ->num_register, registerType, exprDER->num_register);
         result->text_section = arm_data_add(result->text_section, bufferARM);
         snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", opARM);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", exprIZQ->num_register);
         result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else

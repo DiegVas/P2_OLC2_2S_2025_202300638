@@ -15,6 +15,11 @@ typedef struct ARM_data
     int count_int;
     int count_arithmetic_temps;
 
+    //* Contado de control de flujos
+    int count_if;
+    int count_else;
+    int count_elseif;
+
 } ARM_data;
 
 ARM_data *arm_data_create();

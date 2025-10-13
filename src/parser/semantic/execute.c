@@ -202,6 +202,10 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         fprintf(stderr, "Evaluated value before ARM declaration: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Declaración de variable %s\n", new_symbol->id);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
         arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
         arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
         arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(new_symbol->id, new_symbol->dataType));
@@ -397,6 +401,9 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     return;
                 }
 
+                char bufferComment[128];
+                snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de variable %s\n", sym_to_update->id);
+
                 arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
 
                 char *register_type = "w";
@@ -409,7 +416,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", sym_to_update->id);
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
-                snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n", register_type);
+                snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n\n", register_type);
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
@@ -430,6 +437,11 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         instruction->value->num_register = 1;
         fprintf(stderr, "Print detectado\n");
         fprintf(stderr, "Instruccion tipo: %s\n", instruction->value->type);
+
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción de impresión\n");
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
         symbol *print_value = evaluate_expression(instruction->value, context);
 
         // Validar que la evaluación no retornó NULL
@@ -464,12 +476,14 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         }
 
         // Si es string, procesar secuencias de escape
+
+        char bufferArm[128];
+
         if (strcmp(print_value->dataType, "STRING") == 0)
         {
             char *processed_string = process_escape_sequences(print_value->value);
 
             {
-                char bufferArm[128];
                 arm_global_data->text = arm_text_add(arm_global_data->text, print_value->text_section);
                 arm_global_data->data = arm_data_add(arm_global_data->data, print_value->data_section);
 
@@ -478,17 +492,13 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     snprintf(bufferArm, sizeof(bufferArm), "mov x1, x0\n");
                     arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
                 }
-
-                snprintf(bufferArm, sizeof(bufferArm), "adr x0, print\n");
-                arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
-                arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n");
             }
 
             printf("%s\n", processed_string);
         }
         else
         {
-            char bufferArm[128];
+
             const char *print_label;
 
             if (strcmp(print_value->dataType, "INTEGER") == 0)
@@ -510,12 +520,13 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
             }
 
-            snprintf(bufferArm, sizeof(bufferArm), "adr x0, %s\n", print_label);
-            arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
-            arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n");
-
             printf("%s\n", print_value->value);
         }
+
+        snprintf(bufferArm, sizeof(bufferArm), "adr x0, print\n");
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
+        arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n\n");
+
         break;
     }
     case IF_STATEMENT:
@@ -526,6 +537,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         InstruccionList *else_block = instruction->ifData->elseBlock;
         IfNodeList *else_ifs = instruction->ifData->elseIfs;
 
+        condition->num_register = 0;
         symbol *if_condition_value = evaluate_expression(condition, context);
         if (strcmp(if_condition_value->dataType, "UNDEFINED") == 0)
             return Error_exists(if_condition_value->value, context->nombre, instruction);
@@ -538,6 +550,21 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         ctx_if->after = context;
         ctx_if->symbols_context = Symbol_table_create();
         ctx_if->nombre = "If";
+
+        arm_global_data->text = arm_text_add(arm_global_data->text, if_condition_value->text_section);
+        arm_global_data->data = arm_data_add(arm_global_data->data, if_condition_value->data_section);
+        arm_global_data->count_if++;
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción IF %d\n", arm_global_data->count_if);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        char if_label[32];
+        snprintf(if_label, sizeof(if_label), "cbnz w1, if_%d\n", arm_global_data->count_if);
+        arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+        snprintf(if_label, sizeof(if_label), "if_%d:\n", arm_global_data->count_if);
+        arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        char end_if_label[32];
 
         if (condition_value)
         {
@@ -553,12 +580,32 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         else
         {
             //     fprintf(stderr, "Valor de la condición ELSE: %s (bool: %d)\n", if_condition_value->value, condition_value);
+
             bool executed_elseif = false;
             IfNodeList *curr_elseif = else_ifs;
             IfNode *curr_node = curr_elseif ? curr_elseif->head : NULL;
             while (curr_node && !executed_elseif)
             {
-                bool elseif_condition_value = boolean_value(evaluate_expression(curr_node->IfData->condition, context)->value);
+                curr_node->IfData->condition->num_register = 0;
+                symbol *elseif_condition = evaluate_expression(curr_node->IfData->condition, context);
+                if (strcmp(elseif_condition->dataType, "UNDEFINED") == 0)
+                    return Error_exists(elseif_condition->value, context->nombre, instruction);
+
+                bool elseif_condition_value = boolean_value(elseif_condition->value);
+
+                snprintf(if_label, sizeof(if_label), "\n// ELSE IF %d\n", arm_global_data->count_elseif + 1);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+                arm_global_data->text = arm_text_add(arm_global_data->text, elseif_condition->text_section);
+                arm_global_data->data = arm_data_add(arm_global_data->data, elseif_condition->data_section);
+
+                arm_global_data->count_elseif++;
+                snprintf(if_label, sizeof(if_label), "cbnz w1, elseif_%d\n", arm_global_data->count_elseif);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+                snprintf(if_label, sizeof(if_label), "elseif_%d:\n", arm_global_data->count_elseif);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
                 if (elseif_condition_value)
                 {
                     InstruccionNode *curr = curr_node->IfData->block->head;
@@ -580,6 +627,15 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
             if (!executed_elseif && else_block)
             {
+                snprintf(if_label, sizeof(if_label), "\n// ELSE%d\n", arm_global_data->count_elseif + 1);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+                arm_global_data->count_else++;
+                snprintf(if_label, sizeof(if_label), "b else_%d\n", arm_global_data->count_elseif);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+                snprintf(if_label, sizeof(if_label), "else_%d:\n", arm_global_data->count_elseif);
+                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
 
                 InstruccionNode *curr = else_block->head;
                 while (curr)
@@ -592,6 +648,16 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 }
             }
         }
+
+        if (!else_block)
+        {
+            snprintf(if_label, sizeof(if_label), "b end_if_%d\n", arm_global_data->count_if);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        }
+
+        snprintf(end_if_label, sizeof(end_if_label), "end_if_%d:\n", arm_global_data->count_if);
+        arm_global_data->text = arm_text_add(arm_global_data->text, end_if_label);
+
         Symbol_table_insertContext(SymbolTable_General, ctx_if->symbols_context);
 
         break;

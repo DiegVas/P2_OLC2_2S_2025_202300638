@@ -57,9 +57,15 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             char intRegister[16];
+            char bufferComment[128];
+
             snprintf(intRegister, sizeof(intRegister), "%s_%d", "int", arm_global_data->count_int);
             arm_global_data->count_int++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_int(intRegister, atoi(result->value)));
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de entero %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, intRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    w%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -77,9 +83,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             char floatRegister[16];
+            char bufferComment[128];
             snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
             arm_global_data->count_floats++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_float(floatRegister, atof(result->value)));
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de float %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, floatRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -97,9 +108,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char buffer[128];
             char stringRegister[16];
+            char bufferComment[128];
             snprintf(stringRegister, sizeof(stringRegister), "%s_%d", "string", arm_global_data->count_strings);
             arm_global_data->count_strings++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_string(stringRegister, result->value));
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de string %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "adr     x%d, %s\n", expr->num_register, stringRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr     x%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -116,7 +132,12 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
         {
             char buffer[128];
+            char bufferComment[128];
             int bool_value = (strcmp(result->value, "true") == 0) ? 1 : 0;
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de boolean %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "mov     w%d, #%d\n", expr->num_register, bool_value);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
@@ -227,6 +248,11 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         // Generar código ARM para cargar el valor inmediato en un registro
         {
             char buffer[128];
+            char bufferComment[128];
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de char %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "mov     w%d, #%s\n", expr->num_register, result->value);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
@@ -244,10 +270,15 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             char buffer[128];
             char doubleRegister[16];
+            char bufferComment[128];
 
             snprintf(doubleRegister, sizeof(doubleRegister), "%s_%d", "double", arm_global_data->count_doubles);
             arm_global_data->count_doubles++;
             result->data_section = arm_data_add(result->data_section, arm_declarate_double(doubleRegister, atof(result->value)));
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de double %s\n", result->value);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(buffer, sizeof(buffer), "adr    x%d, %s\n", expr->num_register, doubleRegister);
             result->text_section = arm_data_add(result->text_section, buffer);
             snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
@@ -444,6 +475,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         {
             char bufferARM[128];
             char bufferName[32];
+            char bufferComment[128];
             char *toaFunction = "";
             result->data_section = arm_data_add(result->data_section, to_convert->data_section);
             result->text_section = arm_data_add(result->text_section, to_convert->text_section);
@@ -451,6 +483,10 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             snprintf(bufferName, sizeof(bufferName), "buffer%d", arm_global_data->count_buffers);
             result->data_section = arm_data_add(result->data_section, arm_declarate_bss(bufferName, "DOUBLE"));
+
+            snprintf(bufferComment, sizeof(bufferComment), "\n// Conversion de %s a STRING\n", to_convert->dataType);
+            result->text_section = arm_data_add(result->text_section, bufferComment);
+
             snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
@@ -883,6 +919,10 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
                     char *arm_load = NULL;
                     char buffer[128];
+                    char bufferComment[128];
+
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym->id, sym->dataType);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, bufferComment);
 
                     snprintf(buffer, sizeof(buffer), "adr   x%d, %s\n", expr->num_register, sym->id);
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
@@ -901,11 +941,11 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
                     if (strcmp(sym->dataType, "CHARACTER") == 0)
                     {
-                        snprintf(buffer, sizeof(buffer), "ldrsb     %s%d, [x%d]\n\n", arm_load, expr->num_register, expr->num_register);
+                        snprintf(buffer, sizeof(buffer), "ldrsb     %s%d, [x%d]\n", arm_load, expr->num_register, expr->num_register);
                     }
                     else
                     {
-                        snprintf(buffer, sizeof(buffer), "ldr   %s%d, [x%d]\n\n", arm_load, expr->num_register, expr->num_register);
+                        snprintf(buffer, sizeof(buffer), "ldr   %s%d, [x%d]\n", arm_load, expr->num_register, expr->num_register);
                     }
 
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
