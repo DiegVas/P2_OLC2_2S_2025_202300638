@@ -15,7 +15,7 @@ char *arm_declarate(char *id, char *type, char *value)
     }
     else if (strcmp(type, "FLOAT") == 0)
     {
-        return arm_declarate_float(id, atof(value));
+        return arm_declarate_double(id, atof(value));
     }
     else if (strcmp(type, "DOUBLE") == 0)
     {
@@ -49,15 +49,6 @@ char *arm_declarate_int(char *id, int value)
     char *code = malloc(100);
     sprintf(code,
             "%s: .word %d\n",
-            id, value);
-    return code;
-}
-
-char *arm_declarate_float(char *id, float value)
-{
-    char *code = malloc(100);
-    sprintf(code,
-            "%s: .float %f\n",
             id, value);
     return code;
 }

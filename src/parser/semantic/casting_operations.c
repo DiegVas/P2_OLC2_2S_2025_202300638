@@ -135,6 +135,7 @@ symbol *apply_casting_auto(symbol *value, const char *target_type, Context *cont
     }
 
     casted->value = strdup(buffer);
+    casted->data_section = value->data_section;
     casted->text_section = value->text_section ? strdup(value->text_section) : NULL;
     return casted;
 }
@@ -253,6 +254,7 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
     }
 
     casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
+    casted->data_section = value->data_section;
 
     casted->value = strdup(buffer);
     casted->data_section = value->data_section;

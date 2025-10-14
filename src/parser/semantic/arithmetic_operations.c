@@ -115,8 +115,8 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         {
             char bufferARM[128];
 
-            left->text_section = left->declared_in_arm ? remove_last_instruction(left->text_section) : left->text_section;
-            right->text_section = right->declared_in_arm ? remove_last_instruction(right->text_section) : right->text_section;
+            left->text_section = remove_last_instruction(left->text_section);
+            right->text_section = remove_last_instruction(right->text_section);
 
             result->text_section = arm_data_add(result->text_section, left->text_section);
 
@@ -143,6 +143,7 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         }
 
         result->value = (char *)calloc(strlen(left_str) + strlen(right_str) + 1, sizeof(char));
+        result->num_register = 1;
         strcpy(result->value, left_str);
         strcat(result->value, right_str);
         return result;
@@ -183,13 +184,18 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         char buffer[128];
         char *operation_arm = "";
         char *register_type = "";
+        char *move_instruction = "mov";
 
         get_arm_op_and_reg(operation, result_type, &operation_arm, &register_type);
 
         snprintf(buffer, sizeof(buffer), "%s    %s0, %s%d, %s%d\n", operation_arm, register_type, register_type, left->num_register, register_type, right->num_register);
         result->text_section = arm_data_add(result->text_section, buffer);
         result->num_register = left->num_register + arm_global_data->count_arithmetic_temps++;
-        snprintf(buffer, sizeof(buffer), "mov    %s%d, %s0\n", register_type, result->num_register, register_type);
+
+        if (strcmp(register_type, "d") == 0)
+            move_instruction = "fmov";
+
+        snprintf(buffer, sizeof(buffer), "%s    %s%d, %s0\n", move_instruction, register_type, result->num_register, register_type);
         result->text_section = arm_data_add(result->text_section, buffer);
     }
 

@@ -106,6 +106,20 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
     }
     else if (cv_left.result_type == TYPE_STRING)
     {
+
+        left->text_section = remove_last_instruction(left->text_section);
+        right->text_section = remove_last_instruction(right->text_section);
+
+        result->data_section = arm_data_add(result->data_section, left->data_section);
+        result->text_section = arm_data_add(result->text_section, left->text_section);
+        result->data_section = arm_data_add(result->data_section, right->data_section);
+        result->text_section = arm_data_add(result->text_section, right->text_section);
+
+        char bufferARM[256];
+        char *cmpARM = "cmp";
+        char *registerType = "w";
+        char *opARM = "ne";
+
         if (strcmp(operator, "==") == 0 | strcmp(operator, ".equals") == 0)
         {
             result->dataType = strdup("BOOLEAN");
@@ -123,6 +137,10 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
             fprintf(stderr, "Only '==' and '!=' operators are supported for STRING type\n");
             return result;
         }
+
+        snprintf(bufferARM, sizeof(bufferARM), "bl string_compare \n");
+        result->num_register = 1;
+        result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else if (cv_left.result_type == TYPE_INTEGER || cv_left.result_type == TYPE_FLOAT || cv_left.result_type == TYPE_DOUBLE | cv_left.result_type == TYPE_CHARACTER)
     {

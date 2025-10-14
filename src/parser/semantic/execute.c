@@ -221,7 +221,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", new_symbol->id);
             arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
-            snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n\n", register_type);
+            snprintf(buffer, sizeof(buffer), "str %s%d, [x1]\n\n", register_type, evaluated_value->num_register);
             arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
             fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
@@ -411,6 +411,16 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     register_type = "d";
 
                 arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
+
+                if (evaluated_value->num_register != 0)
+                {
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de variable %s\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    char buffer[128];
+                    snprintf(buffer, sizeof(buffer), "mov    %s0, %s%d\n", register_type, register_type, evaluated_value->num_register);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+                }
 
                 char buffer[128];
                 snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", sym_to_update->id);

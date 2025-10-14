@@ -35,7 +35,6 @@ char *arm_register_type(const char *dataType);
 char *arm_declarate(char *id, char *type, char *value);
 char *arm_declarate_char(char *id, char *value);
 char *arm_declarate_int(char *id, int value);
-char *arm_declarate_float(char *id, float value);
 char *arm_declarate_double(char *id, double value);
 char *arm_declarate_string(char *id, char *value);
 char *arm_declarate_boolean(char *id, int value);

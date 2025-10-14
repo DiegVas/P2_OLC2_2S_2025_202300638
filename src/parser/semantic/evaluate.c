@@ -86,7 +86,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             char bufferComment[128];
             snprintf(floatRegister, sizeof(floatRegister), "%s_%d", "float", arm_global_data->count_floats);
             arm_global_data->count_floats++;
-            result->data_section = arm_data_add(result->data_section, arm_declarate_float(floatRegister, atof(result->value)));
+            result->data_section = arm_data_add(result->data_section, arm_declarate_double(floatRegister, atof(result->value)));
 
             snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de float %s\n", result->value);
             result->text_section = arm_data_add(result->text_section, bufferComment);
@@ -486,6 +486,12 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             snprintf(bufferComment, sizeof(bufferComment), "\n// Conversion de %s a STRING\n", to_convert->dataType);
             result->text_section = arm_data_add(result->text_section, bufferComment);
+
+            if (result->num_register != 0)
+            {
+                snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", expr->num_register);
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
 
             snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
             result->text_section = arm_data_add(result->text_section, bufferARM);
