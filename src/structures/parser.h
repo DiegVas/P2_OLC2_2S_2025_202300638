@@ -41,6 +41,7 @@ typedef struct symbol
 
     //* Para manejo de declaracion en arm
     bool declared_in_arm;
+    bool is_id;
     int num_register;
     char *text_section;
     char *data_section;

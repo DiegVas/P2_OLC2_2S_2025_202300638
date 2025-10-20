@@ -40,6 +40,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     result->environment = strdup("UNDEFINED");
     result->id = strdup("UNDEFINED");
     result->declared_in_arm = false;
+    result->is_id = false;
     result->text_section = "";
     result->data_section = "";
 
@@ -117,8 +118,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             result->text_section = arm_data_add(result->text_section, bufferComment);
 
             snprintf(buffer, sizeof(buffer), "adr     x%d, %s\n", expr->num_register, stringRegister);
-            result->text_section = arm_data_add(result->text_section, buffer);
-            snprintf(buffer, sizeof(buffer), "ldr     x%d, [x%d]\n", expr->num_register, expr->num_register);
             result->text_section = arm_data_add(result->text_section, buffer);
         }
 
@@ -487,12 +486,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             snprintf(bufferComment, sizeof(bufferComment), "\n// Conversion de %s a STRING\n", to_convert->dataType);
             result->text_section = arm_data_add(result->text_section, bufferComment);
 
-            if (result->num_register != 0)
-            {
-                snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", expr->num_register);
-                result->text_section = arm_data_add(result->text_section, bufferARM);
-            }
-
             snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
@@ -514,13 +507,13 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             if (expr->num_register != 1)
             {
-                snprintf(bufferARM, sizeof(bufferARM), "mov    x1, x%d\n", expr->num_register);
+                snprintf(bufferARM, sizeof(bufferARM), "mov    x2, x1\n");
                 result->text_section = arm_data_add(result->text_section, bufferARM);
             }
 
             result->num_register = 1;
         }
-
+        result->declared_in_arm = true;
         return result;
         break;
     }
@@ -927,34 +920,24 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     char buffer[128];
                     char bufferComment[128];
 
+                    result_copy->is_id = !(strcmp(result_copy->dataType, "CHARACTER") == 0);
+
                     snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym->id, sym->dataType);
                     result_copy->text_section = arm_data_add(result_copy->text_section, bufferComment);
 
                     snprintf(buffer, sizeof(buffer), "adr   x%d, %s\n", expr->num_register, sym->id);
                     result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
-                    if (strcmp(sym->dataType, "DOUBLE") == 0 || strcmp(sym->dataType, "FLOAT") == 0)
-                    {
-                        arm_load = "d";
-                    }
-                    else if (strcmp(sym->dataType, "INTEGER") == 0 || strcmp(sym->dataType, "CHARACTER") == 0 || strcmp(sym->dataType, "BOOLEAN") == 0)
-                    {
-                        arm_load = "w";
-                    }
-                    else
-                    {
-                        arm_load = "x";
-                    }
 
-                    if (strcmp(sym->dataType, "CHARACTER") == 0)
+                    if (strcmp(result_copy->dataType, "INTEGER") == 0 || strcmp(result_copy->dataType, "BOOLEAN") == 0)
                     {
-                        snprintf(buffer, sizeof(buffer), "ldrsb     %s%d, [x%d]\n", arm_load, expr->num_register, expr->num_register);
+                        snprintf(buffer, sizeof(buffer), "ldr    w%d, [x%d]\n", expr->num_register, expr->num_register);
+                        result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     }
-                    else
+                    else if (strcmp(result_copy->dataType, "DOUBLE") == 0 || strcmp(result_copy->dataType, "FLOAT") == 0)
                     {
-                        snprintf(buffer, sizeof(buffer), "ldr   %s%d, [x%d]\n", arm_load, expr->num_register, expr->num_register);
+                        snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
+                        result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     }
-
-                    result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                 }
 
                 result_copy->num_register = expr->num_register;

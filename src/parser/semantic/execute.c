@@ -445,8 +445,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
     case EXP_PRINTLN:
     {
         instruction->value->num_register = 1;
-        fprintf(stderr, "Print detectado\n");
-        fprintf(stderr, "Instruccion tipo: %s\n", instruction->value->type);
 
         char bufferComment[128];
         snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción de impresión\n");
@@ -509,18 +507,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         else
         {
 
-            const char *print_label;
-
-            if (strcmp(print_value->dataType, "INTEGER") == 0)
-                print_label = "print_int";
-            else if (strcmp(print_value->dataType, "FLOAT") == 0 || strcmp(print_value->dataType, "DOUBLE") == 0)
-                print_label = "print_float";
-            else
-                print_label = "print";
-
-            if (strcmp(print_value->dataType, "CHARACTER") == 0)
-                print_value->text_section = remove_last_instruction(print_value->text_section);
-
             arm_global_data->text = arm_text_add(arm_global_data->text, print_value->text_section);
             arm_global_data->data = arm_data_add(arm_global_data->data, print_value->data_section);
 
@@ -531,6 +517,12 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             }
 
             printf("%s\n", print_value->value);
+        }
+
+        if (!print_value->declared_in_arm)
+        {
+            snprintf(bufferArm, sizeof(bufferArm), "ldr x1, [x1]\n");
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
         }
 
         snprintf(bufferArm, sizeof(bufferArm), "adr x0, print\n");

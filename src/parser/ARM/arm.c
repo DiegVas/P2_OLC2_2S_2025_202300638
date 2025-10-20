@@ -13,7 +13,8 @@ ARM_data *arm_data_create()
                              ".extern itao \n"
                              ".extern ftoa \n"
                              ".extern booltoa \n"
-                             ".extern string_compare \n";
+                             ".extern string_compare \n"
+                             ".extern string_concat \n";
     data->data = ".data \n"
                  "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";

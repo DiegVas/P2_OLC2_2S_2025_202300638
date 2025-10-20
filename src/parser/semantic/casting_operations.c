@@ -204,8 +204,6 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
             snprintf(buffer_ARM, sizeof(buffer_ARM), "sxtb w%d, w%d\n", value->num_register, value->num_register);
             casted->text_section = arm_data_add(casted->text_section, buffer_ARM);
 
-            fprintf(stderr, "Casting DOUBLE to CHARACTER in ARM:\n%s", casted->text_section);
-
             sprintf(buffer, "%c", (char)((int)atof(value->value)));
         }
         else if (from_type == TYPE_FLOAT)
@@ -260,6 +258,5 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
     casted->data_section = value->data_section;
     casted->num_register = value->num_register;
     casted->data_section = value->data_section;
-    fprintf(stderr, "Casting applied from %s to %s: %s\n", value->dataType, target_type, casted->value);
     return casted;
 }

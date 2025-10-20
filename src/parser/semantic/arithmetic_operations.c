@@ -42,7 +42,6 @@ ConvertedValue convert_operand(symbol *operand)
     }
     else if (strcmp(operand->dataType, "CHARACTER") == 0)
     {
-        fprintf(stderr, "Converting CHARACTER with value: %s\n", operand->value); // Debug line
         if (strlen(operand->value) == 1)
         {
             cv.num_value = (int)operand->value[0];
@@ -77,6 +76,7 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         symbol *result = (symbol *)calloc(1, sizeof(symbol));
         result->dataType = strdup("UNDEFINED");
         result->value = strdup("Error: null operand in arithmetic operation");
+        result->declared_in_arm = true;
         return result;
     }
 
@@ -89,6 +89,7 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         symbol *result = (symbol *)calloc(1, sizeof(symbol));
         result->dataType = strdup("UNDEFINED");
         result->value = strdup("Error: invalid operand types in arithmetic operation");
+        result->declared_in_arm = true;
         return result;
     }
 
@@ -98,6 +99,7 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         symbol *result = (symbol *)calloc(1, sizeof(symbol));
         result->dataType = strdup("NULL");
         result->value = strdup("null");
+        result->declared_in_arm = true;
         return result;
     }
 
@@ -115,37 +117,50 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         {
             char bufferARM[128];
 
-            left->text_section = remove_last_instruction(left->text_section);
-            right->text_section = remove_last_instruction(right->text_section);
-
             result->text_section = arm_data_add(result->text_section, left->text_section);
 
+            if (left->is_id)
+            {
+                snprintf(bufferARM, sizeof(bufferARM), "ldr     x1, [x1]\n");
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
+
             //* Guardar el valor de x1 en la pila
+
+            if (left->num_register != 1)
+            {
+
+                snprintf(bufferARM, sizeof(bufferARM), "mov     x1, x%d\n", left->num_register);
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
+
             snprintf(bufferARM, sizeof(bufferARM), "str     x1, [sp, #-16]!\n");
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
             result->text_section = arm_data_add(result->text_section, right->text_section);
 
+            //* Cargar el valor de x2
+            if (right->is_id)
+            {
+                snprintf(bufferARM, sizeof(bufferARM), "ldr     x2, [x2]\n");
+                result->text_section = arm_data_add(result->text_section, bufferARM);
+            }
+
             //* Cargar el valor de x1 desde la pila
             snprintf(bufferARM, sizeof(bufferARM), "ldr     x1, [sp], #16\n");
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
-            if (left->num_register == 0)
-            {
-
-                snprintf(bufferARM, sizeof(bufferARM), "mov x1, x0\n");
-                result->text_section = arm_data_add(result->text_section, bufferARM);
-            }
-
             snprintf(bufferARM, sizeof(bufferARM), "bl string_concat\n");
 
             result->text_section = arm_data_add(result->text_section, bufferARM);
+            result->num_register = 0;
         }
 
         result->value = (char *)calloc(strlen(left_str) + strlen(right_str) + 1, sizeof(char));
-        result->num_register = 1;
+        result->num_register = 0;
         strcpy(result->value, left_str);
         strcat(result->value, right_str);
+        result->declared_in_arm = true;
         return result;
     }
 
@@ -157,6 +172,8 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         // Codigo arm promver a double si alguno es char, int o float
         if (result_type == TYPE_DOUBLE)
         {
+            fprintf(stderr, "Promoviendo a DOUBLE en operacion aritmetica\n");
+            fprintf(stderr, "Tipo izquierdo: %d, Tipo derecho: %d\n", cv_left.result_type, cv_right.result_type);
             if (cv_left.result_type != TYPE_DOUBLE)
             {
                 promote_to_double_arm(left, cv_left.result_type);
@@ -190,6 +207,13 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
 
         snprintf(buffer, sizeof(buffer), "%s    %s0, %s%d, %s%d\n", operation_arm, register_type, register_type, left->num_register, register_type, right->num_register);
         result->text_section = arm_data_add(result->text_section, buffer);
+
+        if (operation == '%' && strcmp(operation_arm, "") != 0)
+        {
+            snprintf(buffer, sizeof(buffer), "msub    %s0, %s0, %s%d, %s%d\n", register_type, register_type, register_type, right->num_register, register_type, left->num_register);
+            result->text_section = arm_data_add(result->text_section, buffer);
+        }
+
         result->num_register = left->num_register + arm_global_data->count_arithmetic_temps++;
 
         if (strcmp(register_type, "d") == 0)
@@ -245,10 +269,6 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
 
     // Formatear resultado según el tipo
     result->value = (char *)calloc(50, sizeof(char)); // Suficiente espacio
-
-    fprintf(stderr, "Final result before formatting: %f\n", final_result); // Debug line
-    fprintf(stderr, "Result type: %d\n", result_type);                     // Debug line
-
     switch (result_type)
     {
     case TYPE_INTEGER:
@@ -268,5 +288,6 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         sprintf(result->value, "%d", (int)final_result);
         break;
     }
+    result->declared_in_arm = true;
     return result;
 }

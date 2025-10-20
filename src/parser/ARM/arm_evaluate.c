@@ -6,7 +6,7 @@ void get_arm_op_and_reg(char operation, OperativeType result_type, char **operat
     *operation_arm = (operation == '+') ? "add" : (operation == '-') ? "sub"
                                               : (operation == '*')   ? "mul"
                                               : (operation == '/')   ? "sdiv"
-                                              : (operation == '%')   ? "srem"
+                                              : (operation == '%')   ? "sdiv"
                                                                      : "";
 
     if (result_type == TYPE_DOUBLE || result_type == TYPE_FLOAT)
