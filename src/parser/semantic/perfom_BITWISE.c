@@ -67,7 +67,11 @@ symbol *perfom_BITWISE(Expression *exp_left, Expression *exp_right, Context *con
         result->value = strdup("Unknown bitwise operation");
         return result;
     }
+    result->data_section = arm_data_add(result->data_section, left->data_section);
     result->text_section = arm_data_add(result->text_section, left->text_section);
+    result->data_section = arm_data_add(result->data_section, right->data_section);
+    result->text_section = arm_data_add(result->text_section, right->text_section);
+    result->text_section = arm_data_add(result->text_section, bufferARM);
     result->dataType = strdup("INTEGER");
     result->value = (char *)calloc(50, sizeof(char));
     sprintf(result->value, "%d", final_result);
