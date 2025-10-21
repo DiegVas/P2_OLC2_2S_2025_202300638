@@ -106,13 +106,13 @@ char *arm_declarate_bss(char *id, char *type)
     else if (strcmp(type, "FLOAT") == 0)
     {
         sprintf(code,
-                "%s: .space 4\n",
+                "%s: .space 8\n",
                 id);
     }
     else if (strcmp(type, "DOUBLE") == 0)
     {
         sprintf(code,
-                "%s: .space 8\n",
+                "%s: .space 32\n",
                 id);
     }
     else if (strcmp(type, "STRING") == 0)

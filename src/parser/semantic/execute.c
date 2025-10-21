@@ -535,9 +535,16 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
     {
 
         Expression *condition = instruction->ifData->condition;
+
+        //* if
         InstruccionList *if_block = instruction->ifData->block;
+
+        //* else
         InstruccionList *else_block = instruction->ifData->elseBlock;
+
+        //* else if
         IfNodeList *else_ifs = instruction->ifData->elseIfs;
+        IfNode *curr_node = else_ifs ? else_ifs->head : NULL;
 
         condition->num_register = 0;
         symbol *if_condition_value = evaluate_expression(condition, context);
@@ -545,8 +552,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             return Error_exists(if_condition_value->value, context->nombre, instruction);
 
         bool condition_value = boolean_value(if_condition_value->value);
-
-        //  fprintf(stderr, "Valor de la condición IF: %s (bool: %d)\n", if_condition_value->value, condition_value);
 
         Context *ctx_if = calloc(1, sizeof(Context));
         ctx_if->after = context;
@@ -561,98 +566,100 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
 
         char if_label[32];
-        snprintf(if_label, sizeof(if_label), "cbnz w1, if_%d\n", arm_global_data->count_if);
-        arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        if (!curr_node)
+        {
+            snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_if);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        }
+        else if (!else_block)
+        {
+            snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_if);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        }
 
-        snprintf(if_label, sizeof(if_label), "if_%d:\n", arm_global_data->count_if);
-        arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         char end_if_label[32];
 
-        if (condition_value)
+        InstruccionNode *curr = if_block->head;
+        while (curr)
         {
-            InstruccionNode *curr = if_block->head;
+            semantic_analysis_execute(curr->instr, ctx_if);
+            if (strcmp(curr->instr->InstType, "RETURN") == 0)
+                break;
+            curr = curr->next;
+        }
+
+        //* Fin del if
+        snprintf(if_label, sizeof(if_label), "b end_if_%d\n", arm_global_data->count_if);
+        arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+        //* Inicio else ifs
+        while (curr_node)
+        {
+
+            snprintf(if_label, sizeof(if_label), "\n// ELSE IF %d\n", arm_global_data->count_elseif);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+            snprintf(if_label, sizeof(if_label), "elseif_%d:\n", arm_global_data->count_elseif);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+            arm_global_data->count_elseif++;
+
+            curr_node->IfData->condition->num_register = 0;
+            symbol *elseif_condition = evaluate_expression(curr_node->IfData->condition, context);
+            if (strcmp(elseif_condition->dataType, "UNDEFINED") == 0)
+                return Error_exists(elseif_condition->value, context->nombre, instruction);
+
+            bool elseif_condition_value = boolean_value(elseif_condition->value);
+
+            arm_global_data->text = arm_text_add(arm_global_data->text, elseif_condition->text_section);
+            arm_global_data->data = arm_data_add(arm_global_data->data, elseif_condition->data_section);
+
+            if (curr_node != NULL && curr_node->next == NULL)
+                snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_else);
+            else
+                snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_elseif);
+
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+            InstruccionNode *curr = curr_node->IfData->block->head;
             while (curr)
             {
                 semantic_analysis_execute(curr->instr, ctx_if);
                 if (strcmp(curr->instr->InstType, "RETURN") == 0)
+                {
                     break;
+                }
+
                 curr = curr->next;
             }
-        }
-        else
-        {
-            //     fprintf(stderr, "Valor de la condición ELSE: %s (bool: %d)\n", if_condition_value->value, condition_value);
 
-            bool executed_elseif = false;
-            IfNodeList *curr_elseif = else_ifs;
-            IfNode *curr_node = curr_elseif ? curr_elseif->head : NULL;
-            while (curr_node && !executed_elseif)
-            {
-                curr_node->IfData->condition->num_register = 0;
-                symbol *elseif_condition = evaluate_expression(curr_node->IfData->condition, context);
-                if (strcmp(elseif_condition->dataType, "UNDEFINED") == 0)
-                    return Error_exists(elseif_condition->value, context->nombre, instruction);
+            //* Fin de un else if
+            snprintf(if_label, sizeof(if_label), "b end_if_%d\n", arm_global_data->count_if);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
 
-                bool elseif_condition_value = boolean_value(elseif_condition->value);
-
-                snprintf(if_label, sizeof(if_label), "\n// ELSE IF %d\n", arm_global_data->count_elseif + 1);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                arm_global_data->text = arm_text_add(arm_global_data->text, elseif_condition->text_section);
-                arm_global_data->data = arm_data_add(arm_global_data->data, elseif_condition->data_section);
-
-                arm_global_data->count_elseif++;
-                snprintf(if_label, sizeof(if_label), "cbnz w1, elseif_%d\n", arm_global_data->count_elseif);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                snprintf(if_label, sizeof(if_label), "elseif_%d:\n", arm_global_data->count_elseif);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                if (elseif_condition_value)
-                {
-                    InstruccionNode *curr = curr_node->IfData->block->head;
-                    while (curr)
-                    {
-                        semantic_analysis_execute(curr->instr, ctx_if);
-                        if (strcmp(curr->instr->InstType, "RETURN") == 0)
-                        {
-                            executed_elseif = true;
-                            break;
-                        }
-
-                        curr = curr->next;
-                    }
-                    executed_elseif = true;
-                }
-                curr_node = curr_node->next;
-            }
-
-            if (!executed_elseif && else_block)
-            {
-                snprintf(if_label, sizeof(if_label), "\n// ELSE%d\n", arm_global_data->count_elseif + 1);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                arm_global_data->count_else++;
-                snprintf(if_label, sizeof(if_label), "b else_%d\n", arm_global_data->count_elseif);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                snprintf(if_label, sizeof(if_label), "else_%d:\n", arm_global_data->count_elseif);
-                arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
-
-                InstruccionNode *curr = else_block->head;
-                while (curr)
-                {
-                    if (strcmp(curr->instr->InstType, "RETURN") == 0)
-                        break;
-
-                    semantic_analysis_execute(curr->instr, ctx_if);
-                    curr = curr->next;
-                }
-            }
+            curr_node = curr_node->next;
         }
 
-        if (!else_block)
+        if (else_block)
         {
+            snprintf(if_label, sizeof(if_label), "\n// ELSE%d\n", arm_global_data->count_elseif);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+
+            //* Inicio else
+            snprintf(if_label, sizeof(if_label), "else_%d:\n", arm_global_data->count_else);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+            arm_global_data->count_else++;
+
+            InstruccionNode *curr = else_block->head;
+            while (curr)
+            {
+                if (strcmp(curr->instr->InstType, "RETURN") == 0)
+                    break;
+
+                semantic_analysis_execute(curr->instr, ctx_if);
+                curr = curr->next;
+            }
+
+            //* Fin de else
             snprintf(if_label, sizeof(if_label), "b end_if_%d\n", arm_global_data->count_if);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }

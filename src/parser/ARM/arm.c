@@ -14,7 +14,8 @@ ARM_data *arm_data_create()
                              ".extern ftoa \n"
                              ".extern booltoa \n"
                              ".extern string_compare \n"
-                             ".extern string_concat \n";
+                             ".extern string_concat \n"
+                             ".extern chartoa \n";
     data->data = ".data \n"
                  "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";

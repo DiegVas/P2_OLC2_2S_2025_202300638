@@ -495,12 +495,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 toaFunction = "itao";
             else if (strcmp(to_convert->dataType, "FLOAT") == 0 || strcmp(to_convert->dataType, "DOUBLE") == 0)
             {
-                snprintf(bufferARM, sizeof(bufferARM), "mov    w2, #5 \n");
+                snprintf(bufferARM, sizeof(bufferARM), "mov    w2, #2 \n");
                 result->text_section = arm_data_add(result->text_section, bufferARM);
                 toaFunction = "ftoa";
             }
             else if (strcmp(to_convert->dataType, "BOOLEAN") == 0)
                 toaFunction = "booltoa";
+            else if (strcmp(to_convert->dataType, "CHARACTER") == 0)
+                toaFunction = "chartoa";
 
             snprintf(bufferARM, sizeof(bufferARM), "bl %s\n", toaFunction);
             result->text_section = arm_data_add(result->text_section, bufferARM);
@@ -936,6 +938,11 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     else if (strcmp(result_copy->dataType, "DOUBLE") == 0 || strcmp(result_copy->dataType, "FLOAT") == 0)
                     {
                         snprintf(buffer, sizeof(buffer), "ldr    d%d, [x%d]\n", expr->num_register, expr->num_register);
+                        result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
+                    }
+                    else if (strcmp(result_copy->dataType, "CHARACTER") == 0)
+                    {
+                        snprintf(buffer, sizeof(buffer), "ldrb    w%d, [x%d]\n", expr->num_register, expr->num_register);
                         result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     }
                 }

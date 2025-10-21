@@ -218,15 +218,20 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
         write(temp_fd, source_code, strlen(source_code));
         close(temp_fd);
 
-        // Redirigir stdout para capturar la salida del parser
+        // Redirigir stdout y stderr para capturar la salida del parser
         int stdout_backup = dup(STDOUT_FILENO);
+        int stderr_backup = dup(STDERR_FILENO);
         char output_filename[] = "/tmp/javalang_output_XXXXXX";
+        char stderr_filename[] = "/tmp/javalang_stderr_XXXXXX";
         int output_fd = mkstemp(output_filename);
+        int stderr_fd = mkstemp(stderr_filename);
 
-        if (output_fd != -1)
+        if (output_fd != -1 && stderr_fd != -1)
         {
             dup2(output_fd, STDOUT_FILENO);
+            dup2(stderr_fd, STDERR_FILENO);
             close(output_fd);
+            close(stderr_fd);
 
             // Configurar yyin para leer del archivo temporal
             FILE *temp_file = fopen(temp_filename, "r");
@@ -281,11 +286,13 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
 
                 fclose(temp_file);
 
-                // Restaurar stdout
+                // Restaurar stdout y stderr
                 dup2(stdout_backup, STDOUT_FILENO);
+                dup2(stderr_backup, STDERR_FILENO);
                 close(stdout_backup);
+                close(stderr_backup);
 
-                // Leer la salida capturada
+                // Leer la salida capturada de stdout
                 FILE *output_file = fopen(output_filename, "r");
                 if (output_file)
                 {
@@ -295,6 +302,28 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
                         gtk_text_buffer_insert_at_cursor(console_buffer, line, -1);
                     }
                     fclose(output_file);
+                }
+
+                // Leer la salida capturada de stderr y guardarla en archivo .txt
+                FILE *stderr_file = fopen(stderr_filename, "r");
+                if (stderr_file)
+                {
+                    // Crear archivo de debug en el directorio reports
+                    FILE *debug_file = fopen("reports/debug_messages.txt", "w");
+                    if (debug_file)
+                    {
+                        fprintf(debug_file, "=== MENSAJES DE DEBUG DEL ANÁLISIS SEMÁNTICO ===\n\n");
+
+                        char line[10024];
+                        while (fgets(line, sizeof(line), stderr_file))
+                        {
+                            fprintf(debug_file, "%s", line);
+                        }
+
+                        fclose(debug_file);
+                        gtk_text_buffer_insert_at_cursor(console_buffer, "\n📄 Mensajes de debug guardados en reports/debug_messages.txt\n", -1);
+                    }
+                    fclose(stderr_file);
                 }
 
                 // Agregar resultado del parsing
@@ -309,11 +338,14 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
 
                 // Limpiar archivos temporales
                 unlink(output_filename);
+                unlink(stderr_filename);
             }
             else
             {
                 dup2(stdout_backup, STDOUT_FILENO);
+                dup2(stderr_backup, STDERR_FILENO);
                 close(stdout_backup);
+                close(stderr_backup);
                 gtk_text_buffer_insert_at_cursor(console_buffer, "Error: No se pudo abrir el archivo temporal\n", -1);
             }
         }
