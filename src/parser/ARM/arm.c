@@ -38,6 +38,9 @@ ARM_data *arm_data_create()
     data->count_if = 0;
     data->count_else = 0;
     data->count_elseif = 0;
+
+    data->count_case = 0;
+    data->count_switch = 0;
     return data;
 }
 

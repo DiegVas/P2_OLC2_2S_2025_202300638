@@ -566,14 +566,19 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
 
         char if_label[32];
-        if (!curr_node)
+        if (curr_node != NULL)
         {
-            snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_if);
+            snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_elseif);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }
-        else if (!else_block)
+        else if (else_block != NULL)
         {
-            snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_if);
+            snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_else);
+            arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
+        }
+        else
+        {
+            snprintf(if_label, sizeof(if_label), "cbz w1, end_if_%d\n", arm_global_data->count_if);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }
 
@@ -613,7 +618,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             arm_global_data->text = arm_text_add(arm_global_data->text, elseif_condition->text_section);
             arm_global_data->data = arm_data_add(arm_global_data->data, elseif_condition->data_section);
 
-            if (curr_node != NULL && curr_node->next == NULL)
+            if (curr_node != NULL && curr_node->next == NULL && else_block != NULL)
                 snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_else);
             else
                 snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_elseif);
@@ -686,10 +691,12 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         symbol *switch_value = evaluate_expression(switch_id_value, context);
 
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción SWITCH\n");
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
         if (strcmp(switch_value->dataType, "UNDEFINED") == 0)
             return Error_exists("ID no declarado en switch", context->nombre, instruction);
-
-        bool case_executed = false;
 
         Expression *exp_condition = (Expression *)calloc(1, sizeof(Expression));
         exp_condition->type = "EQUALS";
@@ -697,36 +704,63 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         exp_condition->left = switch_id_value;
 
         CaseNode *curr_case = instruction->switchData->cases ? instruction->switchData->cases->head : NULL;
-        while (curr_case && !case_executed)
+
+        while (curr_case)
         {
 
             exp_condition->right = curr_case->caseData->condition;
 
+            snprintf(bufferComment, sizeof(bufferComment), "// SWITCH CASE\n");
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+            snprintf(bufferComment, sizeof(bufferComment), "switch_case_%d:\n", arm_global_data->count_case);
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+            arm_global_data->count_case++;
+
             symbol *case_condition = evaluate_expression(exp_condition, context);
+
+            arm_global_data->data = arm_data_add(arm_global_data->data, case_condition->data_section);
+            arm_global_data->text = arm_text_add(arm_global_data->text, case_condition->text_section);
+
+                      if (curr_case != NULL && curr_case->next == NULL && instruction->switchData->defaultCase != NULL)
+            {
+                snprintf(bufferComment, sizeof(bufferComment), "cbz w1, switch_default_%d\n", arm_global_data->count_case);
+            }
+            else
+            {
+                snprintf(bufferComment, sizeof(bufferComment), "cbz w1, switch_case_%d\n", arm_global_data->count_case);
+            }
+
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
 
             bool case_condition_bool = boolean_value(case_condition->value);
 
-            if (case_condition_bool)
+            ctx_switch->nombre = "Case";
+
+            InstruccionNode *curr_instr = curr_case->caseData->block->head;
+            while (curr_instr)
             {
+                if (strcmp(curr_instr->instr->InstType, "RETURN") == 0)
+                    break;
 
-                ctx_switch->nombre = "Case";
-
-                InstruccionNode *curr_instr = curr_case->caseData->block->head;
-                while (curr_instr)
-                {
-                    if (strcmp(curr_instr->instr->InstType, "RETURN") == 0)
-                        break;
-
-                    semantic_analysis_execute(curr_instr->instr, ctx_switch);
-                    curr_instr = curr_instr->next;
-                }
-                case_executed = true;
+                semantic_analysis_execute(curr_instr->instr, ctx_switch);
+                curr_instr = curr_instr->next;
             }
+
+            snprintf(bufferComment, sizeof(bufferComment), "b end_switch_%d\n", arm_global_data->count_switch);
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
             curr_case = curr_case->next;
         }
 
-        if (!case_executed && instruction->switchData->defaultCase)
+        if (instruction->switchData->defaultCase)
         {
+            snprintf(bufferComment, sizeof(bufferComment), "// DEFAULT CASE\n");
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+            snprintf(bufferComment, sizeof(bufferComment), "switch_default_%d: \n", arm_global_data->count_case);
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+            arm_global_data->count_case++;
             ctx_switch->nombre = "Default";
 
             InstruccionNode *curr_instr = instruction->switchData->defaultCase->head;
@@ -735,7 +769,15 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 semantic_analysis_execute(curr_instr->instr, ctx_switch);
                 curr_instr = curr_instr->next;
             }
+
+            snprintf(bufferComment, sizeof(bufferComment), "b end_switch_%d\n", arm_global_data->count_switch);
+            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
         }
+
+        snprintf(bufferComment, sizeof(bufferComment), "\nend_switch_%d:\n", arm_global_data->count_switch);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+        arm_global_data->count_switch++;
+
         Symbol_table_insertContext(SymbolTable_General, ctx_switch->symbols_context);
         break;
     }

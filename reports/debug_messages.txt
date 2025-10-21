@@ -1,100 +1,34 @@
 === MENSAJES DE DEBUG DEL ANÁLISIS SEMÁNTICO ===
 
-Declaración de variable detectada para ID: estudiante1
-Evaluated value: Ana of type STRING
-After casting, value: Ana of type STRING
-Evaluated value before ARM declaration: Ana of type STRING
-La variable estudiante1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante1, Tipo: STRING, Valor: Ana
-Declaración de variable detectada para ID: estudiante2
-Evaluated value: Luis of type STRING
-After casting, value: Luis of type STRING
-Evaluated value before ARM declaration: Luis of type STRING
-La variable estudiante2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante2, Tipo: STRING, Valor: Luis
-Declaración de variable detectada para ID: estudiante3
-Evaluated value: Maria of type STRING
-After casting, value: Maria of type STRING
-Evaluated value before ARM declaration: Maria of type STRING
-La variable estudiante3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante3, Tipo: STRING, Valor: Maria
-Declaración de variable detectada para ID: estudiante4
-Evaluated value: Carlos of type STRING
-After casting, value: Carlos of type STRING
-Evaluated value before ARM declaration: Carlos of type STRING
-La variable estudiante4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante4, Tipo: STRING, Valor: Carlos
-Declaración de variable detectada para ID: estudiante5
-Evaluated value: Sofia of type STRING
-After casting, value: Sofia of type STRING
-Evaluated value before ARM declaration: Sofia of type STRING
-La variable estudiante5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante5, Tipo: STRING, Valor: Sofia
 Declaración de variable detectada para ID: nota1
-Evaluated value: 85 of type INTEGER
-After casting, value: 85 of type INTEGER
-Evaluated value before ARM declaration: 85 of type INTEGER
+Evaluated value: 84 of type INTEGER
+After casting, value: 84 of type INTEGER
+Evaluated value before ARM declaration: 84 of type INTEGER
 La variable nota1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota1, Tipo: INTEGER, Valor: 85
-Declaración de variable detectada para ID: nota2
-Evaluated value: 92 of type INTEGER
-After casting, value: 92 of type INTEGER
-Evaluated value before ARM declaration: 92 of type INTEGER
-La variable nota2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota2, Tipo: INTEGER, Valor: 92
-Declaración de variable detectada para ID: nota3
-Evaluated value: 78 of type INTEGER
-After casting, value: 78 of type INTEGER
-Evaluated value before ARM declaration: 78 of type INTEGER
-La variable nota3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota3, Tipo: INTEGER, Valor: 78
-Declaración de variable detectada para ID: nota4
-Evaluated value: 95 of type INTEGER
-After casting, value: 95 of type INTEGER
-Evaluated value before ARM declaration: 95 of type INTEGER
-La variable nota4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota4, Tipo: INTEGER, Valor: 95
-Declaración de variable detectada para ID: nota5
-Evaluated value: 88 of type INTEGER
-After casting, value: 88 of type INTEGER
-Evaluated value before ARM declaration: 88 of type INTEGER
-La variable nota5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota5, Tipo: INTEGER, Valor: 88
-Declaración de variable detectada para ID: edad1
-Evaluated value: 20 of type INTEGER
-After casting, value: 20 of type INTEGER
-Evaluated value before ARM declaration: 20 of type INTEGER
-La variable edad1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad1, Tipo: INTEGER, Valor: 20
-Declaración de variable detectada para ID: edad2
-Evaluated value: 19 of type INTEGER
-After casting, value: 19 of type INTEGER
-Evaluated value before ARM declaration: 19 of type INTEGER
-La variable edad2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad2, Tipo: INTEGER, Valor: 19
-Declaración de variable detectada para ID: edad3
-Evaluated value: 21 of type INTEGER
-After casting, value: 21 of type INTEGER
-Evaluated value before ARM declaration: 21 of type INTEGER
-La variable edad3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad3, Tipo: INTEGER, Valor: 21
-Declaración de variable detectada para ID: edad4
-Evaluated value: 20 of type INTEGER
-After casting, value: 20 of type INTEGER
-Evaluated value before ARM declaration: 20 of type INTEGER
-La variable edad4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad4, Tipo: INTEGER, Valor: 20
-Declaración de variable detectada para ID: edad5
-Evaluated value: 22 of type INTEGER
-After casting, value: 22 of type INTEGER
-Evaluated value before ARM declaration: 22 of type INTEGER
-La variable edad5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad5, Tipo: INTEGER, Valor: 22
-Copying symbol estudiante1 of type VARIABLE
+Nuevo símbolo: nota1, Tipo: INTEGER, Valor: 84
+Declaración de variable detectada para ID: categoria1
 Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
+Promoviendo a DOUBLE en operacion aritmetica
+Tipo izquierdo: 1, Tipo derecho: 3
+Evaluated value: 8 of type INTEGER
+After casting, value: 8 of type INTEGER
+Evaluated value before ARM declaration: 8 of type INTEGER
+La variable categoria1 no se declara en ARM porque su valor no es literal.
+Nuevo símbolo: categoria1, Tipo: INTEGER, Valor: 8
+Copying symbol categoria1 of type VARIABLE
+Converting type INTEGER to STRING
+Copying symbol categoria1 of type VARIABLE
+Copying symbol categoria1 of type VARIABLE
+Copying symbol categoria1 of type VARIABLE
+Copying symbol categoria1 of type VARIABLE
+Copying symbol categoria1 of type VARIABLE
+Copying symbol categoria1 of type VARIABLE
+---------------------
+DEBUG: Buscando contexto para BREAK, contexto actual: Default
+Nombre del contexto: Default
+---------------------
+DEBUG: Buscando contexto para BREAK, contexto actual: Global
+Nombre del contexto: Global
 .global main 
 .extern printf 
 .extern itao 
@@ -106,198 +40,200 @@ Copying symbol nota1 of type VARIABLE
 
 .data 
 print: .asciz "%s\n" 
-string_0: .asciz "=== SISTEMA DE GESTION DE NOTAS INDIVIDUAL ==="
-string_1: .asciz "Ana"
-string_2: .asciz "Luis"
-string_3: .asciz "Maria"
-string_4: .asciz "Carlos"
-string_5: .asciz "Sofia"
-int_0: .word 85
-int_1: .word 92
-int_2: .word 78
-int_3: .word 95
-int_4: .word 88
-int_5: .word 20
-int_6: .word 19
-int_7: .word 21
-int_8: .word 20
-int_9: .word 22
-string_6: .asciz "Procesando 5 estudiantes individuales"
-string_7: .asciz "\n--- EVALUACION CON IF/ELSE ---"
-string_8: .asciz "Evaluando: "
-int_10: .word 95
-string_9: .asciz "Clasificacion: SOBRESALIENTE"
-int_11: .word 85
-string_10: .asciz "Clasificacion: NOTABLE"
-int_12: .word 75
-string_11: .asciz "Clasificacion: BIEN"
-int_13: .word 65
-string_12: .asciz "Clasificacion: SUFICIENTE"
-string_13: .asciz "Clasificacion: INSUFICIENTE"
+int_0: .word 84
+double_0: .double 10.500000
+buffer1: .space 32
+int_1: .word 10
+int_2: .word 9
+string_0: .asciz "Categoria: EXCELENTE"
+string_1: .asciz "Accion: Mantener nivel"
+int_3: .word 8
+string_2: .asciz "Categoria: MUY BUENO"
+string_3: .asciz "Accion: Continuar esfuerzo"
+int_4: .word 7
+string_4: .asciz "Categoria: BUENO"
+string_5: .asciz "Accion: Mejorar tecnicas"
+int_5: .word 6
+string_6: .asciz "Categoria: SUFICIENTE"
+string_7: .asciz "Accion: Reforzar conocimientos"
+string_8: .asciz "Categoria: INSUFICIENTE"
+string_9: .asciz "Accion: Apoyo urgente"
 
 .bss 
-estudiante1: .space 8
-estudiante2: .space 8
-estudiante3: .space 8
-estudiante4: .space 8
-estudiante5: .space 8
 nota1: .space 4
-nota2: .space 4
-nota3: .space 4
-nota4: .space 4
-nota5: .space 4
-edad1: .space 4
-edad2: .space 4
-edad3: .space 4
-edad4: .space 4
-edad5: .space 4
+categoria1: .space 4
 
 .text 
 main: 
 STP X29, X30, [SP, #-16]! 
 MOV X29, SP 
 	
-	// Instrucción de impresión
-	
-	// Carga de string === SISTEMA DE GESTION DE NOTAS INDIVIDUAL ===
-	adr     x1, string_0
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable estudiante1
-	
-	// Carga de string Ana
-	adr     x0, string_1
-	ldr x1, =estudiante1
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante2
-	
-	// Carga de string Luis
-	adr     x0, string_2
-	ldr x1, =estudiante2
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante3
-	
-	// Carga de string Maria
-	adr     x0, string_3
-	ldr x1, =estudiante3
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante4
-	
-	// Carga de string Carlos
-	adr     x0, string_4
-	ldr x1, =estudiante4
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante5
-	
-	// Carga de string Sofia
-	adr     x0, string_5
-	ldr x1, =estudiante5
-	str x0, [x1]
-	
-	
 	// Declaración de variable nota1
 	
-	// Carga de entero 85
+	// Carga de entero 84
 	adr    x0, int_0
 	ldr    w0, [x0]
 	ldr x1, =nota1
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota2
+	// Declaración de variable categoria1
 	
-	// Carga de entero 92
-	adr    x0, int_1
-	ldr    w0, [x0]
-	ldr x1, =nota2
-	str x0, [x1]
+	// Carga de variable nota1 de tipo INTEGER
+	adr   x1, nota1
+	ldr    w1, [x1]
+	scvtf   d1, w1
 	
-	
-	// Declaración de variable nota3
-	
-	// Carga de entero 78
-	adr    x0, int_2
-	ldr    w0, [x0]
-	ldr x1, =nota3
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota4
-	
-	// Carga de entero 95
-	adr    x0, int_3
-	ldr    w0, [x0]
-	ldr x1, =nota4
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota5
-	
-	// Carga de entero 88
-	adr    x0, int_4
-	ldr    w0, [x0]
-	ldr x1, =nota5
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad1
-	
-	// Carga de entero 20
-	adr    x0, int_5
-	ldr    w0, [x0]
-	ldr x1, =edad1
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad2
-	
-	// Carga de entero 19
-	adr    x0, int_6
-	ldr    w0, [x0]
-	ldr x1, =edad2
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad3
-	
-	// Carga de entero 21
-	adr    x0, int_7
-	ldr    w0, [x0]
-	ldr x1, =edad3
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad4
-	
-	// Carga de entero 20
-	adr    x0, int_8
-	ldr    w0, [x0]
-	ldr x1, =edad4
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad5
-	
-	// Carga de entero 22
-	adr    x0, int_9
-	ldr    w0, [x0]
-	ldr x1, =edad5
-	str x0, [x1]
+	// Carga de double 10.5
+	adr    x2, double_0
+	ldr    d2, [x2]
+	fdiv    d0, d1, d2
+	fmov    d3, d0
+	fcvtzs w3, d3
+	ldr x1, =categoria1
+	str x3, [x1]
 	
 	
 	// Instrucción de impresión
 	
-	// Carga de string Procesando 5 estudiantes individuales
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x0, categoria1
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer1
+	bl itao
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción SWITCH
+	// SWITCH CASE
+	switch_case_0:
+	
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x1, categoria1
+	ldr    w1, [x1]
+	
+	// Carga de entero 10
+	adr    x2, int_1
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w1, w0
+	cbz w1, switch_case_1
+	b end_switch_0
+	// SWITCH CASE
+	switch_case_1:
+	
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x1, categoria1
+	ldr    w1, [x1]
+	
+	// Carga de entero 9
+	adr    x2, int_2
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w1, w0
+	cbz w1, switch_case_2
+	
+	// Instrucción de impresión
+	
+	// Carga de string Categoria: EXCELENTE
+	adr     x1, string_0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Accion: Mantener nivel
+	adr     x1, string_1
+	adr x0, print
+	bl printf
+	
+	b end_switch_0
+	// SWITCH CASE
+	switch_case_2:
+	
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x1, categoria1
+	ldr    w1, [x1]
+	
+	// Carga de entero 8
+	adr    x2, int_3
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w1, w0
+	cbz w1, switch_case_3
+	
+	// Instrucción de impresión
+	
+	// Carga de string Categoria: MUY BUENO
+	adr     x1, string_2
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Accion: Continuar esfuerzo
+	adr     x1, string_3
+	adr x0, print
+	bl printf
+	
+	b end_switch_0
+	// SWITCH CASE
+	switch_case_3:
+	
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x1, categoria1
+	ldr    w1, [x1]
+	
+	// Carga de entero 7
+	adr    x2, int_4
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w1, w0
+	cbz w1, switch_case_4
+	
+	// Instrucción de impresión
+	
+	// Carga de string Categoria: BUENO
+	adr     x1, string_4
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Accion: Mejorar tecnicas
+	adr     x1, string_5
+	adr x0, print
+	bl printf
+	
+	b end_switch_0
+	// SWITCH CASE
+	switch_case_4:
+	
+	// Carga de variable categoria1 de tipo INTEGER
+	adr   x1, categoria1
+	ldr    w1, [x1]
+	
+	// Carga de entero 6
+	adr    x2, int_5
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w1, w0
+	cbz w1, switch_default_5
+	
+	// Instrucción de impresión
+	
+	// Carga de string Categoria: SUFICIENTE
 	adr     x1, string_6
 	adr x0, print
 	bl printf
@@ -305,134 +241,33 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string \n--- EVALUACION CON IF/ELSE ---
+	// Carga de string Accion: Reforzar conocimientos
 	adr     x1, string_7
 	adr x0, print
 	bl printf
 	
+	b end_switch_0
+	// DEFAULT CASE
+	switch_default_5: 
 	
 	// Instrucción de impresión
 	
-	// Carga de string Evaluando: 
+	// Carga de string Categoria: INSUFICIENTE
 	adr     x1, string_8
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable estudiante1 de tipo STRING
-	adr   x2, estudiante1
-	ldr     x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
 	adr x0, print
 	bl printf
 	
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
-	ldr    w1, [x1]
-	
-	// Carga de entero 95
-	adr    x2, int_10
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w1, w0
-	
-	// Instrucción IF 1
-	
 	// Instrucción de impresión
 	
-	// Carga de string Clasificacion: SOBRESALIENTE
+	// Carga de string Accion: Apoyo urgente
 	adr     x1, string_9
 	adr x0, print
 	bl printf
 	
-	b end_if_1
+	b end_switch_0
 	
-	// ELSE IF 0
-	elseif_0:
-	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
-	ldr    w1, [x1]
-	
-	// Carga de entero 85
-	adr    x2, int_11
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w1, w0
-	cbz w1, elseif_1
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: NOTABLE
-	adr     x1, string_10
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE IF 1
-	elseif_1:
-	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
-	ldr    w1, [x1]
-	
-	// Carga de entero 75
-	adr    x2, int_12
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w1, w0
-	cbz w1, elseif_2
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: BIEN
-	adr     x1, string_11
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE IF 2
-	elseif_2:
-	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
-	ldr    w1, [x1]
-	
-	// Carga de entero 65
-	adr    x2, int_13
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w1, w0
-	cbz else_0
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: SUFICIENTE
-	adr     x1, string_12
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE3
-	else_0:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: INSUFICIENTE
-	adr     x1, string_13
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	end_if_1:
+	end_switch_0:
 
 
 MOV W0, #0 

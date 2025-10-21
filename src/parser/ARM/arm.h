@@ -20,6 +20,9 @@ typedef struct ARM_data
     int count_else;
     int count_elseif;
 
+    int count_switch;
+    int count_case;
+
 } ARM_data;
 
 ARM_data *arm_data_create();
