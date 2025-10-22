@@ -14,6 +14,7 @@ typedef struct ARM_data
     int count_buffers;
     int count_int;
     int count_arithmetic_temps;
+    int count_comparative_temps;
 
     //* Contado de control de flujos
     int count_if;
@@ -22,6 +23,8 @@ typedef struct ARM_data
 
     int count_switch;
     int count_case;
+
+    int count_while;
 
 } ARM_data;
 

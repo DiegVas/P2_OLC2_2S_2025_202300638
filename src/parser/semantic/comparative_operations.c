@@ -3,6 +3,8 @@
 #include "../ARM/arm.h"
 #include <string.h>
 
+extern ARM_data *arm_global_data;
+
 symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, Context *context, char *operator)
 {
     symbol *result = (symbol *)calloc(1, sizeof(symbol));
@@ -89,19 +91,19 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
 
         if (strcmp(armOperation, "and") == 0 || strcmp(armOperation, "orr") == 0)
         {
-            snprintf(bufferARM, sizeof(bufferARM), "%s w0, w%d, w%d\n", armOperation, exprIZQ->num_register, exprDER->num_register);
+            snprintf(bufferARM, sizeof(bufferARM), "%s w0, w%d, w%d\n", armOperation, left->num_register, right->num_register);
             result->text_section = arm_data_add(result->text_section, bufferARM);
         }
         else
         {
 
-            snprintf(bufferARM, sizeof(bufferARM), "cmp w%d, w%d\n", exprIZQ->num_register, exprDER->num_register);
+            snprintf(bufferARM, sizeof(bufferARM), "cmp w%d, w%d\n", left->num_register, right->num_register);
             result->text_section = arm_data_add(result->text_section, bufferARM);
             snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", armOperation);
             result->text_section = arm_data_add(result->text_section, bufferARM);
         }
 
-        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", exprIZQ->num_register);
+        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", left->num_register);
         result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else if (cv_left.result_type == TYPE_STRING)
@@ -211,7 +213,9 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
         snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", opARM);
         result->text_section = arm_data_add(result->text_section, bufferARM);
 
-        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", exprIZQ->num_register);
+        result->num_register = exprIZQ->num_register + arm_global_data->count_arithmetic_temps++;
+
+        snprintf(bufferARM, sizeof(bufferARM), "mov w%d, w0\n", result->num_register);
         result->text_section = arm_data_add(result->text_section, bufferARM);
     }
     else

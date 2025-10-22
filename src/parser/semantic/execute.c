@@ -12,6 +12,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
     // * Tabla de simbolos del contexto
     symbol_table *symbolTable_C = context->symbols_context;
     arm_global_data->count_arithmetic_temps = 2;
+    arm_global_data->count_comparative_temps = 2;
 
     // ! Tabla de errores del contexto
     extern ErrorList *list_errors;
@@ -409,6 +410,20 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 char *register_type = "w";
                 if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
                     register_type = "d";
+                else if (strcmp(sym_to_update->dataType, "STRING") == 0)
+                {
+                    register_type = "x";
+                    /*
+                                        if (evaluated_assign->is_id)
+                                        {
+                                            snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de cadena a variable %s\n", sym_to_update->id);
+                                            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                                            char buffer[128];
+                                            snprintf(buffer, sizeof(buffer), "ldr    x%d, [x%d]\n", evaluated_value->num_register, evaluated_value->num_register);
+                                            arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+                                        }*/
+                }
 
                 arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
 
@@ -427,8 +442,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
                 snprintf(buffer, sizeof(buffer), "str %s0, [x1]\n\n", register_type);
-                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
-
                 arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
 
                 sym_to_update->value = evaluated_assign->value;
@@ -519,12 +532,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             printf("%s\n", print_value->value);
         }
 
-        if (!print_value->declared_in_arm)
-        {
-            snprintf(bufferArm, sizeof(bufferArm), "ldr x1, [x1]\n");
-            arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
-        }
-
         snprintf(bufferArm, sizeof(bufferArm), "adr x0, print\n");
         arm_global_data->text = arm_text_add(arm_global_data->text, bufferArm);
         arm_global_data->text = arm_text_add(arm_global_data->text, "bl printf\n\n");
@@ -568,17 +575,17 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         char if_label[32];
         if (curr_node != NULL)
         {
-            snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_elseif);
+            snprintf(if_label, sizeof(if_label), "cbz w%d, elseif_%d\n", if_condition_value->num_register, arm_global_data->count_elseif);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }
         else if (else_block != NULL)
         {
-            snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_else);
+            snprintf(if_label, sizeof(if_label), "cbz w%d, else_%d\n", if_condition_value->num_register, arm_global_data->count_else);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }
         else
         {
-            snprintf(if_label, sizeof(if_label), "cbz w1, end_if_%d\n", arm_global_data->count_if);
+            snprintf(if_label, sizeof(if_label), "cbz w%d, end_if_%d\n", if_condition_value->num_register, arm_global_data->count_if);
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
         }
 
@@ -618,10 +625,12 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             arm_global_data->text = arm_text_add(arm_global_data->text, elseif_condition->text_section);
             arm_global_data->data = arm_data_add(arm_global_data->data, elseif_condition->data_section);
 
-            if (curr_node != NULL && curr_node->next == NULL && else_block != NULL)
-                snprintf(if_label, sizeof(if_label), "cbz w1, else_%d\n", arm_global_data->count_else);
+            if (curr_node != NULL && curr_node->next == NULL && else_block == NULL)
+                snprintf(if_label, sizeof(if_label), "cbz w%d, end_if_%d\n", elseif_condition->num_register, arm_global_data->count_if);
+            else if (curr_node != NULL && curr_node->next == NULL && else_block != NULL)
+                snprintf(if_label, sizeof(if_label), "cbz w%d, else_%d\n", elseif_condition->num_register, arm_global_data->count_else);
             else
-                snprintf(if_label, sizeof(if_label), "cbz w1, elseif_%d\n", arm_global_data->count_elseif);
+                snprintf(if_label, sizeof(if_label), "cbz w%d, elseif_%d\n", elseif_condition->num_register, arm_global_data->count_elseif);
 
             arm_global_data->text = arm_text_add(arm_global_data->text, if_label);
 
@@ -722,13 +731,13 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             arm_global_data->data = arm_data_add(arm_global_data->data, case_condition->data_section);
             arm_global_data->text = arm_text_add(arm_global_data->text, case_condition->text_section);
 
-                      if (curr_case != NULL && curr_case->next == NULL && instruction->switchData->defaultCase != NULL)
+            if (curr_case != NULL && curr_case->next == NULL && instruction->switchData->defaultCase != NULL)
             {
-                snprintf(bufferComment, sizeof(bufferComment), "cbz w1, switch_default_%d\n", arm_global_data->count_case);
+                snprintf(bufferComment, sizeof(bufferComment), "cbz w%d, switch_default_%d\n", case_condition->num_register, arm_global_data->count_case);
             }
             else
             {
-                snprintf(bufferComment, sizeof(bufferComment), "cbz w1, switch_case_%d\n", arm_global_data->count_case);
+                snprintf(bufferComment, sizeof(bufferComment), "cbz w%d, switch_case_%d\n", case_condition->num_register, arm_global_data->count_case);
             }
 
             arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
@@ -805,35 +814,50 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         }
         bool condition_value = boolean_value(evaluated_while->value);
 
-        while (condition_value)
+        //* ARM WHILE
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción WHILE %d\n", arm_global_data->count_while);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        snprintf(bufferComment, sizeof(bufferComment), "while_%d:\n", arm_global_data->count_while);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_while->text_section);
+        arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_while->data_section);
+        snprintf(bufferComment, sizeof(bufferComment), "cbz w%d, end_while_%d\n", evaluated_while->num_register, arm_global_data->count_while);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+        InstruccionNode *curr = while_block->head;
+
+        Context *inner_ctx = calloc(1, sizeof(Context));
+        inner_ctx->after = ctx_while;
+        inner_ctx->symbols_context = Symbol_table_create();
+        inner_ctx->nombre = "Inner_While";
+
+        while (curr)
         {
-            InstruccionNode *curr = while_block->head;
-
-            Context *inner_ctx = calloc(1, sizeof(Context));
-            inner_ctx->after = ctx_while;
-            inner_ctx->symbols_context = Symbol_table_create();
-            inner_ctx->nombre = "Inner_While";
-
-            while (curr)
-            {
-                semantic_analysis_execute(curr->instr, inner_ctx);
-                if (inner_ctx->break_instruction)
-                    break;
-
-                if (inner_ctx->continue_instruction)
-                {
-                    inner_ctx->continue_instruction = false;
-                    break;
-                }
-
-                curr = curr->next;
-            }
-
+            semantic_analysis_execute(curr->instr, inner_ctx);
             if (inner_ctx->break_instruction)
                 break;
 
-            condition_value = boolean_value(evaluate_expression(condition, context)->value);
+            if (inner_ctx->continue_instruction)
+            {
+                inner_ctx->continue_instruction = false;
+                break;
+            }
+
+            curr = curr->next;
         }
+
+        if (inner_ctx->break_instruction)
+            break;
+
+        snprintf(bufferComment, sizeof(bufferComment), "b while_%d\n", arm_global_data->count_while);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        snprintf(bufferComment, sizeof(bufferComment), "end_while_%d:\n", arm_global_data->count_while);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+        arm_global_data->count_while++;
+
         Symbol_table_insertContext(SymbolTable_General, ctx_while->symbols_context);
         break;
     }

@@ -222,5 +222,6 @@ symbol *apply_casting_manual(symbol *value, const char *target_type)
     casted->data_section = value->data_section;
     casted->num_register = value->num_register;
     casted->data_section = value->data_section;
+    casted->is_id = value->is_id;
     return casted;
 }

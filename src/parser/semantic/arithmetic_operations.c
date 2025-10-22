@@ -119,12 +119,6 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
 
             result->text_section = arm_data_add(result->text_section, left->text_section);
 
-            if (left->is_id)
-            {
-                snprintf(bufferARM, sizeof(bufferARM), "ldr     x1, [x1]\n");
-                result->text_section = arm_data_add(result->text_section, bufferARM);
-            }
-
             //* Guardar el valor de x1 en la pila
 
             if (left->num_register != 1)
@@ -138,13 +132,6 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
             result->text_section = arm_data_add(result->text_section, right->text_section);
-
-            //* Cargar el valor de x2
-            if (right->is_id)
-            {
-                snprintf(bufferARM, sizeof(bufferARM), "ldr     x2, [x2]\n");
-                result->text_section = arm_data_add(result->text_section, bufferARM);
-            }
 
             //* Cargar el valor de x1 desde la pila
             snprintf(bufferARM, sizeof(bufferARM), "ldr     x1, [sp], #16\n");

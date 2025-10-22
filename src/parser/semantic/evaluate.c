@@ -922,7 +922,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     char buffer[128];
                     char bufferComment[128];
 
-                    result_copy->is_id = !(strcmp(result_copy->dataType, "CHARACTER") == 0);
+                    result_copy->is_id = true;
 
                     snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym->id, sym->dataType);
                     result_copy->text_section = arm_data_add(result_copy->text_section, bufferComment);
@@ -943,6 +943,11 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     else if (strcmp(result_copy->dataType, "CHARACTER") == 0)
                     {
                         snprintf(buffer, sizeof(buffer), "ldrb    w%d, [x%d]\n", expr->num_register, expr->num_register);
+                        result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
+                    }
+                    else if (strcmp(result_copy->dataType, "STRING") == 0)
+                    {
+                        snprintf(buffer, sizeof(buffer), "ldr    x%d, [x%d]\n", expr->num_register, expr->num_register);
                         result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
                     }
                 }
