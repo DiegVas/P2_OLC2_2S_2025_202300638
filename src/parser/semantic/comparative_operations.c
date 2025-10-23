@@ -208,6 +208,13 @@ symbol *perform_comparative_operation(Expression *exprIZQ, Expression *exprDER, 
             return result;
         }
 
+        if (left->num_register != 1)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "mov %s1, %s%d\n", registerType, registerType, left->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+            exprIZQ->num_register = 1;
+        }
+
         snprintf(bufferARM, sizeof(bufferARM), "%s %s%d, %s%d\n", cmpARM, registerType, exprIZQ->num_register, registerType, exprDER->num_register);
         result->text_section = arm_data_add(result->text_section, bufferARM);
         snprintf(bufferARM, sizeof(bufferARM), "cset w0, %s\n", opARM);

@@ -159,8 +159,6 @@ symbol *perform_arithmetic_operation(Expression *exp_left, Expression *exp_right
         // Codigo arm promver a double si alguno es char, int o float
         if (result_type == TYPE_DOUBLE)
         {
-            fprintf(stderr, "Promoviendo a DOUBLE en operacion aritmetica\n");
-            fprintf(stderr, "Tipo izquierdo: %d, Tipo derecho: %d\n", cv_left.result_type, cv_right.result_type);
             if (cv_left.result_type != TYPE_DOUBLE)
             {
                 promote_to_double_arm(left, cv_left.result_type);

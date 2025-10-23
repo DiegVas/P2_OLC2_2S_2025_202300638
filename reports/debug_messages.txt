@@ -1,36 +1,39 @@
 === MENSAJES DE DEBUG DEL ANÁLISIS SEMÁNTICO ===
 
-Nuevo símbolo: estudiante1_Global, Tipo: STRING, Valor: Ana
-Nuevo símbolo: estudiante2_Global, Tipo: STRING, Valor: Luis
-Nuevo símbolo: estudiante3_Global, Tipo: STRING, Valor: Maria
-Nuevo símbolo: estudiante4_Global, Tipo: STRING, Valor: Carlos
-Nuevo símbolo: estudiante5_Global, Tipo: STRING, Valor: Sofia
-Nuevo símbolo: nota1_Global, Tipo: INTEGER, Valor: 85
-Nuevo símbolo: nota2_Global, Tipo: INTEGER, Valor: 92
-Nuevo símbolo: nota3_Global, Tipo: INTEGER, Valor: 78
-Nuevo símbolo: nota4_Global, Tipo: INTEGER, Valor: 95
-Nuevo símbolo: nota5_Global, Tipo: INTEGER, Valor: 88
-Nuevo símbolo: edad1_Global, Tipo: INTEGER, Valor: 20
-Nuevo símbolo: edad2_Global, Tipo: INTEGER, Valor: 19
-Nuevo símbolo: edad3_Global, Tipo: INTEGER, Valor: 21
-Nuevo símbolo: edad4_Global, Tipo: INTEGER, Valor: 20
-Nuevo símbolo: edad5_Global, Tipo: INTEGER, Valor: 22
-Nuevo símbolo: estudianteActual_Global, Tipo: INTEGER, Valor: 1
-Nuevo símbolo: estudiantesDestacados_Global, Tipo: INTEGER, Valor: 0
-Nuevo símbolo: nombreActual_While0, Tipo: STRING, Valor: 
-Nuevo símbolo: notaActual_While0, Tipo: INTEGER, Valor: 0
-Nuevo símbolo: contador_Global, Tipo: INTEGER, Valor: 5
-Nuevo símbolo: indice_Global, Tipo: INTEGER, Valor: 1
-Nuevo símbolo: nombre_While2, Tipo: STRING, Valor: 
-Nuevo símbolo: nota_While2, Tipo: INTEGER, Valor: 0
-Nuevo símbolo: edad_While2, Tipo: INTEGER, Valor: 0
-Nuevo símbolo: i_For13, Tipo: INTEGER, Valor: 1
-Nuevo símbolo: nombre_For13, Tipo: STRING, Valor: 
-Nuevo símbolo: nota_For13, Tipo: INTEGER, Valor: 0
-Nuevo símbolo: i_For14, Tipo: INTEGER, Valor: 5
-Nuevo símbolo: i_For15, Tipo: INTEGER, Valor: 1
-Nuevo símbolo: j_For16, Tipo: INTEGER, Valor: 1
-Nuevo símbolo: resultado_For16, Tipo: INTEGER, Valor: 1
+dot: graph is too large for cairo-renderer bitmaps. Scaling by 0.988834 to fit
+Nuevo símbolo: numeroEntero_Global, Tipo: INTEGER, Valor: 42
+Nuevo símbolo: numeroFlotante_Global, Tipo: FLOAT, Valor: 3.14f
+Nuevo símbolo: numeroDoble_Global, Tipo: DOUBLE, Valor: 2.718281828
+Nuevo símbolo: caracter_Global, Tipo: CHARACTER, Valor: 'A'
+Nuevo símbolo: esVerdadero_Global, Tipo: BOOLEAN, Valor: true
+Nuevo símbolo: cadenaTexto_Global, Tipo: STRING, Valor: Resultado
+Nuevo símbolo: PI_Global, Tipo: DOUBLE, Valor: 3.14159265359
+Nuevo símbolo: CONSTANTE_MAXIMA_Global, Tipo: INTEGER, Valor: 100
+Nuevo símbolo: MENSAJE_SISTEMA_Global, Tipo: STRING, Valor: Calculadora Científica v1.0
+Nuevo símbolo: a_Global, Tipo: INTEGER, Valor: 25
+Nuevo símbolo: b_Global, Tipo: INTEGER, Valor: 7
+Nuevo símbolo: condicion1_Global, Tipo: BOOLEAN, Valor: true
+Nuevo símbolo: condicion2_Global, Tipo: BOOLEAN, Valor: false
+Nuevo símbolo: x_Global, Tipo: INTEGER, Valor: 12
+Nuevo símbolo: y_Global, Tipo: INTEGER, Valor: 10
+Nuevo símbolo: valorDesplazamiento_Global, Tipo: INTEGER, Valor: 16
+Nuevo símbolo: letraInicial_Global, Tipo: CHARACTER, Valor: 'M'
+Nuevo símbolo: codigoAscii_Global, Tipo: INTEGER, Valor: 77
+Nuevo símbolo: codigoFloat_Global, Tipo: FLOAT, Valor: 77.00
+Nuevo símbolo: codigoDouble_Global, Tipo: DOUBLE, Valor: (
+Nuevo símbolo: valorGrande_Global, Tipo: DOUBLE, Valor: 75.89
+Nuevo símbolo: valorMedio_Global, Tipo: FLOAT, Valor: 75.89
+Nuevo símbolo: valorEntero_Global, Tipo: INTEGER, Valor: 75
+Nuevo símbolo: caracterFinal_Global, Tipo: CHARACTER, Valor: K
+Nuevo símbolo: variableComentada_Global, Tipo: INTEGER, Valor: 50
+Nuevo símbolo: resultadoFinal_Global, Tipo: DOUBLE, Valor: 238.761042
+Nuevo símbolo: radioCirculoCm_Global, Tipo: DOUBLE, Valor: 15.200000
+Nuevo símbolo: areaCirculoCm2_Global, Tipo: DOUBLE, Valor: 725.833562
+Nuevo símbolo: perimetroCirculoCm_Global, Tipo: DOUBLE, Valor: 95.504412
+Nuevo símbolo: baseRectCm_Global, Tipo: DOUBLE, Valor: 25.000000
+Nuevo símbolo: alturaRectCm_Global, Tipo: DOUBLE, Valor: 7.000000
+Nuevo símbolo: areaRectCm2_Global, Tipo: DOUBLE, Valor: 175.000000
+Nuevo símbolo: perimetroRectCm_Global, Tipo: DOUBLE, Valor: 64.000000
 .global main 
 .extern printf 
 .extern itao 
@@ -42,175 +45,197 @@ Nuevo símbolo: resultado_For16, Tipo: INTEGER, Valor: 1
 
 .data 
 print: .asciz "%s\n" 
-string_0: .asciz "=== SISTEMA DE GESTION DE NOTAS INDIVIDUAL ==="
-string_1: .asciz "Ana"
-string_2: .asciz "Luis"
-string_3: .asciz "Maria"
-string_4: .asciz "Carlos"
-string_5: .asciz "Sofia"
-int_0: .word 85
-int_1: .word 92
-int_2: .word 78
-int_3: .word 95
-int_4: .word 88
-int_5: .word 20
-int_6: .word 19
-int_7: .word 21
-int_8: .word 20
-int_9: .word 22
-string_6: .asciz "Procesando 5 estudiantes individuales"
-string_7: .asciz "\n--- EVALUACION CON IF/ELSE ---"
-string_8: .asciz "Evaluando: "
-int_10: .word 95
-string_9: .asciz "Clasificacion: SOBRESALIENTE"
-int_11: .word 85
-string_10: .asciz "Clasificacion: NOTABLE"
-int_12: .word 75
-string_11: .asciz "Clasificacion: BIEN"
-int_13: .word 65
-string_12: .asciz "Clasificacion: SUFICIENTE"
-string_13: .asciz "Clasificacion: INSUFICIENTE"
-int_14: .word 21
-string_14: .asciz "Estado: Mayor de edad completa"
-int_15: .word 90
-string_15: .asciz "Resultado: Apto para beca"
-string_16: .asciz "Resultado: No apto para beca"
-string_17: .asciz "\nEvaluando: "
-int_16: .word 95
-string_18: .asciz "Clasificacion: SOBRESALIENTE"
-int_17: .word 85
-string_19: .asciz "Clasificacion: NOTABLE"
-string_20: .asciz "Clasificacion: REGULAR"
-int_18: .word 90
-string_21: .asciz "Resultado: Apto para beca"
-string_22: .asciz "Resultado: No apto para beca"
-string_23: .asciz "\nEvaluando: "
-int_19: .word 85
-string_24: .asciz "Clasificacion: NOTABLE"
-int_20: .word 75
-string_25: .asciz "Clasificacion: BIEN"
-string_26: .asciz "Clasificacion: REGULAR"
-string_27: .asciz "\n--- PROCESAMIENTO CON WHILE ---"
-int_21: .word 1
-int_22: .word 0
-string_28: .asciz "Buscando estudiantes con nota >= 90:"
-int_23: .word 5
-string_29: .asciz ""
-int_24: .word 0
-int_25: .word 1
-int_26: .word 2
-int_27: .word 3
-int_28: .word 4
-int_29: .word 5
-string_30: .asciz "Revisando estudiante "
+string_0: .asciz "=== SISTEMA DE CALCULO CIENTIFICO ==="
+int_0: .word 42
+float_0: .double 3.140000
+double_0: .double 2.718282
+string_1: .asciz "Resultado"
+double_1: .double 3.141593
+int_1: .word 100
+string_2: .asciz "Calculadora Científica v1.0"
+string_3: .asciz "Constante PI: "
 buffer1: .space 32
-string_31: .asciz ": "
-int_30: .word 90
-string_32: .asciz "Destacado encontrado: "
-string_33: .asciz " con "
+string_4: .asciz "Constante máxima: "
 buffer2: .space 32
-int_31: .word 1
-int_32: .word 1
-string_34: .asciz "Total de estudiantes destacados: "
+int_2: .word 100
+float_1: .double 5.670000
+string_5: .asciz "Nuevo resultado"
+string_6: .asciz "\n--- VALORES ASIGNADOS ---"
+string_7: .asciz "Entero: "
 buffer3: .space 32
-string_35: .asciz "\nContador regresivo:"
-int_33: .word 5
-int_34: .word 0
-string_36: .asciz "Quedan: "
+string_8: .asciz "Flotante: "
 buffer4: .space 32
-string_37: .asciz " estudiantes por procesar"
-int_35: .word 1
-string_38: .asciz "\nBusqueda de estudiante joven con buena nota:"
-int_36: .word 1
-int_37: .word 5
-string_39: .asciz ""
-int_38: .word 0
-int_39: .word 0
-int_40: .word 1
-int_41: .word 2
-int_42: .word 3
-int_43: .word 4
-int_44: .word 5
-int_45: .word 90
-int_46: .word 20
-string_40: .asciz "Estudiante joven destacado: "
-string_41: .asciz " (Edad: "
+string_9: .asciz "Carácter: "
 buffer5: .space 32
-string_42: .asciz ", Nota: "
+string_10: .asciz "Booleano: "
 buffer6: .space 32
-string_43: .asciz ")"
-int_47: .word 1
-string_44: .asciz "\n--- PROCESAMIENTO CON FOR CLASICO ---"
-string_45: .asciz "Listado numerado:"
-int_48: .word 1
-int_49: .word 5
-string_46: .asciz ""
-int_50: .word 0
-int_51: .word 1
-int_52: .word 2
-int_53: .word 3
-int_54: .word 4
-int_55: .word 5
+string_11: .asciz "Cadena: "
+int_3: .word 25
+int_4: .word 7
+string_12: .asciz "\n--- OPERACIONES ARITMETICAS ---"
+string_13: .asciz "a = "
 buffer7: .space 32
-string_47: .asciz ". "
-string_48: .asciz " - Nota: "
+string_14: .asciz ", b = "
 buffer8: .space 32
-int_56: .word 1
-int_57: .word 5
-string_49: .asciz "\nProceso inverso:"
-int_58: .word 5
-int_59: .word 1
-string_50: .asciz "Procesando posicion: "
+string_15: .asciz "Suma (a + b): "
 buffer9: .space 32
-int_60: .word 1
-int_61: .word 1
-string_51: .asciz "\nTabla de multiplicar (1-3 x 1-4):"
-int_62: .word 1
-int_63: .word 3
-int_64: .word 1
-int_65: .word 4
+string_16: .asciz "Resta (a - b): "
 buffer10: .space 32
-string_52: .asciz " x "
+string_17: .asciz "Multiplicación (a * b): "
 buffer11: .space 32
-string_53: .asciz " = "
+string_18: .asciz "División (a / b): "
 buffer12: .space 32
-int_66: .word 1
-int_67: .word 4
-int_68: .word 1
-int_69: .word 3
+string_19: .asciz "Módulo (a % b): "
+buffer13: .space 32
+string_20: .asciz "\n--- OPERACIONES RELACIONALES ---"
+string_21: .asciz "a > b: "
+buffer14: .space 32
+string_22: .asciz "a < b: "
+buffer15: .space 32
+string_23: .asciz "a >= b: "
+buffer16: .space 32
+string_24: .asciz "a <= b: "
+buffer17: .space 32
+string_25: .asciz "a == b: "
+buffer18: .space 32
+string_26: .asciz "a != b: "
+buffer19: .space 32
+string_27: .asciz "\n--- OPERACIONES LOGICAS ---"
+string_28: .asciz "condicion1 = "
+buffer20: .space 32
+string_29: .asciz "condicion2 = "
+buffer21: .space 32
+string_30: .asciz "condicion1 && condicion2: "
+buffer22: .space 32
+string_31: .asciz "condicion1 || condicion2: "
+buffer23: .space 32
+string_32: .asciz "!condicion1: "
+buffer24: .space 32
+string_33: .asciz "!condicion2: "
+buffer25: .space 32
+int_5: .word 12
+int_6: .word 10
+string_34: .asciz "\n--- OPERADORES DE BITS ---"
+string_35: .asciz "x = "
+buffer26: .space 32
+string_36: .asciz " (binario: 1100)"
+string_37: .asciz "y = "
+buffer27: .space 32
+string_38: .asciz " (binario: 1010)"
+string_39: .asciz "x & y (AND): "
+buffer28: .space 32
+string_40: .asciz "x | y (OR): "
+buffer29: .space 32
+string_41: .asciz "x ^ y (XOR): "
+buffer30: .space 32
+int_7: .word 16
+string_42: .asciz "\n--- DESPLAZAMIENTO DE BITS ---"
+string_43: .asciz "valor = "
+buffer31: .space 32
+string_44: .asciz "valor << 2: "
+int_8: .word 2
+buffer32: .space 32
+string_45: .asciz "valor >> 2: "
+int_9: .word 2
+buffer33: .space 32
+string_46: .asciz "\n--- SECUENCIAS DE ESCAPE ---"
+string_47: .asciz "Comillas dobles: \"Hola mundo\""
+string_48: .asciz "Barra invertida: \\"
+string_49: .asciz "Nueva línea:\nTexto en línea nueva"
+string_50: .asciz "Retorno de carro:\rTexto con retorno"
+string_51: .asciz "Tabulación:\t\tTexto con tab"
+string_52: .asciz "Línea antes del salto compuesto\r\nLínea después del salto compuesto"
+string_53: .asciz "\n--- WIDENING CASTING AUTOMATICO ---"
+string_54: .asciz "Casting automático progresivo:"
+string_55: .asciz "char "
+buffer34: .space 32
+string_56: .asciz " -> int "
+buffer35: .space 32
+string_57: .asciz "int "
+buffer36: .space 32
+string_58: .asciz " -> float "
+buffer37: .space 32
+string_59: .asciz "float "
+buffer38: .space 32
+string_60: .asciz " -> double "
+buffer39: .space 32
+string_61: .asciz "\n--- NARROWING CASTING MANUAL ---"
+double_2: .double 75.890000
+string_62: .asciz "Casting manual regresivo:"
+string_63: .asciz "double "
+buffer40: .space 32
+string_64: .asciz " -> float "
+buffer41: .space 32
+string_65: .asciz "float "
+buffer42: .space 32
+string_66: .asciz " -> int "
+buffer43: .space 32
+string_67: .asciz "int "
+buffer44: .space 32
+string_68: .asciz " -> char '"
+buffer45: .space 32
+string_69: .asciz "'"
+int_10: .word 50
+double_3: .double 2.000000
+string_70: .asciz "\n--- CALCULO FINAL (SIMAULACION CÁLCULO REAL ) ---"
+string_71: .asciz "Resultado científico: "
+buffer46: .space 32
+double_4: .double 10.000000
+int_11: .word 2
+int_12: .word 2
+string_72: .asciz "\n--- FIGURAS GEOMETRICAS ---"
+string_73: .asciz "Circulo -> radio="
+buffer47: .space 32
+string_74: .asciz " cm, area="
+buffer48: .space 32
+string_75: .asciz " cm^2, perimetro="
+buffer49: .space 32
+string_76: .asciz " cm"
+string_77: .asciz "Rectangulo -> base="
+buffer50: .space 32
+string_78: .asciz " cm, altura="
+buffer51: .space 32
+string_79: .asciz " cm, area="
+buffer52: .space 32
+string_80: .asciz " cm^2, perimetro="
+buffer53: .space 32
+string_81: .asciz " cm"
+string_82: .asciz "\n=== FIN DEL SISTEMA ==="
 
 .bss 
-estudiante1_Global: .space 8
-estudiante2_Global: .space 8
-estudiante3_Global: .space 8
-estudiante4_Global: .space 8
-estudiante5_Global: .space 8
-nota1_Global: .space 4
-nota2_Global: .space 4
-nota3_Global: .space 4
-nota4_Global: .space 4
-nota5_Global: .space 4
-edad1_Global: .space 4
-edad2_Global: .space 4
-edad3_Global: .space 4
-edad4_Global: .space 4
-edad5_Global: .space 4
-estudianteActual_Global: .space 4
-estudiantesDestacados_Global: .space 4
-nombreActual_While0: .space 8
-notaActual_While0: .space 4
-contador_Global: .space 4
-indice_Global: .space 4
-nombre_While2: .space 8
-nota_While2: .space 4
-edad_While2: .space 4
-i_For13: .space 4
-nombre_For13: .space 8
-nota_For13: .space 4
-i_For14: .space 4
-i_For15: .space 4
-j_For16: .space 4
-resultado_For16: .space 4
+numeroEntero_Global: .space 4
+numeroFlotante_Global: .space 8
+numeroDoble_Global: .space 32
+caracter_Global: .space 1
+esVerdadero_Global: .space 4
+cadenaTexto_Global: .space 8
+PI_Global: .space 32
+CONSTANTE_MAXIMA_Global: .space 4
+MENSAJE_SISTEMA_Global: .space 8
+a_Global: .space 4
+b_Global: .space 4
+condicion1_Global: .space 4
+condicion2_Global: .space 4
+x_Global: .space 4
+y_Global: .space 4
+valorDesplazamiento_Global: .space 4
+letraInicial_Global: .space 1
+codigoAscii_Global: .space 4
+codigoFloat_Global: .space 8
+codigoDouble_Global: .space 32
+valorGrande_Global: .space 32
+valorMedio_Global: .space 8
+valorEntero_Global: .space 4
+caracterFinal_Global: .space 1
+variableComentada_Global: .space 4
+resultadoFinal_Global: .space 32
+radioCirculoCm_Global: .space 32
+areaCirculoCm2_Global: .space 32
+perimetroCirculoCm_Global: .space 32
+baseRectCm_Global: .space 32
+alturaRectCm_Global: .space 32
+areaRectCm2_Global: .space 32
+perimetroRectCm_Global: .space 32
 
 .text 
 main: 
@@ -219,819 +244,128 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string === SISTEMA DE GESTION DE NOTAS INDIVIDUAL ===
+	// Carga de string === SISTEMA DE CALCULO CIENTIFICO ===
 	adr     x1, string_0
 	adr x0, print
 	bl printf
 	
 	
-	// Declaración de variable estudiante1_Global
+	// Declaración de variable numeroEntero_Global
 	
-	// Carga de string Ana
-	adr     x0, string_1
-	ldr x1, =estudiante1_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante2_Global
-	
-	// Carga de string Luis
-	adr     x0, string_2
-	ldr x1, =estudiante2_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante3_Global
-	
-	// Carga de string Maria
-	adr     x0, string_3
-	ldr x1, =estudiante3_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante4_Global
-	
-	// Carga de string Carlos
-	adr     x0, string_4
-	ldr x1, =estudiante4_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiante5_Global
-	
-	// Carga de string Sofia
-	adr     x0, string_5
-	ldr x1, =estudiante5_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota1_Global
-	
-	// Carga de entero 85
+	// Carga de entero 42
 	adr    x0, int_0
 	ldr    w0, [x0]
-	ldr x1, =nota1_Global
+	ldr x1, =numeroEntero_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota2_Global
+	// Declaración de variable numeroFlotante_Global
 	
-	// Carga de entero 92
+	// Carga de float 3.14f
+	adr    x0, float_0
+	ldr    d0, [x0]
+	ldr x1, =numeroFlotante_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable numeroDoble_Global
+	
+	// Carga de double 2.718281828
+	adr    x0, double_0
+	ldr    d0, [x0]
+	ldr x1, =numeroDoble_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable caracter_Global
+	
+	// Carga de char 'A'
+	mov     w0, #'A'
+	ldr x1, =caracter_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable esVerdadero_Global
+	
+	// Carga de boolean true
+	mov     w0, #1
+	ldr x1, =esVerdadero_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable cadenaTexto_Global
+	
+	// Carga de string Resultado
+	adr     x0, string_1
+	ldr x1, =cadenaTexto_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable PI_Global
+	
+	// Carga de double 3.14159265359
+	adr    x0, double_1
+	ldr    d0, [x0]
+	ldr x1, =PI_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable CONSTANTE_MAXIMA_Global
+	
+	// Carga de entero 100
 	adr    x0, int_1
 	ldr    w0, [x0]
-	ldr x1, =nota2_Global
+	ldr x1, =CONSTANTE_MAXIMA_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota3_Global
+	// Declaración de variable MENSAJE_SISTEMA_Global
 	
-	// Carga de entero 78
-	adr    x0, int_2
-	ldr    w0, [x0]
-	ldr x1, =nota3_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota4_Global
-	
-	// Carga de entero 95
-	adr    x0, int_3
-	ldr    w0, [x0]
-	ldr x1, =nota4_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota5_Global
-	
-	// Carga de entero 88
-	adr    x0, int_4
-	ldr    w0, [x0]
-	ldr x1, =nota5_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad1_Global
-	
-	// Carga de entero 20
-	adr    x0, int_5
-	ldr    w0, [x0]
-	ldr x1, =edad1_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad2_Global
-	
-	// Carga de entero 19
-	adr    x0, int_6
-	ldr    w0, [x0]
-	ldr x1, =edad2_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad3_Global
-	
-	// Carga de entero 21
-	adr    x0, int_7
-	ldr    w0, [x0]
-	ldr x1, =edad3_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad4_Global
-	
-	// Carga de entero 20
-	adr    x0, int_8
-	ldr    w0, [x0]
-	ldr x1, =edad4_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad5_Global
-	
-	// Carga de entero 22
-	adr    x0, int_9
-	ldr    w0, [x0]
-	ldr x1, =edad5_Global
+	// Carga de string Calculadora Científica v1.0
+	adr     x0, string_2
+	ldr x1, =MENSAJE_SISTEMA_Global
 	str x0, [x1]
 	
 	
 	// Instrucción de impresión
 	
-	// Carga de string Procesando 5 estudiantes individuales
-	adr     x1, string_6
+	// Carga de variable MENSAJE_SISTEMA_Global de tipo STRING
+	adr   x1, MENSAJE_SISTEMA_Global
+	ldr    x1, [x1]
 	adr x0, print
 	bl printf
 	
 	
 	// Instrucción de impresión
 	
-	// Carga de string \n--- EVALUACION CON IF/ELSE ---
-	adr     x1, string_7
-	adr x0, print
-	bl printf
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de string Evaluando: 
-	adr     x1, string_8
+	// Carga de string Constante PI: 
+	adr     x1, string_3
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiante1_Global de tipo STRING
-	adr   x2, estudiante1_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
-	adr x0, print
-	bl printf
-	
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x1, nota1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 95
-	adr    x2, int_10
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 1
-	cbz w3, elseif_0
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: SOBRESALIENTE
-	adr     x1, string_9
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE IF 0
-	elseif_0:
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x1, nota1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 85
-	adr    x2, int_11
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, elseif_1
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: NOTABLE
-	adr     x1, string_10
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE IF 1
-	elseif_1:
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x1, nota1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 75
-	adr    x2, int_12
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, elseif_2
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: BIEN
-	adr     x1, string_11
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE IF 2
-	elseif_2:
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x1, nota1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 65
-	adr    x2, int_13
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, else_0
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: SUFICIENTE
-	adr     x1, string_12
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	
-	// ELSE3
-	else_0:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: INSUFICIENTE
-	adr     x1, string_13
-	adr x0, print
-	bl printf
-	
-	b end_if_1
-	end_if_1:
-	
-	// Carga de variable edad1_Global de tipo INTEGER
-	adr   x1, edad1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 21
-	adr    x2, int_14
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 2
-	cbz w3, end_if_2
-	
-	// Instrucción de impresión
-	
-	// Carga de string Estado: Mayor de edad completa
-	adr     x1, string_14
-	adr x0, print
-	bl printf
-	
-	b end_if_2
-	end_if_2:
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x1, nota1_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 90
-	adr    x2, int_15
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 3
-	cbz w3, else_1
-	
-	// Instrucción de impresión
-	
-	// Carga de string Resultado: Apto para beca
-	adr     x1, string_15
-	adr x0, print
-	bl printf
-	
-	b end_if_3
-	
-	// ELSE3
-	else_1:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Resultado: No apto para beca
-	adr     x1, string_16
-	adr x0, print
-	bl printf
-	
-	b end_if_3
-	end_if_3:
-	
-	// Instrucción de impresión
-	
-	// Carga de string \nEvaluando: 
-	adr     x1, string_17
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable estudiante2_Global de tipo STRING
-	adr   x2, estudiante2_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
-	adr x0, print
-	bl printf
-	
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x1, nota2_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 95
-	adr    x2, int_16
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 4
-	cbz w3, elseif_3
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: SOBRESALIENTE
-	adr     x1, string_18
-	adr x0, print
-	bl printf
-	
-	b end_if_4
-	
-	// ELSE IF 3
-	elseif_3:
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x1, nota2_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 85
-	adr    x2, int_17
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, else_2
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: NOTABLE
-	adr     x1, string_19
-	adr x0, print
-	bl printf
-	
-	b end_if_4
-	
-	// ELSE4
-	else_2:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: REGULAR
-	adr     x1, string_20
-	adr x0, print
-	bl printf
-	
-	b end_if_4
-	end_if_4:
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x1, nota2_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 90
-	adr    x2, int_18
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 5
-	cbz w3, else_3
-	
-	// Instrucción de impresión
-	
-	// Carga de string Resultado: Apto para beca
-	adr     x1, string_21
-	adr x0, print
-	bl printf
-	
-	b end_if_5
-	
-	// ELSE4
-	else_3:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Resultado: No apto para beca
-	adr     x1, string_22
-	adr x0, print
-	bl printf
-	
-	b end_if_5
-	end_if_5:
-	
-	// Instrucción de impresión
-	
-	// Carga de string \nEvaluando: 
-	adr     x1, string_23
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable estudiante3_Global de tipo STRING
-	adr   x2, estudiante3_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
-	adr x0, print
-	bl printf
-	
-	
-	// Carga de variable nota3_Global de tipo INTEGER
-	adr   x1, nota3_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 85
-	adr    x2, int_19
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 6
-	cbz w3, elseif_4
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: NOTABLE
-	adr     x1, string_24
-	adr x0, print
-	bl printf
-	
-	b end_if_6
-	
-	// ELSE IF 4
-	elseif_4:
-	
-	// Carga de variable nota3_Global de tipo INTEGER
-	adr   x1, nota3_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 75
-	adr    x2, int_20
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, else_4
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: BIEN
-	adr     x1, string_25
-	adr x0, print
-	bl printf
-	
-	b end_if_6
-	
-	// ELSE5
-	else_4:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Clasificacion: REGULAR
-	adr     x1, string_26
-	adr x0, print
-	bl printf
-	
-	b end_if_6
-	end_if_6:
-	
-	// Instrucción de impresión
-	
-	// Carga de string \n--- PROCESAMIENTO CON WHILE ---
-	adr     x1, string_27
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable estudianteActual_Global
-	
-	// Carga de entero 1
-	adr    x0, int_21
-	ldr    w0, [x0]
-	ldr x1, =estudianteActual_Global
-	str x0, [x1]
-	
-	
-	// Declaración de variable estudiantesDestacados_Global
-	
-	// Carga de entero 0
-	adr    x0, int_22
-	ldr    w0, [x0]
-	ldr x1, =estudiantesDestacados_Global
-	str x0, [x1]
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de string Buscando estudiantes con nota >= 90:
-	adr     x1, string_28
-	adr x0, print
-	bl printf
-	
-	
-	// Instrucción WHILE 0
-	while_0:
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_23
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w3, w0
-	cbz w3, end_while_0
-	
-	// Declaración de variable nombreActual_While0
-	
-	// Carga de string 
-	adr     x0, string_29
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Declaración de variable notaActual_While0
-	
-	// Carga de entero 0
-	adr    x0, int_24
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_25
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	
-	// Instrucción IF 7
-	cbz w3, elseif_5
-	
-	// Carga de variable estudiante1_Global de tipo STRING
-	adr   x0, estudiante1_Global
-	ldr    x0, [x0]
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x0, nota1_Global
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str w0, [x1]
-	
-	b end_if_7
-	
-	// ELSE IF 5
-	elseif_5:
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 2
-	adr    x2, int_26
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_6
-	
-	// Carga de variable estudiante2_Global de tipo STRING
-	adr   x0, estudiante2_Global
-	ldr    x0, [x0]
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x0, nota2_Global
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str w0, [x1]
-	
-	b end_if_7
-	
-	// ELSE IF 6
-	elseif_6:
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 3
-	adr    x2, int_27
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_7
-	
-	// Carga de variable estudiante3_Global de tipo STRING
-	adr   x0, estudiante3_Global
-	ldr    x0, [x0]
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable nota3_Global de tipo INTEGER
-	adr   x0, nota3_Global
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str w0, [x1]
-	
-	b end_if_7
-	
-	// ELSE IF 7
-	elseif_7:
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 4
-	adr    x2, int_28
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_8
-	
-	// Carga de variable estudiante4_Global de tipo STRING
-	adr   x0, estudiante4_Global
-	ldr    x0, [x0]
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable nota4_Global de tipo INTEGER
-	adr   x0, nota4_Global
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str w0, [x1]
-	
-	b end_if_7
-	
-	// ELSE IF 8
-	elseif_8:
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_29
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, end_if_7
-	
-	// Carga de variable estudiante5_Global de tipo STRING
-	adr   x0, estudiante5_Global
-	ldr    x0, [x0]
-	ldr x1, =nombreActual_While0
-	str x0, [x1]
-	
-	
-	// Carga de variable nota5_Global de tipo INTEGER
-	adr   x0, nota5_Global
-	ldr    w0, [x0]
-	ldr x1, =notaActual_While0
-	str w0, [x1]
-	
-	b end_if_7
-	end_if_7:
-	
-	// Instrucción de impresión
-	
-	// Carga de string Revisando estudiante 
-	adr     x1, string_30
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x0, estudianteActual_Global
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
+	// Carga de variable PI_Global de tipo DOUBLE
+	adr   x0, PI_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
 	adr     x1, buffer1
-	bl itao
+	mov    w2, #2 
+	bl ftoa
 	mov    x2, x1
 	ldr     x1, [sp], #16
 	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string : 
-	adr     x2, string_31
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable nombreActual_While0 de tipo STRING
-	adr   x2, nombreActual_While0
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
 	mov x1, x0
 	adr x0, print
 	bl printf
 	
 	
-	// Carga de variable notaActual_While0 de tipo INTEGER
-	adr   x1, notaActual_While0
-	ldr    w1, [x1]
-	
-	// Carga de entero 90
-	adr    x2, int_30
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Instrucción IF 8
-	cbz w3, end_if_8
-	
 	// Instrucción de impresión
 	
-	// Carga de string Destacado encontrado: 
-	adr     x1, string_32
+	// Carga de string Constante máxima: 
+	adr     x1, string_4
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombreActual_While0 de tipo STRING
-	adr   x2, nombreActual_While0
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string  con 
-	adr     x2, string_33
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable notaActual_While0 de tipo INTEGER
-	adr   x0, notaActual_While0
+	// Carga de variable CONSTANTE_MAXIMA_Global de tipo INTEGER
+	adr   x0, CONSTANTE_MAXIMA_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1045,50 +379,54 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable estudiantesDestacados_Global de tipo INTEGER
-	adr   x1, estudiantesDestacados_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_31
-	ldr    w2, [x2]
-	add    w0, w1, w2
-	mov    w3, w0
-	
-	// Asignación de variable estudiantesDestacados_Global
-	mov    w0, w3
-	ldr x1, =estudiantesDestacados_Global
+	// Carga de entero 100
+	adr    x0, int_2
+	ldr    w0, [x0]
+	ldr x1, =numeroEntero_Global
 	str w0, [x1]
 	
-	b end_if_8
-	end_if_8:
 	
-	// Carga de variable estudianteActual_Global de tipo INTEGER
-	adr   x1, estudianteActual_Global
-	ldr    w1, [x1]
+	// Carga de float 5.67f
+	adr    x0, float_1
+	ldr    d0, [x0]
+	ldr x1, =numeroFlotante_Global
+	str d0, [x1]
 	
-	// Carga de entero 1
-	adr    x2, int_32
-	ldr    w2, [x2]
-	add    w0, w1, w2
-	mov    w3, w0
 	
-	// Asignación de variable estudianteActual_Global
-	mov    w0, w3
-	ldr x1, =estudianteActual_Global
+	// Carga de char 'Z'
+	mov     w0, #'Z'
+	ldr x1, =caracter_Global
 	str w0, [x1]
 	
-	b while_0
-	end_while_0:
+	
+	// Carga de boolean false
+	mov     w0, #0
+	ldr x1, =esVerdadero_Global
+	str w0, [x1]
+	
+	
+	// Carga de string Nuevo resultado
+	adr     x0, string_5
+	ldr x1, =cadenaTexto_Global
+	str x0, [x1]
+	
 	
 	// Instrucción de impresión
 	
-	// Carga de string Total de estudiantes destacados: 
-	adr     x1, string_34
+	// Carga de string \n--- VALORES ASIGNADOS ---
+	adr     x1, string_6
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Entero: 
+	adr     x1, string_7
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiantesDestacados_Global de tipo INTEGER
-	adr   x0, estudiantesDestacados_Global
+	// Carga de variable numeroEntero_Global de tipo INTEGER
+	adr   x0, numeroEntero_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1104,57 +442,19 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string \nContador regresivo:
-	adr     x1, string_35
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable contador_Global
-	
-	// Carga de entero 5
-	adr    x0, int_33
-	ldr    w0, [x0]
-	ldr x1, =contador_Global
-	str x0, [x1]
-	
-	
-	// Instrucción WHILE 1
-	while_1:
-	
-	// Carga de variable contador_Global de tipo INTEGER
-	adr   x1, contador_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 0
-	adr    x2, int_34
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, gt
-	mov w3, w0
-	cbz w3, end_while_1
-	
-	// Instrucción de impresión
-	
-	// Carga de string Quedan: 
-	adr     x1, string_36
+	// Carga de string Flotante: 
+	adr     x1, string_8
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable contador_Global de tipo INTEGER
-	adr   x0, contador_Global
-	ldr    w0, [x0]
+	// Carga de variable numeroFlotante_Global de tipo FLOAT
+	adr   x0, numeroFlotante_Global
+	ldr    d0, [x0]
 	
-	// Conversion de INTEGER a STRING
+	// Conversion de FLOAT a STRING
 	adr     x1, buffer4
-	bl itao
+	mov    w2, #2 
+	bl ftoa
 	mov    x2, x1
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string  estudiantes por procesar
-	adr     x2, string_37
 	ldr     x1, [sp], #16
 	bl string_concat
 	mov x1, x0
@@ -1162,619 +462,118 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable contador_Global de tipo INTEGER
-	adr   x1, contador_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_35
-	ldr    w2, [x2]
-	sub    w0, w1, w2
-	mov    w3, w0
-	
-	// Asignación de variable contador_Global
-	mov    w0, w3
-	ldr x1, =contador_Global
-	str w0, [x1]
-	
-	b while_1
-	end_while_1:
-	
 	// Instrucción de impresión
 	
-	// Carga de string \nBusqueda de estudiante joven con buena nota:
-	adr     x1, string_38
+	// Carga de string Carácter: 
+	adr     x1, string_9
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable caracter_Global de tipo CHARACTER
+	adr   x0, caracter_Global
+	ldrb    w0, [x0]
+	
+	// Conversion de CHARACTER a STRING
+	adr     x1, buffer5
+	bl chartoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
 	adr x0, print
 	bl printf
 	
 	
-	// Declaración de variable indice_Global
+	// Instrucción de impresión
 	
-	// Carga de entero 1
-	adr    x0, int_36
+	// Carga de string Booleano: 
+	adr     x1, string_10
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable esVerdadero_Global de tipo BOOLEAN
+	adr   x0, esVerdadero_Global
 	ldr    w0, [x0]
-	ldr x1, =indice_Global
-	str x0, [x1]
 	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer6
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
 	
-	// Instrucción WHILE 2
-	while_2:
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_37
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w3, w0
-	cbz w3, end_while_2
-	
-	// Declaración de variable nombre_While2
-	
-	// Carga de string 
-	adr     x0, string_39
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota_While2
-	
-	// Carga de entero 0
-	adr    x0, int_38
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str x0, [x1]
-	
-	
-	// Declaración de variable edad_While2
-	
-	// Carga de entero 0
-	adr    x0, int_39
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_40
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	
-	// Instrucción IF 9
-	cbz w3, elseif_9
-	
-	// Carga de variable estudiante1_Global de tipo STRING
-	adr   x0, estudiante1_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x0, nota1_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str w0, [x1]
-	
-	
-	// Carga de variable edad1_Global de tipo INTEGER
-	adr   x0, edad1_Global
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str w0, [x1]
-	
-	b end_if_9
-	
-	// ELSE IF 9
-	elseif_9:
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 2
-	adr    x2, int_41
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_10
-	
-	// Carga de variable estudiante2_Global de tipo STRING
-	adr   x0, estudiante2_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x0, nota2_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str w0, [x1]
-	
-	
-	// Carga de variable edad2_Global de tipo INTEGER
-	adr   x0, edad2_Global
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str w0, [x1]
-	
-	b end_if_9
-	
-	// ELSE IF 10
-	elseif_10:
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 3
-	adr    x2, int_42
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_11
-	
-	// Carga de variable estudiante3_Global de tipo STRING
-	adr   x0, estudiante3_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable nota3_Global de tipo INTEGER
-	adr   x0, nota3_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str w0, [x1]
-	
-	
-	// Carga de variable edad3_Global de tipo INTEGER
-	adr   x0, edad3_Global
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str w0, [x1]
-	
-	b end_if_9
-	
-	// ELSE IF 11
-	elseif_11:
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 4
-	adr    x2, int_43
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_12
-	
-	// Carga de variable estudiante4_Global de tipo STRING
-	adr   x0, estudiante4_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable nota4_Global de tipo INTEGER
-	adr   x0, nota4_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str w0, [x1]
-	
-	
-	// Carga de variable edad4_Global de tipo INTEGER
-	adr   x0, edad4_Global
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str w0, [x1]
-	
-	b end_if_9
-	
-	// ELSE IF 12
-	elseif_12:
-	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_44
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, end_if_9
-	
-	// Carga de variable estudiante5_Global de tipo STRING
-	adr   x0, estudiante5_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_While2
-	str x0, [x1]
-	
-	
-	// Carga de variable nota5_Global de tipo INTEGER
-	adr   x0, nota5_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_While2
-	str w0, [x1]
-	
-	
-	// Carga de variable edad5_Global de tipo INTEGER
-	adr   x0, edad5_Global
-	ldr    w0, [x0]
-	ldr x1, =edad_While2
-	str w0, [x1]
-	
-	b end_if_9
-	end_if_9:
-	
-	// Carga de variable nota_While2 de tipo INTEGER
-	adr   x1, nota_While2
-	ldr    w1, [x1]
-	
-	// Carga de entero 90
-	adr    x2, int_45
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	
-	// Carga de variable edad_While2 de tipo INTEGER
-	adr   x1, edad_While2
-	ldr    w1, [x1]
-	
-	// Carga de entero 20
-	adr    x2, int_46
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w4, w0
-	and w0, w3, w4
-	mov w3, w0
-	
-	// Instrucción IF 10
-	cbz w0, end_if_10
 	
 	// Instrucción de impresión
 	
-	// Carga de string Estudiante joven destacado: 
-	adr     x1, string_40
+	// Carga de string Cadena: 
+	adr     x1, string_11
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombre_While2 de tipo STRING
-	adr   x2, nombre_While2
+	// Carga de variable cadenaTexto_Global de tipo STRING
+	adr   x2, cadenaTexto_Global
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string  (Edad: 
-	adr     x2, string_41
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable edad_While2 de tipo INTEGER
-	adr   x0, edad_While2
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer5
-	bl itao
-	mov    x2, x1
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string , Nota: 
-	adr     x2, string_42
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable nota_While2 de tipo INTEGER
-	adr   x0, nota_While2
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer6
-	bl itao
-	mov    x2, x1
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string )
-	adr     x2, string_43
-	ldr     x1, [sp], #16
-	bl string_concat
 	mov x1, x0
 	adr x0, print
 	bl printf
 	
-	b end_if_10
-	end_if_10:
 	
-	// Carga de variable indice_Global de tipo INTEGER
-	adr   x1, indice_Global
-	ldr    w1, [x1]
+	// Declaración de variable a_Global
 	
-	// Carga de entero 1
-	adr    x2, int_47
-	ldr    w2, [x2]
-	add    w0, w1, w2
-	mov    w3, w0
+	// Carga de entero 25
+	adr    x0, int_3
+	ldr    w0, [x0]
+	ldr x1, =a_Global
+	str x0, [x1]
 	
-	// Asignación de variable indice_Global
-	mov    w0, w3
-	ldr x1, =indice_Global
-	str w0, [x1]
 	
-	b while_2
-	end_while_2:
+	// Declaración de variable b_Global
+	
+	// Carga de entero 7
+	adr    x0, int_4
+	ldr    w0, [x0]
+	ldr x1, =b_Global
+	str x0, [x1]
+	
 	
 	// Instrucción de impresión
 	
-	// Carga de string \n--- PROCESAMIENTO CON FOR CLASICO ---
-	adr     x1, string_44
+	// Carga de string \n--- OPERACIONES ARITMETICAS ---
+	adr     x1, string_12
 	adr x0, print
 	bl printf
 	
 	
 	// Instrucción de impresión
 	
-	// Carga de string Listado numerado:
-	adr     x1, string_45
-	adr x0, print
-	bl printf
+	// Carga de string a = 
+	adr     x1, string_13
+	str     x1, [sp, #-16]!
 	
-	
-	// Declaración de variable i_For13
-	
-	// Carga de entero 1
-	adr    x0, int_48
-	ldr    w0, [x0]
-	ldr x1, =i_For13
-	str x0, [x1]
-	
-	
-	// Instrucción FOR 13
-	for_13:
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_49
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w3, w0
-	cbz w3, end_for_13
-	
-	// Declaración de variable nombre_For13
-	
-	// Carga de string 
-	adr     x0, string_46
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Declaración de variable nota_For13
-	
-	// Carga de entero 0
-	adr    x0, int_50
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_51
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	
-	// Instrucción IF 11
-	cbz w3, elseif_13
-	
-	// Carga de variable estudiante1_Global de tipo STRING
-	adr   x0, estudiante1_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable nota1_Global de tipo INTEGER
-	adr   x0, nota1_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str w0, [x1]
-	
-	b end_if_11
-	
-	// ELSE IF 13
-	elseif_13:
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 2
-	adr    x2, int_52
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_14
-	
-	// Carga de variable estudiante2_Global de tipo STRING
-	adr   x0, estudiante2_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable nota2_Global de tipo INTEGER
-	adr   x0, nota2_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str w0, [x1]
-	
-	b end_if_11
-	
-	// ELSE IF 14
-	elseif_14:
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 3
-	adr    x2, int_53
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_15
-	
-	// Carga de variable estudiante3_Global de tipo STRING
-	adr   x0, estudiante3_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable nota3_Global de tipo INTEGER
-	adr   x0, nota3_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str w0, [x1]
-	
-	b end_if_11
-	
-	// ELSE IF 15
-	elseif_15:
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 4
-	adr    x2, int_54
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, elseif_16
-	
-	// Carga de variable estudiante4_Global de tipo STRING
-	adr   x0, estudiante4_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable nota4_Global de tipo INTEGER
-	adr   x0, nota4_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str w0, [x1]
-	
-	b end_if_11
-	
-	// ELSE IF 16
-	elseif_16:
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_55
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, eq
-	mov w3, w0
-	cbz w3, end_if_11
-	
-	// Carga de variable estudiante5_Global de tipo STRING
-	adr   x0, estudiante5_Global
-	ldr    x0, [x0]
-	ldr x1, =nombre_For13
-	str x0, [x1]
-	
-	
-	// Carga de variable nota5_Global de tipo INTEGER
-	adr   x0, nota5_Global
-	ldr    w0, [x0]
-	ldr x1, =nota_For13
-	str w0, [x1]
-	
-	b end_if_11
-	end_if_11:
-	
-	// Instrucción de impresión
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x0, i_For13
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x0, a_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
 	adr     x1, buffer7
 	bl itao
-	str     x1, [sp, #-16]!
-	
-	// Carga de string . 
-	adr     x2, string_47
+	mov    x2, x1
 	ldr     x1, [sp], #16
 	bl string_concat
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombre_For13 de tipo STRING
-	adr   x2, nombre_For13
-	ldr    x2, [x2]
+	// Carga de string , b = 
+	adr     x2, string_14
 	ldr     x1, [sp], #16
 	bl string_concat
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de string  - Nota: 
-	adr     x2, string_48
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable nota_For13 de tipo INTEGER
-	adr   x0, nota_For13
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x0, b_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1788,76 +587,21 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
+	// Instrucción de impresión
+	
+	// Carga de string Suma (a + b): 
+	adr     x1, string_15
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 1
-	adr    x2, int_56
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
 	ldr    w2, [x2]
 	add    w0, w1, w2
 	mov    w3, w0
-	
-	// Asignación de variable i_For13
-	mov    w0, w3
-	ldr x1, =i_For13
-	str w0, [x1]
-	
-	
-	// Carga de variable i_For13 de tipo INTEGER
-	adr   x1, i_For13
-	ldr    w1, [x1]
-	
-	// Carga de entero 5
-	adr    x2, int_57
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w4, w0
-	b for_13
-	end_for_13:
-	
-	// Instrucción de impresión
-	
-	// Carga de string \nProceso inverso:
-	adr     x1, string_49
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable i_For14
-	
-	// Carga de entero 5
-	adr    x0, int_58
-	ldr    w0, [x0]
-	ldr x1, =i_For14
-	str x0, [x1]
-	
-	
-	// Instrucción FOR 14
-	for_14:
-	
-	// Carga de variable i_For14 de tipo INTEGER
-	adr   x1, i_For14
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_59
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w3, w0
-	cbz w3, end_for_14
-	
-	// Instrucción de impresión
-	
-	// Carga de string Procesando posicion: 
-	adr     x1, string_50
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable i_For14 de tipo INTEGER
-	adr   x0, i_For14
-	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
 	adr     x1, buffer9
@@ -1870,150 +614,24 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable i_For14 de tipo INTEGER
-	adr   x1, i_For14
+	// Instrucción de impresión
+	
+	// Carga de string Resta (a - b): 
+	adr     x1, string_16
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 1
-	adr    x2, int_60
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
 	ldr    w2, [x2]
 	sub    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable i_For14
-	mov    w0, w3
-	ldr x1, =i_For14
-	str w0, [x1]
-	
-	
-	// Carga de variable i_For14 de tipo INTEGER
-	adr   x1, i_For14
-	ldr    w1, [x1]
-	
-	// Carga de entero 1
-	adr    x2, int_61
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, ge
-	mov w4, w0
-	b for_14
-	end_for_14:
-	
-	// Instrucción de impresión
-	
-	// Carga de string \nTabla de multiplicar (1-3 x 1-4):
-	adr     x1, string_51
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable i_For15
-	
-	// Carga de entero 1
-	adr    x0, int_62
-	ldr    w0, [x0]
-	ldr x1, =i_For15
-	str x0, [x1]
-	
-	
-	// Instrucción FOR 15
-	for_15:
-	
-	// Carga de variable i_For15 de tipo INTEGER
-	adr   x1, i_For15
-	ldr    w1, [x1]
-	
-	// Carga de entero 3
-	adr    x2, int_63
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w3, w0
-	cbz w3, end_for_15
-	
-	// Declaración de variable j_For16
-	
-	// Carga de entero 1
-	adr    x0, int_64
-	ldr    w0, [x0]
-	ldr x1, =j_For16
-	str x0, [x1]
-	
-	
-	// Instrucción FOR 16
-	for_16:
-	
-	// Carga de variable j_For16 de tipo INTEGER
-	adr   x1, j_For16
-	ldr    w1, [x1]
-	
-	// Carga de entero 4
-	adr    x2, int_65
-	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w3, w0
-	cbz w3, end_for_16
-	
-	// Declaración de variable resultado_For16
-	
-	// Carga de variable i_For15 de tipo INTEGER
-	adr   x1, i_For15
-	ldr    w1, [x1]
-	
-	// Carga de variable j_For16 de tipo INTEGER
-	adr   x2, j_For16
-	ldr    w2, [x2]
-	mul    w0, w1, w2
-	mov    w3, w0
-	ldr x1, =resultado_For16
-	str x3, [x1]
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de variable i_For15 de tipo INTEGER
-	adr   x0, i_For15
-	ldr    w0, [x0]
-	
 	// Conversion de INTEGER a STRING
 	adr     x1, buffer10
-	bl itao
-	str     x1, [sp, #-16]!
-	
-	// Carga de string  x 
-	adr     x2, string_52
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable j_For16 de tipo INTEGER
-	adr   x0, j_For16
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer11
-	bl itao
-	mov    x2, x1
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de string  = 
-	adr     x2, string_53
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov     x1, x0
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable resultado_For16 de tipo INTEGER
-	adr   x0, resultado_For16
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer12
 	bl itao
 	mov    x2, x1
 	ldr     x1, [sp], #16
@@ -2023,63 +641,1470 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable j_For16 de tipo INTEGER
-	adr   x1, j_For16
+	// Instrucción de impresión
+	
+	// Carga de string Multiplicación (a * b): 
+	adr     x1, string_17
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 1
-	adr    x2, int_66
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
 	ldr    w2, [x2]
-	add    w0, w1, w2
+	mul    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable j_For16
-	mov    w0, w3
-	ldr x1, =j_For16
-	str w0, [x1]
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer11
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
 	
 	
-	// Carga de variable j_For16 de tipo INTEGER
-	adr   x1, j_For16
+	// Instrucción de impresión
+	
+	// Carga de string División (a / b): 
+	adr     x1, string_18
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 4
-	adr    x2, int_67
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	sdiv    w0, w1, w2
+	mov    w3, w0
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer12
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Módulo (a % b): 
+	adr     x1, string_19
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	sdiv    w0, w1, w2
+	msub    w0, w0, w2, w1
+	mov    w3, w0
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer13
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- OPERACIONES RELACIONALES ---
+	adr     x1, string_20
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a > b: 
+	adr     x1, string_21
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, gt
+	mov w3, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer14
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a < b: 
+	adr     x1, string_22
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, lt
+	mov w3, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer15
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a >= b: 
+	adr     x1, string_23
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, ge
+	mov w3, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer16
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a <= b: 
+	adr     x1, string_24
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
 	ldr    w2, [x2]
 	cmp w1, w2
 	cset w0, le
-	mov w4, w0
-	b for_16
-	end_for_16:
+	mov w3, w0
 	
-	// Carga de variable i_For15 de tipo INTEGER
-	adr   x1, i_For15
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer17
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a == b: 
+	adr     x1, string_25
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 1
-	adr    x2, int_68
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer18
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string a != b: 
+	adr     x1, string_26
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x1, a_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x2, b_Global
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, ne
+	mov w3, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer19
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable condicion1_Global
+	
+	// Carga de boolean true
+	mov     w0, #1
+	ldr x1, =condicion1_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable condicion2_Global
+	
+	// Carga de boolean false
+	mov     w0, #0
+	ldr x1, =condicion2_Global
+	str x0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- OPERACIONES LOGICAS ---
+	adr     x1, string_27
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string condicion1 = 
+	adr     x1, string_28
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion1_Global de tipo BOOLEAN
+	adr   x0, condicion1_Global
+	ldr    w0, [x0]
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer20
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string condicion2 = 
+	adr     x1, string_29
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion2_Global de tipo BOOLEAN
+	adr   x0, condicion2_Global
+	ldr    w0, [x0]
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer21
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string condicion1 && condicion2: 
+	adr     x1, string_30
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion1_Global de tipo BOOLEAN
+	adr   x1, condicion1_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable condicion2_Global de tipo BOOLEAN
+	adr   x2, condicion2_Global
+	ldr    w2, [x2]
+	and w0, w1, w2
+	mov w1, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer22
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string condicion1 || condicion2: 
+	adr     x1, string_31
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion1_Global de tipo BOOLEAN
+	adr   x1, condicion1_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable condicion2_Global de tipo BOOLEAN
+	adr   x2, condicion2_Global
+	ldr    w2, [x2]
+	orr w0, w1, w2
+	mov w1, w0
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer23
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string !condicion1: 
+	adr     x1, string_32
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion1_Global de tipo BOOLEAN
+	adr   x0, condicion1_Global
+	ldr    w0, [x0]
+	eor     w0, w0, #1
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer24
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string !condicion2: 
+	adr     x1, string_33
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable condicion2_Global de tipo BOOLEAN
+	adr   x0, condicion2_Global
+	ldr    w0, [x0]
+	eor     w0, w0, #1
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer25
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable x_Global
+	
+	// Carga de entero 12
+	adr    x0, int_5
+	ldr    w0, [x0]
+	ldr x1, =x_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable y_Global
+	
+	// Carga de entero 10
+	adr    x0, int_6
+	ldr    w0, [x0]
+	ldr x1, =y_Global
+	str x0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- OPERADORES DE BITS ---
+	adr     x1, string_34
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string x = 
+	adr     x1, string_35
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable x_Global de tipo INTEGER
+	adr   x0, x_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer26
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  (binario: 1100)
+	adr     x2, string_36
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string y = 
+	adr     x1, string_37
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable y_Global de tipo INTEGER
+	adr   x0, y_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer27
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  (binario: 1010)
+	adr     x2, string_38
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string x & y (AND): 
+	adr     x1, string_39
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable x_Global de tipo INTEGER
+	adr   x1, x_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable y_Global de tipo INTEGER
+	adr   x2, y_Global
+	ldr    w2, [x2]
+	AND    w0, w1, w2
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer28
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string x | y (OR): 
+	adr     x1, string_40
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable x_Global de tipo INTEGER
+	adr   x1, x_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable y_Global de tipo INTEGER
+	adr   x2, y_Global
+	ldr    w2, [x2]
+	ORR    w0, w1, w2
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer29
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string x ^ y (XOR): 
+	adr     x1, string_41
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable x_Global de tipo INTEGER
+	adr   x1, x_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable y_Global de tipo INTEGER
+	adr   x2, y_Global
+	ldr    w2, [x2]
+	EOR    w0, w1, w2
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer30
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable valorDesplazamiento_Global
+	
+	// Carga de entero 16
+	adr    x0, int_7
+	ldr    w0, [x0]
+	ldr x1, =valorDesplazamiento_Global
+	str x0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- DESPLAZAMIENTO DE BITS ---
+	adr     x1, string_42
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string valor = 
+	adr     x1, string_43
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorDesplazamiento_Global de tipo INTEGER
+	adr   x0, valorDesplazamiento_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer31
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string valor << 2: 
+	adr     x1, string_44
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorDesplazamiento_Global de tipo INTEGER
+	adr   x1, valorDesplazamiento_Global
+	ldr    w1, [x1]
+	
+	// Carga de entero 2
+	adr    x2, int_8
+	ldr    w2, [x2]
+	LSL    w0, w1, #2
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer32
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string valor >> 2: 
+	adr     x1, string_45
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorDesplazamiento_Global de tipo INTEGER
+	adr   x1, valorDesplazamiento_Global
+	ldr    w1, [x1]
+	
+	// Carga de entero 2
+	adr    x2, int_9
+	ldr    w2, [x2]
+	LSR    w0, w1, #2
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer33
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- SECUENCIAS DE ESCAPE ---
+	adr     x1, string_46
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Comillas dobles: \"Hola mundo\"
+	adr     x1, string_47
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Barra invertida: \\
+	adr     x1, string_48
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Nueva línea:\nTexto en línea nueva
+	adr     x1, string_49
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Retorno de carro:\rTexto con retorno
+	adr     x1, string_50
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Tabulación:\t\tTexto con tab
+	adr     x1, string_51
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Línea antes del salto compuesto\r\nLínea después del salto compuesto
+	adr     x1, string_52
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- WIDENING CASTING AUTOMATICO ---
+	adr     x1, string_53
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable letraInicial_Global
+	
+	// Carga de char 'M'
+	mov     w0, #'M'
+	ldr x1, =letraInicial_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable codigoAscii_Global
+	
+	// Carga de variable letraInicial_Global de tipo CHARACTER
+	adr   x0, letraInicial_Global
+	ldrb    w0, [x0]
+	ldr x1, =codigoAscii_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable codigoFloat_Global
+	
+	// Carga de variable codigoAscii_Global de tipo INTEGER
+	adr   x0, codigoAscii_Global
+	ldr    w0, [x0]
+	scvtf   d0, w0
+	
+	ldr x1, =codigoFloat_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable codigoDouble_Global
+	
+	// Carga de variable codigoFloat_Global de tipo FLOAT
+	adr   x0, codigoFloat_Global
+	ldr    d0, [x0]
+	ldr x1, =codigoDouble_Global
+	str d0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Casting automático progresivo:
+	adr     x1, string_54
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string char 
+	adr     x1, string_55
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable letraInicial_Global de tipo CHARACTER
+	adr   x0, letraInicial_Global
+	ldrb    w0, [x0]
+	
+	// Conversion de CHARACTER a STRING
+	adr     x1, buffer34
+	bl chartoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> int 
+	adr     x2, string_56
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable codigoAscii_Global de tipo INTEGER
+	adr   x0, codigoAscii_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer35
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string int 
+	adr     x1, string_57
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable codigoAscii_Global de tipo INTEGER
+	adr   x0, codigoAscii_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer36
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> float 
+	adr     x2, string_58
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable codigoFloat_Global de tipo FLOAT
+	adr   x0, codigoFloat_Global
+	ldr    d0, [x0]
+	
+	// Conversion de FLOAT a STRING
+	adr     x1, buffer37
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string float 
+	adr     x1, string_59
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable codigoFloat_Global de tipo FLOAT
+	adr   x0, codigoFloat_Global
+	ldr    d0, [x0]
+	
+	// Conversion de FLOAT a STRING
+	adr     x1, buffer38
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> double 
+	adr     x2, string_60
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable codigoDouble_Global de tipo DOUBLE
+	adr   x0, codigoDouble_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer39
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- NARROWING CASTING MANUAL ---
+	adr     x1, string_61
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable valorGrande_Global
+	
+	// Carga de double 75.89
+	adr    x0, double_2
+	ldr    d0, [x0]
+	ldr x1, =valorGrande_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable valorMedio_Global
+	
+	// Carga de variable valorGrande_Global de tipo DOUBLE
+	adr   x0, valorGrande_Global
+	ldr    d0, [x0]
+	`GȮ�[	ldr x1, =valorMedio_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable valorEntero_Global
+	
+	// Carga de variable valorMedio_Global de tipo FLOAT
+	adr   x0, valorMedio_Global
+	ldr    d0, [x0]
+	fcvtzs w0, d0
+	ldr x1, =valorEntero_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable caracterFinal_Global
+	
+	// Carga de variable valorEntero_Global de tipo INTEGER
+	adr   x0, valorEntero_Global
+	ldr    w0, [x0]
+	sxtb w0, w0
+	ldr x1, =caracterFinal_Global
+	str x0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Casting manual regresivo:
+	adr     x1, string_62
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string double 
+	adr     x1, string_63
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorGrande_Global de tipo DOUBLE
+	adr   x0, valorGrande_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer40
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> float 
+	adr     x2, string_64
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorMedio_Global de tipo FLOAT
+	adr   x0, valorMedio_Global
+	ldr    d0, [x0]
+	
+	// Conversion de FLOAT a STRING
+	adr     x1, buffer41
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string float 
+	adr     x1, string_65
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorMedio_Global de tipo FLOAT
+	adr   x0, valorMedio_Global
+	ldr    d0, [x0]
+	
+	// Conversion de FLOAT a STRING
+	adr     x1, buffer42
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> int 
+	adr     x2, string_66
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorEntero_Global de tipo INTEGER
+	adr   x0, valorEntero_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer43
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string int 
+	adr     x1, string_67
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable valorEntero_Global de tipo INTEGER
+	adr   x0, valorEntero_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer44
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  -> char '
+	adr     x2, string_68
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable caracterFinal_Global de tipo CHARACTER
+	adr   x0, caracterFinal_Global
+	ldrb    w0, [x0]
+	
+	// Conversion de CHARACTER a STRING
+	adr     x1, buffer45
+	bl chartoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string '
+	adr     x2, string_69
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable variableComentada_Global
+	
+	// Carga de entero 50
+	adr    x0, int_10
+	ldr    w0, [x0]
+	ldr x1, =variableComentada_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable resultadoFinal_Global
+	
+	// Carga de variable PI_Global de tipo DOUBLE
+	adr   x1, PI_Global
+	ldr    d1, [x1]
+	
+	// Carga de variable valorEntero_Global de tipo INTEGER
+	adr   x1, valorEntero_Global
+	ldr    w1, [x1]
+	
+	// Carga de variable codigoAscii_Global de tipo INTEGER
+	adr   x2, codigoAscii_Global
 	ldr    w2, [x2]
 	add    w0, w1, w2
 	mov    w3, w0
+	scvtf   d3, w3
+	fmul    d0, d1, d3
+	fmov    d4, d0
 	
-	// Asignación de variable i_For15
-	mov    w0, w3
-	ldr x1, =i_For15
-	str w0, [x1]
+	// Carga de double 2.0
+	adr    x2, double_3
+	ldr    d2, [x2]
+	fdiv    d0, d4, d2
+	fmov    d8, d0
+	ldr x1, =resultadoFinal_Global
+	str d8, [x1]
 	
 	
-	// Carga de variable i_For15 de tipo INTEGER
-	adr   x1, i_For15
+	// Instrucción de impresión
+	
+	// Carga de string \n--- CALCULO FINAL (SIMAULACION CÁLCULO REAL ) ---
+	adr     x1, string_70
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Resultado científico: 
+	adr     x1, string_71
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable resultadoFinal_Global de tipo DOUBLE
+	adr   x0, resultadoFinal_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer46
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable radioCirculoCm_Global
+	
+	// Carga de variable valorEntero_Global de tipo INTEGER
+	adr   x1, valorEntero_Global
 	ldr    w1, [x1]
 	
-	// Carga de entero 3
-	adr    x2, int_69
+	// Carga de variable codigoAscii_Global de tipo INTEGER
+	adr   x2, codigoAscii_Global
 	ldr    w2, [x2]
-	cmp w1, w2
-	cset w0, le
-	mov w4, w0
-	b for_15
-	end_for_15:
+	add    w0, w1, w2
+	mov    w3, w0
+	scvtf   d3, w3
+	
+	// Carga de double 10.0
+	adr    x2, double_4
+	ldr    d2, [x2]
+	fdiv    d0, d3, d2
+	fmov    d6, d0
+	ldr x1, =radioCirculoCm_Global
+	str d6, [x1]
+	
+	
+	// Declaración de variable areaCirculoCm2_Global
+	
+	// Carga de variable PI_Global de tipo DOUBLE
+	adr   x1, PI_Global
+	ldr    d1, [x1]
+	
+	// Carga de variable radioCirculoCm_Global de tipo DOUBLE
+	adr   x2, radioCirculoCm_Global
+	ldr    d2, [x2]
+	fmul    d0, d1, d2
+	fmov    d3, d0
+	
+	// Carga de variable radioCirculoCm_Global de tipo DOUBLE
+	adr   x2, radioCirculoCm_Global
+	ldr    d2, [x2]
+	fmul    d0, d3, d2
+	fmov    d6, d0
+	ldr x1, =areaCirculoCm2_Global
+	str d6, [x1]
+	
+	
+	// Declaración de variable perimetroCirculoCm_Global
+	
+	// Carga de entero 2
+	adr    x1, int_11
+	ldr    w1, [x1]
+	scvtf   d1, w1
+	
+	// Carga de variable PI_Global de tipo DOUBLE
+	adr   x2, PI_Global
+	ldr    d2, [x2]
+	fmul    d0, d1, d2
+	fmov    d3, d0
+	
+	// Carga de variable radioCirculoCm_Global de tipo DOUBLE
+	adr   x2, radioCirculoCm_Global
+	ldr    d2, [x2]
+	fmul    d0, d3, d2
+	fmov    d6, d0
+	ldr x1, =perimetroCirculoCm_Global
+	str d6, [x1]
+	
+	
+	// Declaración de variable baseRectCm_Global
+	
+	// Carga de variable a_Global de tipo INTEGER
+	adr   x0, a_Global
+	ldr    w0, [x0]
+	scvtf   d0, w0
+	
+	ldr x1, =baseRectCm_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable alturaRectCm_Global
+	
+	// Carga de variable b_Global de tipo INTEGER
+	adr   x0, b_Global
+	ldr    w0, [x0]
+	scvtf   d0, w0
+	
+	ldr x1, =alturaRectCm_Global
+	str d0, [x1]
+	
+	
+	// Declaración de variable areaRectCm2_Global
+	
+	// Carga de variable baseRectCm_Global de tipo DOUBLE
+	adr   x1, baseRectCm_Global
+	ldr    d1, [x1]
+	
+	// Carga de variable alturaRectCm_Global de tipo DOUBLE
+	adr   x2, alturaRectCm_Global
+	ldr    d2, [x2]
+	fmul    d0, d1, d2
+	fmov    d3, d0
+	ldr x1, =areaRectCm2_Global
+	str d3, [x1]
+	
+	
+	// Declaración de variable perimetroRectCm_Global
+	
+	// Carga de entero 2
+	adr    x1, int_12
+	ldr    w1, [x1]
+	scvtf   d1, w1
+	
+	// Carga de variable baseRectCm_Global de tipo DOUBLE
+	adr   x1, baseRectCm_Global
+	ldr    d1, [x1]
+	
+	// Carga de variable alturaRectCm_Global de tipo DOUBLE
+	adr   x2, alturaRectCm_Global
+	ldr    d2, [x2]
+	fadd    d0, d1, d2
+	fmov    d3, d0
+	fmul    d0, d1, d3
+	fmov    d4, d0
+	ldr x1, =perimetroRectCm_Global
+	str d4, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- FIGURAS GEOMETRICAS ---
+	adr     x1, string_72
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Circulo -> radio=
+	adr     x1, string_73
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable radioCirculoCm_Global de tipo DOUBLE
+	adr   x0, radioCirculoCm_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer47
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm, area=
+	adr     x2, string_74
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable areaCirculoCm2_Global de tipo DOUBLE
+	adr   x0, areaCirculoCm2_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer48
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm^2, perimetro=
+	adr     x2, string_75
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable perimetroCirculoCm_Global de tipo DOUBLE
+	adr   x0, perimetroCirculoCm_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer49
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm
+	adr     x2, string_76
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Rectangulo -> base=
+	adr     x1, string_77
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable baseRectCm_Global de tipo DOUBLE
+	adr   x0, baseRectCm_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer50
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm, altura=
+	adr     x2, string_78
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable alturaRectCm_Global de tipo DOUBLE
+	adr   x0, alturaRectCm_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer51
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm, area=
+	adr     x2, string_79
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable areaRectCm2_Global de tipo DOUBLE
+	adr   x0, areaRectCm2_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer52
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm^2, perimetro=
+	adr     x2, string_80
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable perimetroRectCm_Global de tipo DOUBLE
+	adr   x0, perimetroRectCm_Global
+	ldr    d0, [x0]
+	
+	// Conversion de DOUBLE a STRING
+	adr     x1, buffer53
+	mov    w2, #2 
+	bl ftoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  cm
+	adr     x2, string_81
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n=== FIN DEL SISTEMA ===
+	adr     x1, string_82
+	adr x0, print
+	bl printf
+	
 
 
 MOV W0, #0 

@@ -815,15 +815,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         while (curr)
         {
             semantic_analysis_execute(curr->instr, ctx_while);
-            if (ctx_while->break_instruction)
-                break;
-
-            if (ctx_while->continue_instruction)
-            {
-                ctx_while->continue_instruction = false;
-                break;
-            }
-
             curr = curr->next;
         }
 
@@ -985,25 +976,13 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         InstruccionNode *curr = for_block->head;
         while (curr)
         {
-
             semantic_analysis_execute(curr->instr, ctx_for);
-
-            if (ctx_for->break_instruction)
-                break;
-
-            if (ctx_for->continue_instruction)
-            {
-                ctx_for->continue_instruction = false;
-                break;
-            }
-
             curr = curr->next;
         }
 
         // Ejecutar actualización
-
-        if (ctx_for->break_instruction)
-            break;
+        snprintf(bufferComment, sizeof(bufferComment), "update_for_%d:\n", for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
 
         semantic_analysis_execute(update, ctx_for);
         symbol *updated_condition = evaluate_expression(condition, ctx_for);
@@ -1028,18 +1007,43 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         bool found_loop = false;
         while (ctx)
         {
-            fprintf(stderr, "---------------------\n");
-            fprintf(stderr, "DEBUG: Buscando contexto para BREAK, contexto actual: %s\n", ctx->nombre);
-            fprintf(stderr, "Nombre del contexto: %s\n", ctx->nombre);
-            if (strcmp(ctx->nombre, "For") == 0 || strcmp(ctx->nombre, "While") == 0 || strcmp(ctx->nombre, "Switch") == 0 || strcmp(ctx->nombre, "Inner_While") == 0 || strcmp(ctx->nombre, "Inner_For") == 0 || strcmp(ctx->nombre, "Foreach") == 0)
+
+            char arm_buffer[128];
+
+            if (strncmp(ctx->nombre, "For", 3) == 0)
             {
-                ctx->break_instruction = true;
+                found_loop = true;
+                snprintf(arm_buffer, sizeof(arm_buffer), "// break For: %s\n", ctx->nombre);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                snprintf(arm_buffer, sizeof(arm_buffer), "b end_for_%d\n", arm_global_data->count_for - 1);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                break;
+            }
+            else if (strncmp(ctx->nombre, "While", 5) == 0)
+            {
+                found_loop = true;
+                snprintf(arm_buffer, sizeof(arm_buffer), "// break While: %s\n", ctx->nombre);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                snprintf(arm_buffer, sizeof(arm_buffer), "b end_while_%d\n", arm_global_data->count_while);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                break;
+            }
+            else if (strncmp(ctx->nombre, "Switch", 6) == 0)
+            {
+                found_loop = true;
+                break;
+            }
+            else if (strncmp(ctx->nombre, "Foreach", 7) == 0)
+            {
                 found_loop = true;
                 break;
             }
             ctx = ctx->after;
         }
-
         if (!found_loop)
             return Error_exists("BREAK fuera de un contexto de bucle o switch", context->nombre, instruction);
 
@@ -1052,10 +1056,37 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         bool found_loop = false;
         while (ctx)
         {
-            if (strcmp(ctx->nombre, "For") == 0 || strcmp(ctx->nombre, "While") == 0 || strcmp(ctx->nombre, "Inner_While") == 0 || strcmp(ctx->nombre, "Inner_For") == 0 || strcmp(ctx->nombre, "Foreach") == 0)
-            {
+            char arm_buffer[128];
 
-                ctx->continue_instruction = true;
+            if (strncmp(ctx->nombre, "For", 3) == 0)
+            {
+                found_loop = true;
+                snprintf(arm_buffer, sizeof(arm_buffer), "// continue For: %s\n", ctx->nombre);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                snprintf(arm_buffer, sizeof(arm_buffer), "b update_for_%d\n", arm_global_data->count_for - 1);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                break;
+            }
+            else if (strncmp(ctx->nombre, "While", 5) == 0)
+            {
+                found_loop = true;
+                snprintf(arm_buffer, sizeof(arm_buffer), "// continue While: %s\n", ctx->nombre);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                snprintf(arm_buffer, sizeof(arm_buffer), "b while_%d\n", arm_global_data->count_while);
+                arm_global_data->text = arm_text_add(arm_global_data->text, arm_buffer);
+
+                break;
+            }
+            else if (strncmp(ctx->nombre, "Switch", 6) == 0)
+            {
+                found_loop = true;
+                break;
+            }
+            else if (strncmp(ctx->nombre, "Foreach", 7) == 0)
+            {
                 found_loop = true;
                 break;
             }
