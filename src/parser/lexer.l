@@ -86,6 +86,8 @@ BREAK_LINE \n
 
 "++" return INCREMENT;
 
+"--" return DECREMENT;
+
 "&&" return AND;
 
 "||" return OR;

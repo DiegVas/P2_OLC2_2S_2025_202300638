@@ -79,7 +79,7 @@ int yyerror(const char *s);
 %token EQUALS NOT_EQUALS
 %token AND OR NOT
 %token GREATER_EQUALS LESS_EQUALS
-%token INCREMENT
+%token INCREMENT DECREMENT
 %token ARRAYS INDEXOF LENGTH ADD
 
 /* Tipo de los no-terminales que llevan valor */
@@ -135,7 +135,7 @@ int yyerror(const char *s);
 %left '*' '/' '%'
 
 /* Unarios (más alta) */
-%right NOT INCREMENT                 /* ! ++ (prefijo) */
+%right NOT INCREMENT  DECREMENT                /* ! ++ (prefijo) */
 %right UMINUS                        /* para - unario */
 
 /* Acceso a arrays (más alta precedencia) */
@@ -412,7 +412,14 @@ assignment:
         $1->value->right = (Expression*)calloc(1, sizeof(Expression));
         $1->value->right->type = "INTEGER";
         $1->value->right->value = strdup("1");
-        $$ = $1; };
+        $$ = $1; }
+    | assignment_expression DECREMENT {
+        $1->value->type = "SUBTRACT";
+        $1->value->value = strdup("-");
+        $1->value->right = (Expression*)calloc(1, sizeof(Expression));
+        $1->value->right->type = "INTEGER";
+        $1->value->right->value = strdup("1");
+        $$ = $1; }
 
 assignment_expression: 
     ID {
@@ -1008,7 +1015,7 @@ WHILE_STATEMENT:
 // ? FOR SIMPLE
 
 FOR_STATEMENT:
-    FOR '(' declaration ';' expression ';' ID INCREMENT ')' '{' BREAK_LINE sentences '}' {
+    FOR '(' declaration ';' expression ';' instruction ')' '{' BREAK_LINE sentences '}' {
         Instruccion* instP = (Instruccion*)malloc(sizeof(Instruccion));
         instP->forData = (ForData*)malloc(sizeof(ForData));
         instP->forData->init = $3;
@@ -1016,21 +1023,8 @@ FOR_STATEMENT:
         instP->forData->init->line = @1.first_line;
         instP->forData->condition = $5;
 
-        Instruccion* updateInst = (Instruccion*)malloc(sizeof(Instruccion));
-        updateInst->id = $7;
-        updateInst->InstType = "ASSIGNMENT";
-        updateInst->value = (Expression*)calloc(1, sizeof(Expression));
-        updateInst->value->left = (Expression*)calloc(1, sizeof(Expression));
-        updateInst->value->left->type = "ID";
-        updateInst->value->left->value = strdup($7);
-        updateInst->value->type = "SUM";
-        updateInst->value->value = strdup("+");
-        updateInst->value->right = (Expression*)calloc(1, sizeof(Expression));
-        updateInst->value->right->type = "INTEGER";
-        updateInst->value->right->value = strdup("1");
-
-        instP->forData->update = updateInst;
-        instP->forData->block = $12;
+        instP->forData->update = $7;
+        instP->forData->block = $11;
         instP->column = @1.first_column;
         $$ = instP;
     };

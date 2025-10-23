@@ -1,229 +1,36 @@
 === MENSAJES DE DEBUG DEL ANÁLISIS SEMÁNTICO ===
 
-Declaración de variable detectada para ID: estudiante1
-Evaluated value: Ana of type STRING
-After casting, value: Ana of type STRING
-Evaluated value before ARM declaration: Ana of type STRING
-La variable estudiante1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante1, Tipo: STRING, Valor: Ana
-Declaración de variable detectada para ID: estudiante2
-Evaluated value: Luis of type STRING
-After casting, value: Luis of type STRING
-Evaluated value before ARM declaration: Luis of type STRING
-La variable estudiante2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante2, Tipo: STRING, Valor: Luis
-Declaración de variable detectada para ID: estudiante3
-Evaluated value: Maria of type STRING
-After casting, value: Maria of type STRING
-Evaluated value before ARM declaration: Maria of type STRING
-La variable estudiante3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante3, Tipo: STRING, Valor: Maria
-Declaración de variable detectada para ID: estudiante4
-Evaluated value: Carlos of type STRING
-After casting, value: Carlos of type STRING
-Evaluated value before ARM declaration: Carlos of type STRING
-La variable estudiante4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante4, Tipo: STRING, Valor: Carlos
-Declaración de variable detectada para ID: estudiante5
-Evaluated value: Sofia of type STRING
-After casting, value: Sofia of type STRING
-Evaluated value before ARM declaration: Sofia of type STRING
-La variable estudiante5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiante5, Tipo: STRING, Valor: Sofia
-Declaración de variable detectada para ID: nota1
-Evaluated value: 85 of type INTEGER
-After casting, value: 85 of type INTEGER
-Evaluated value before ARM declaration: 85 of type INTEGER
-La variable nota1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota1, Tipo: INTEGER, Valor: 85
-Declaración de variable detectada para ID: nota2
-Evaluated value: 92 of type INTEGER
-After casting, value: 92 of type INTEGER
-Evaluated value before ARM declaration: 92 of type INTEGER
-La variable nota2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota2, Tipo: INTEGER, Valor: 92
-Declaración de variable detectada para ID: nota3
-Evaluated value: 78 of type INTEGER
-After casting, value: 78 of type INTEGER
-Evaluated value before ARM declaration: 78 of type INTEGER
-La variable nota3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota3, Tipo: INTEGER, Valor: 78
-Declaración de variable detectada para ID: nota4
-Evaluated value: 95 of type INTEGER
-After casting, value: 95 of type INTEGER
-Evaluated value before ARM declaration: 95 of type INTEGER
-La variable nota4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota4, Tipo: INTEGER, Valor: 95
-Declaración de variable detectada para ID: nota5
-Evaluated value: 88 of type INTEGER
-After casting, value: 88 of type INTEGER
-Evaluated value before ARM declaration: 88 of type INTEGER
-La variable nota5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota5, Tipo: INTEGER, Valor: 88
-Declaración de variable detectada para ID: edad1
-Evaluated value: 20 of type INTEGER
-After casting, value: 20 of type INTEGER
-Evaluated value before ARM declaration: 20 of type INTEGER
-La variable edad1 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad1, Tipo: INTEGER, Valor: 20
-Declaración de variable detectada para ID: edad2
-Evaluated value: 19 of type INTEGER
-After casting, value: 19 of type INTEGER
-Evaluated value before ARM declaration: 19 of type INTEGER
-La variable edad2 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad2, Tipo: INTEGER, Valor: 19
-Declaración de variable detectada para ID: edad3
-Evaluated value: 21 of type INTEGER
-After casting, value: 21 of type INTEGER
-Evaluated value before ARM declaration: 21 of type INTEGER
-La variable edad3 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad3, Tipo: INTEGER, Valor: 21
-Declaración de variable detectada para ID: edad4
-Evaluated value: 20 of type INTEGER
-After casting, value: 20 of type INTEGER
-Evaluated value before ARM declaration: 20 of type INTEGER
-La variable edad4 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad4, Tipo: INTEGER, Valor: 20
-Declaración de variable detectada para ID: edad5
-Evaluated value: 22 of type INTEGER
-After casting, value: 22 of type INTEGER
-Evaluated value before ARM declaration: 22 of type INTEGER
-La variable edad5 no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad5, Tipo: INTEGER, Valor: 22
-Copying symbol estudiante1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol edad1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol estudiante2 of type VARIABLE
-Copying symbol nota2 of type VARIABLE
-Copying symbol nota2 of type VARIABLE
-Copying symbol nota2 of type VARIABLE
-Copying symbol estudiante3 of type VARIABLE
-Copying symbol nota3 of type VARIABLE
-Copying symbol nota3 of type VARIABLE
-Declaración de variable detectada para ID: estudianteActual
-Evaluated value: 1 of type INTEGER
-After casting, value: 1 of type INTEGER
-Evaluated value before ARM declaration: 1 of type INTEGER
-La variable estudianteActual no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudianteActual, Tipo: INTEGER, Valor: 1
-Declaración de variable detectada para ID: estudiantesDestacados
-Evaluated value: 0 of type INTEGER
-After casting, value: 0 of type INTEGER
-Evaluated value before ARM declaration: 0 of type INTEGER
-La variable estudiantesDestacados no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: estudiantesDestacados, Tipo: INTEGER, Valor: 0
-Copying symbol estudianteActual of type VARIABLE
-Declaración de variable detectada para ID: nombreActual
-Evaluated value:  of type STRING
-After casting, value:  of type STRING
-Evaluated value before ARM declaration:  of type STRING
-La variable nombreActual no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nombreActual, Tipo: STRING, Valor: 
-Declaración de variable detectada para ID: notaActual
-Evaluated value: 0 of type INTEGER
-After casting, value: 0 of type INTEGER
-Evaluated value before ARM declaration: 0 of type INTEGER
-La variable notaActual no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: notaActual, Tipo: INTEGER, Valor: 0
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiante1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiante2 of type VARIABLE
-Copying symbol nota2 of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiante3 of type VARIABLE
-Copying symbol nota3 of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiante4 of type VARIABLE
-Copying symbol nota4 of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiante5 of type VARIABLE
-Copying symbol nota5 of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol nombreActual of type VARIABLE
-Copying symbol notaActual of type VARIABLE
-Copying symbol nombreActual of type VARIABLE
-Copying symbol notaActual of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol estudiantesDestacados of type VARIABLE
-Copying symbol estudianteActual of type VARIABLE
-Copying symbol estudiantesDestacados of type VARIABLE
-Converting type INTEGER to STRING
-Declaración de variable detectada para ID: contador
-Evaluated value: 5 of type INTEGER
-After casting, value: 5 of type INTEGER
-Evaluated value before ARM declaration: 5 of type INTEGER
-La variable contador no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: contador, Tipo: INTEGER, Valor: 5
-Copying symbol contador of type VARIABLE
-Copying symbol contador of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol contador of type VARIABLE
-Declaración de variable detectada para ID: indice
-Evaluated value: 1 of type INTEGER
-After casting, value: 1 of type INTEGER
-Evaluated value before ARM declaration: 1 of type INTEGER
-La variable indice no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: indice, Tipo: INTEGER, Valor: 1
-Copying symbol indice of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol indice of type VARIABLE
-Declaración de variable detectada para ID: nombre
-Evaluated value:  of type STRING
-After casting, value:  of type STRING
-Evaluated value before ARM declaration:  of type STRING
-La variable nombre no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nombre, Tipo: STRING, Valor: 
-Declaración de variable detectada para ID: nota
-Evaluated value: 0 of type INTEGER
-After casting, value: 0 of type INTEGER
-Evaluated value before ARM declaration: 0 of type INTEGER
-La variable nota no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: nota, Tipo: INTEGER, Valor: 0
-Declaración de variable detectada para ID: edad
-Evaluated value: 0 of type INTEGER
-After casting, value: 0 of type INTEGER
-Evaluated value before ARM declaration: 0 of type INTEGER
-La variable edad no se declara en ARM porque su valor no es literal.
-Nuevo símbolo: edad, Tipo: INTEGER, Valor: 0
-Copying symbol indice of type VARIABLE
-Copying symbol estudiante1 of type VARIABLE
-Copying symbol nota1 of type VARIABLE
-Copying symbol edad1 of type VARIABLE
-Copying symbol indice of type VARIABLE
-Copying symbol estudiante2 of type VARIABLE
-Copying symbol nota2 of type VARIABLE
-Copying symbol edad2 of type VARIABLE
-Copying symbol indice of type VARIABLE
-Copying symbol estudiante3 of type VARIABLE
-Copying symbol nota3 of type VARIABLE
-Copying symbol edad3 of type VARIABLE
-Copying symbol indice of type VARIABLE
-Copying symbol estudiante4 of type VARIABLE
-Copying symbol nota4 of type VARIABLE
-Copying symbol edad4 of type VARIABLE
-Copying symbol indice of type VARIABLE
-Copying symbol estudiante5 of type VARIABLE
-Copying symbol nota5 of type VARIABLE
-Copying symbol edad5 of type VARIABLE
-Copying symbol nota of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol edad of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol nota of type VARIABLE
-Copying symbol edad of type VARIABLE
-Copying symbol nombre of type VARIABLE
-Copying symbol edad of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol nota of type VARIABLE
-Converting type INTEGER to STRING
-Copying symbol indice of type VARIABLE
+Nuevo símbolo: estudiante1_Global, Tipo: STRING, Valor: Ana
+Nuevo símbolo: estudiante2_Global, Tipo: STRING, Valor: Luis
+Nuevo símbolo: estudiante3_Global, Tipo: STRING, Valor: Maria
+Nuevo símbolo: estudiante4_Global, Tipo: STRING, Valor: Carlos
+Nuevo símbolo: estudiante5_Global, Tipo: STRING, Valor: Sofia
+Nuevo símbolo: nota1_Global, Tipo: INTEGER, Valor: 85
+Nuevo símbolo: nota2_Global, Tipo: INTEGER, Valor: 92
+Nuevo símbolo: nota3_Global, Tipo: INTEGER, Valor: 78
+Nuevo símbolo: nota4_Global, Tipo: INTEGER, Valor: 95
+Nuevo símbolo: nota5_Global, Tipo: INTEGER, Valor: 88
+Nuevo símbolo: edad1_Global, Tipo: INTEGER, Valor: 20
+Nuevo símbolo: edad2_Global, Tipo: INTEGER, Valor: 19
+Nuevo símbolo: edad3_Global, Tipo: INTEGER, Valor: 21
+Nuevo símbolo: edad4_Global, Tipo: INTEGER, Valor: 20
+Nuevo símbolo: edad5_Global, Tipo: INTEGER, Valor: 22
+Nuevo símbolo: estudianteActual_Global, Tipo: INTEGER, Valor: 1
+Nuevo símbolo: estudiantesDestacados_Global, Tipo: INTEGER, Valor: 0
+Nuevo símbolo: nombreActual_While0, Tipo: STRING, Valor: 
+Nuevo símbolo: notaActual_While0, Tipo: INTEGER, Valor: 0
+Nuevo símbolo: contador_Global, Tipo: INTEGER, Valor: 5
+Nuevo símbolo: indice_Global, Tipo: INTEGER, Valor: 1
+Nuevo símbolo: nombre_While2, Tipo: STRING, Valor: 
+Nuevo símbolo: nota_While2, Tipo: INTEGER, Valor: 0
+Nuevo símbolo: edad_While2, Tipo: INTEGER, Valor: 0
+Nuevo símbolo: i_For13, Tipo: INTEGER, Valor: 1
+Nuevo símbolo: nombre_For13, Tipo: STRING, Valor: 
+Nuevo símbolo: nota_For13, Tipo: INTEGER, Valor: 0
+Nuevo símbolo: i_For14, Tipo: INTEGER, Valor: 5
+Nuevo símbolo: i_For15, Tipo: INTEGER, Valor: 1
+Nuevo símbolo: j_For16, Tipo: INTEGER, Valor: 1
+Nuevo símbolo: resultado_For16, Tipo: INTEGER, Valor: 1
 .global main 
 .extern printf 
 .extern itao 
@@ -315,7 +122,6 @@ string_37: .asciz " estudiantes por procesar"
 int_35: .word 1
 string_38: .asciz "\nBusqueda de estudiante joven con buena nota:"
 int_36: .word 1
-buffer5: .space 32
 int_37: .word 5
 string_39: .asciz ""
 int_38: .word 0
@@ -325,43 +131,86 @@ int_41: .word 2
 int_42: .word 3
 int_43: .word 4
 int_44: .word 5
-buffer6: .space 32
-buffer7: .space 32
 int_45: .word 90
 int_46: .word 20
 string_40: .asciz "Estudiante joven destacado: "
 string_41: .asciz " (Edad: "
-buffer8: .space 32
+buffer5: .space 32
 string_42: .asciz ", Nota: "
-buffer9: .space 32
+buffer6: .space 32
 string_43: .asciz ")"
 int_47: .word 1
+string_44: .asciz "\n--- PROCESAMIENTO CON FOR CLASICO ---"
+string_45: .asciz "Listado numerado:"
+int_48: .word 1
+int_49: .word 5
+string_46: .asciz ""
+int_50: .word 0
+int_51: .word 1
+int_52: .word 2
+int_53: .word 3
+int_54: .word 4
+int_55: .word 5
+buffer7: .space 32
+string_47: .asciz ". "
+string_48: .asciz " - Nota: "
+buffer8: .space 32
+int_56: .word 1
+int_57: .word 5
+string_49: .asciz "\nProceso inverso:"
+int_58: .word 5
+int_59: .word 1
+string_50: .asciz "Procesando posicion: "
+buffer9: .space 32
+int_60: .word 1
+int_61: .word 1
+string_51: .asciz "\nTabla de multiplicar (1-3 x 1-4):"
+int_62: .word 1
+int_63: .word 3
+int_64: .word 1
+int_65: .word 4
+buffer10: .space 32
+string_52: .asciz " x "
+buffer11: .space 32
+string_53: .asciz " = "
+buffer12: .space 32
+int_66: .word 1
+int_67: .word 4
+int_68: .word 1
+int_69: .word 3
 
 .bss 
-estudiante1: .space 8
-estudiante2: .space 8
-estudiante3: .space 8
-estudiante4: .space 8
-estudiante5: .space 8
-nota1: .space 4
-nota2: .space 4
-nota3: .space 4
-nota4: .space 4
-nota5: .space 4
-edad1: .space 4
-edad2: .space 4
-edad3: .space 4
-edad4: .space 4
-edad5: .space 4
-estudianteActual: .space 4
-estudiantesDestacados: .space 4
-nombreActual: .space 8
-notaActual: .space 4
-contador: .space 4
-indice: .space 4
-nombre: .space 8
-nota: .space 4
-edad: .space 4
+estudiante1_Global: .space 8
+estudiante2_Global: .space 8
+estudiante3_Global: .space 8
+estudiante4_Global: .space 8
+estudiante5_Global: .space 8
+nota1_Global: .space 4
+nota2_Global: .space 4
+nota3_Global: .space 4
+nota4_Global: .space 4
+nota5_Global: .space 4
+edad1_Global: .space 4
+edad2_Global: .space 4
+edad3_Global: .space 4
+edad4_Global: .space 4
+edad5_Global: .space 4
+estudianteActual_Global: .space 4
+estudiantesDestacados_Global: .space 4
+nombreActual_While0: .space 8
+notaActual_While0: .space 4
+contador_Global: .space 4
+indice_Global: .space 4
+nombre_While2: .space 8
+nota_While2: .space 4
+edad_While2: .space 4
+i_For13: .space 4
+nombre_For13: .space 8
+nota_For13: .space 4
+i_For14: .space 4
+i_For15: .space 4
+j_For16: .space 4
+resultado_For16: .space 4
 
 .text 
 main: 
@@ -376,133 +225,133 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Declaración de variable estudiante1
+	// Declaración de variable estudiante1_Global
 	
 	// Carga de string Ana
 	adr     x0, string_1
-	ldr x1, =estudiante1
+	ldr x1, =estudiante1_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable estudiante2
+	// Declaración de variable estudiante2_Global
 	
 	// Carga de string Luis
 	adr     x0, string_2
-	ldr x1, =estudiante2
+	ldr x1, =estudiante2_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable estudiante3
+	// Declaración de variable estudiante3_Global
 	
 	// Carga de string Maria
 	adr     x0, string_3
-	ldr x1, =estudiante3
+	ldr x1, =estudiante3_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable estudiante4
+	// Declaración de variable estudiante4_Global
 	
 	// Carga de string Carlos
 	adr     x0, string_4
-	ldr x1, =estudiante4
+	ldr x1, =estudiante4_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable estudiante5
+	// Declaración de variable estudiante5_Global
 	
 	// Carga de string Sofia
 	adr     x0, string_5
-	ldr x1, =estudiante5
+	ldr x1, =estudiante5_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota1
+	// Declaración de variable nota1_Global
 	
 	// Carga de entero 85
 	adr    x0, int_0
 	ldr    w0, [x0]
-	ldr x1, =nota1
+	ldr x1, =nota1_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota2
+	// Declaración de variable nota2_Global
 	
 	// Carga de entero 92
 	adr    x0, int_1
 	ldr    w0, [x0]
-	ldr x1, =nota2
+	ldr x1, =nota2_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota3
+	// Declaración de variable nota3_Global
 	
 	// Carga de entero 78
 	adr    x0, int_2
 	ldr    w0, [x0]
-	ldr x1, =nota3
+	ldr x1, =nota3_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota4
+	// Declaración de variable nota4_Global
 	
 	// Carga de entero 95
 	adr    x0, int_3
 	ldr    w0, [x0]
-	ldr x1, =nota4
+	ldr x1, =nota4_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota5
+	// Declaración de variable nota5_Global
 	
 	// Carga de entero 88
 	adr    x0, int_4
 	ldr    w0, [x0]
-	ldr x1, =nota5
+	ldr x1, =nota5_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad1
+	// Declaración de variable edad1_Global
 	
 	// Carga de entero 20
 	adr    x0, int_5
 	ldr    w0, [x0]
-	ldr x1, =edad1
+	ldr x1, =edad1_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad2
+	// Declaración de variable edad2_Global
 	
 	// Carga de entero 19
 	adr    x0, int_6
 	ldr    w0, [x0]
-	ldr x1, =edad2
+	ldr x1, =edad2_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad3
+	// Declaración de variable edad3_Global
 	
 	// Carga de entero 21
 	adr    x0, int_7
 	ldr    w0, [x0]
-	ldr x1, =edad3
+	ldr x1, =edad3_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad4
+	// Declaración de variable edad4_Global
 	
 	// Carga de entero 20
 	adr    x0, int_8
 	ldr    w0, [x0]
-	ldr x1, =edad4
+	ldr x1, =edad4_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad5
+	// Declaración de variable edad5_Global
 	
 	// Carga de entero 22
 	adr    x0, int_9
 	ldr    w0, [x0]
-	ldr x1, =edad5
+	ldr x1, =edad5_Global
 	str x0, [x1]
 	
 	
@@ -528,8 +377,8 @@ MOV X29, SP
 	adr     x1, string_8
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiante1 de tipo STRING
-	adr   x2, estudiante1
+	// Carga de variable estudiante1_Global de tipo STRING
+	adr   x2, estudiante1_Global
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -538,8 +387,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x1, nota1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 95
@@ -564,8 +413,8 @@ MOV X29, SP
 	// ELSE IF 0
 	elseif_0:
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x1, nota1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 85
@@ -588,8 +437,8 @@ MOV X29, SP
 	// ELSE IF 1
 	elseif_1:
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x1, nota1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 75
@@ -612,8 +461,8 @@ MOV X29, SP
 	// ELSE IF 2
 	elseif_2:
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x1, nota1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 65
@@ -646,8 +495,8 @@ MOV X29, SP
 	b end_if_1
 	end_if_1:
 	
-	// Carga de variable edad1 de tipo INTEGER
-	adr   x1, edad1
+	// Carga de variable edad1_Global de tipo INTEGER
+	adr   x1, edad1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 21
@@ -670,8 +519,8 @@ MOV X29, SP
 	b end_if_2
 	end_if_2:
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x1, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x1, nota1_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 90
@@ -712,8 +561,8 @@ MOV X29, SP
 	adr     x1, string_17
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiante2 de tipo STRING
-	adr   x2, estudiante2
+	// Carga de variable estudiante2_Global de tipo STRING
+	adr   x2, estudiante2_Global
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -722,8 +571,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable nota2 de tipo INTEGER
-	adr   x1, nota2
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x1, nota2_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 95
@@ -748,8 +597,8 @@ MOV X29, SP
 	// ELSE IF 3
 	elseif_3:
 	
-	// Carga de variable nota2 de tipo INTEGER
-	adr   x1, nota2
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x1, nota2_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 85
@@ -782,8 +631,8 @@ MOV X29, SP
 	b end_if_4
 	end_if_4:
 	
-	// Carga de variable nota2 de tipo INTEGER
-	adr   x1, nota2
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x1, nota2_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 90
@@ -824,8 +673,8 @@ MOV X29, SP
 	adr     x1, string_23
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiante3 de tipo STRING
-	adr   x2, estudiante3
+	// Carga de variable estudiante3_Global de tipo STRING
+	adr   x2, estudiante3_Global
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -834,8 +683,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable nota3 de tipo INTEGER
-	adr   x1, nota3
+	// Carga de variable nota3_Global de tipo INTEGER
+	adr   x1, nota3_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 85
@@ -860,8 +709,8 @@ MOV X29, SP
 	// ELSE IF 4
 	elseif_4:
 	
-	// Carga de variable nota3 de tipo INTEGER
-	adr   x1, nota3
+	// Carga de variable nota3_Global de tipo INTEGER
+	adr   x1, nota3_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 75
@@ -902,21 +751,21 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Declaración de variable estudianteActual
+	// Declaración de variable estudianteActual_Global
 	
 	// Carga de entero 1
 	adr    x0, int_21
 	ldr    w0, [x0]
-	ldr x1, =estudianteActual
+	ldr x1, =estudianteActual_Global
 	str x0, [x1]
 	
 	
-	// Declaración de variable estudiantesDestacados
+	// Declaración de variable estudiantesDestacados_Global
 	
 	// Carga de entero 0
 	adr    x0, int_22
 	ldr    w0, [x0]
-	ldr x1, =estudiantesDestacados
+	ldr x1, =estudiantesDestacados_Global
 	str x0, [x1]
 	
 	
@@ -931,8 +780,8 @@ MOV X29, SP
 	// Instrucción WHILE 0
 	while_0:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 5
@@ -943,25 +792,25 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, end_while_0
 	
-	// Declaración de variable nombreActual
+	// Declaración de variable nombreActual_While0
 	
 	// Carga de string 
 	adr     x0, string_29
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Declaración de variable notaActual
+	// Declaración de variable notaActual_While0
 	
 	// Carga de entero 0
 	adr    x0, int_24
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -974,17 +823,17 @@ MOV X29, SP
 	// Instrucción IF 7
 	cbz w3, elseif_5
 	
-	// Carga de variable estudiante1 de tipo STRING
-	adr   x0, estudiante1
+	// Carga de variable estudiante1_Global de tipo STRING
+	adr   x0, estudiante1_Global
 	ldr    x0, [x0]
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x0, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x0, nota1_Global
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str w0, [x1]
 	
 	b end_if_7
@@ -992,8 +841,8 @@ MOV X29, SP
 	// ELSE IF 5
 	elseif_5:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 2
@@ -1004,17 +853,17 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_6
 	
-	// Carga de variable estudiante2 de tipo STRING
-	adr   x0, estudiante2
+	// Carga de variable estudiante2_Global de tipo STRING
+	adr   x0, estudiante2_Global
 	ldr    x0, [x0]
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable nota2 de tipo INTEGER
-	adr   x0, nota2
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x0, nota2_Global
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str w0, [x1]
 	
 	b end_if_7
@@ -1022,8 +871,8 @@ MOV X29, SP
 	// ELSE IF 6
 	elseif_6:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 3
@@ -1034,17 +883,17 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_7
 	
-	// Carga de variable estudiante3 de tipo STRING
-	adr   x0, estudiante3
+	// Carga de variable estudiante3_Global de tipo STRING
+	adr   x0, estudiante3_Global
 	ldr    x0, [x0]
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable nota3 de tipo INTEGER
-	adr   x0, nota3
+	// Carga de variable nota3_Global de tipo INTEGER
+	adr   x0, nota3_Global
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str w0, [x1]
 	
 	b end_if_7
@@ -1052,8 +901,8 @@ MOV X29, SP
 	// ELSE IF 7
 	elseif_7:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 4
@@ -1064,17 +913,17 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_8
 	
-	// Carga de variable estudiante4 de tipo STRING
-	adr   x0, estudiante4
+	// Carga de variable estudiante4_Global de tipo STRING
+	adr   x0, estudiante4_Global
 	ldr    x0, [x0]
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable nota4 de tipo INTEGER
-	adr   x0, nota4
+	// Carga de variable nota4_Global de tipo INTEGER
+	adr   x0, nota4_Global
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str w0, [x1]
 	
 	b end_if_7
@@ -1082,8 +931,8 @@ MOV X29, SP
 	// ELSE IF 8
 	elseif_8:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 5
@@ -1094,17 +943,17 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, end_if_7
 	
-	// Carga de variable estudiante5 de tipo STRING
-	adr   x0, estudiante5
+	// Carga de variable estudiante5_Global de tipo STRING
+	adr   x0, estudiante5_Global
 	ldr    x0, [x0]
-	ldr x1, =nombreActual
+	ldr x1, =nombreActual_While0
 	str x0, [x1]
 	
 	
-	// Carga de variable nota5 de tipo INTEGER
-	adr   x0, nota5
+	// Carga de variable nota5_Global de tipo INTEGER
+	adr   x0, nota5_Global
 	ldr    w0, [x0]
-	ldr x1, =notaActual
+	ldr x1, =notaActual_While0
 	str w0, [x1]
 	
 	b end_if_7
@@ -1116,8 +965,8 @@ MOV X29, SP
 	adr     x1, string_30
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x0, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x0, estudianteActual_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1136,8 +985,8 @@ MOV X29, SP
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombreActual de tipo STRING
-	adr   x2, nombreActual
+	// Carga de variable nombreActual_While0 de tipo STRING
+	adr   x2, nombreActual_While0
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -1146,8 +995,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable notaActual de tipo INTEGER
-	adr   x1, notaActual
+	// Carga de variable notaActual_While0 de tipo INTEGER
+	adr   x1, notaActual_While0
 	ldr    w1, [x1]
 	
 	// Carga de entero 90
@@ -1166,8 +1015,8 @@ MOV X29, SP
 	adr     x1, string_32
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombreActual de tipo STRING
-	adr   x2, nombreActual
+	// Carga de variable nombreActual_While0 de tipo STRING
+	adr   x2, nombreActual_While0
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -1181,8 +1030,8 @@ MOV X29, SP
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable notaActual de tipo INTEGER
-	adr   x0, notaActual
+	// Carga de variable notaActual_While0 de tipo INTEGER
+	adr   x0, notaActual_While0
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1196,8 +1045,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable estudiantesDestacados de tipo INTEGER
-	adr   x1, estudiantesDestacados
+	// Carga de variable estudiantesDestacados_Global de tipo INTEGER
+	adr   x1, estudiantesDestacados_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -1206,16 +1055,16 @@ MOV X29, SP
 	add    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable estudiantesDestacados
+	// Asignación de variable estudiantesDestacados_Global
 	mov    w0, w3
-	ldr x1, =estudiantesDestacados
+	ldr x1, =estudiantesDestacados_Global
 	str w0, [x1]
 	
 	b end_if_8
 	end_if_8:
 	
-	// Carga de variable estudianteActual de tipo INTEGER
-	adr   x1, estudianteActual
+	// Carga de variable estudianteActual_Global de tipo INTEGER
+	adr   x1, estudianteActual_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -1224,9 +1073,9 @@ MOV X29, SP
 	add    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable estudianteActual
+	// Asignación de variable estudianteActual_Global
 	mov    w0, w3
-	ldr x1, =estudianteActual
+	ldr x1, =estudianteActual_Global
 	str w0, [x1]
 	
 	b while_0
@@ -1238,8 +1087,8 @@ MOV X29, SP
 	adr     x1, string_34
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable estudiantesDestacados de tipo INTEGER
-	adr   x0, estudiantesDestacados
+	// Carga de variable estudiantesDestacados_Global de tipo INTEGER
+	adr   x0, estudiantesDestacados_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1261,20 +1110,20 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Declaración de variable contador
+	// Declaración de variable contador_Global
 	
 	// Carga de entero 5
 	adr    x0, int_33
 	ldr    w0, [x0]
-	ldr x1, =contador
+	ldr x1, =contador_Global
 	str x0, [x1]
 	
 	
 	// Instrucción WHILE 1
 	while_1:
 	
-	// Carga de variable contador de tipo INTEGER
-	adr   x1, contador
+	// Carga de variable contador_Global de tipo INTEGER
+	adr   x1, contador_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 0
@@ -1291,8 +1140,8 @@ MOV X29, SP
 	adr     x1, string_36
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable contador de tipo INTEGER
-	adr   x0, contador
+	// Carga de variable contador_Global de tipo INTEGER
+	adr   x0, contador_Global
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
@@ -1313,8 +1162,8 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Carga de variable contador de tipo INTEGER
-	adr   x1, contador
+	// Carga de variable contador_Global de tipo INTEGER
+	adr   x1, contador_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -1323,9 +1172,9 @@ MOV X29, SP
 	sub    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable contador
+	// Asignación de variable contador_Global
 	mov    w0, w3
-	ldr x1, =contador
+	ldr x1, =contador_Global
 	str w0, [x1]
 	
 	b while_1
@@ -1339,33 +1188,20 @@ MOV X29, SP
 	bl printf
 	
 	
-	// Declaración de variable indice
+	// Declaración de variable indice_Global
 	
 	// Carga de entero 1
 	adr    x0, int_36
 	ldr    w0, [x0]
-	ldr x1, =indice
+	ldr x1, =indice_Global
 	str x0, [x1]
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de variable indice de tipo INTEGER
-	adr   x0, indice
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer5
-	bl itao
-	adr x0, print
-	bl printf
 	
 	
 	// Instrucción WHILE 2
 	while_2:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 5
@@ -1376,34 +1212,34 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, end_while_2
 	
-	// Declaración de variable nombre
+	// Declaración de variable nombre_While2
 	
 	// Carga de string 
 	adr     x0, string_39
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Declaración de variable nota
+	// Declaración de variable nota_While2
 	
 	// Carga de entero 0
 	adr    x0, int_38
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str x0, [x1]
 	
 	
-	// Declaración de variable edad
+	// Declaración de variable edad_While2
 	
 	// Carga de entero 0
 	adr    x0, int_39
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -1416,24 +1252,24 @@ MOV X29, SP
 	// Instrucción IF 9
 	cbz w3, elseif_9
 	
-	// Carga de variable estudiante1 de tipo STRING
-	adr   x0, estudiante1
+	// Carga de variable estudiante1_Global de tipo STRING
+	adr   x0, estudiante1_Global
 	ldr    x0, [x0]
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable nota1 de tipo INTEGER
-	adr   x0, nota1
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x0, nota1_Global
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str w0, [x1]
 	
 	
-	// Carga de variable edad1 de tipo INTEGER
-	adr   x0, edad1
+	// Carga de variable edad1_Global de tipo INTEGER
+	adr   x0, edad1_Global
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str w0, [x1]
 	
 	b end_if_9
@@ -1441,8 +1277,8 @@ MOV X29, SP
 	// ELSE IF 9
 	elseif_9:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 2
@@ -1453,24 +1289,24 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_10
 	
-	// Carga de variable estudiante2 de tipo STRING
-	adr   x0, estudiante2
+	// Carga de variable estudiante2_Global de tipo STRING
+	adr   x0, estudiante2_Global
 	ldr    x0, [x0]
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable nota2 de tipo INTEGER
-	adr   x0, nota2
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x0, nota2_Global
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str w0, [x1]
 	
 	
-	// Carga de variable edad2 de tipo INTEGER
-	adr   x0, edad2
+	// Carga de variable edad2_Global de tipo INTEGER
+	adr   x0, edad2_Global
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str w0, [x1]
 	
 	b end_if_9
@@ -1478,8 +1314,8 @@ MOV X29, SP
 	// ELSE IF 10
 	elseif_10:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 3
@@ -1490,24 +1326,24 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_11
 	
-	// Carga de variable estudiante3 de tipo STRING
-	adr   x0, estudiante3
+	// Carga de variable estudiante3_Global de tipo STRING
+	adr   x0, estudiante3_Global
 	ldr    x0, [x0]
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable nota3 de tipo INTEGER
-	adr   x0, nota3
+	// Carga de variable nota3_Global de tipo INTEGER
+	adr   x0, nota3_Global
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str w0, [x1]
 	
 	
-	// Carga de variable edad3 de tipo INTEGER
-	adr   x0, edad3
+	// Carga de variable edad3_Global de tipo INTEGER
+	adr   x0, edad3_Global
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str w0, [x1]
 	
 	b end_if_9
@@ -1515,8 +1351,8 @@ MOV X29, SP
 	// ELSE IF 11
 	elseif_11:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 4
@@ -1527,24 +1363,24 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, elseif_12
 	
-	// Carga de variable estudiante4 de tipo STRING
-	adr   x0, estudiante4
+	// Carga de variable estudiante4_Global de tipo STRING
+	adr   x0, estudiante4_Global
 	ldr    x0, [x0]
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable nota4 de tipo INTEGER
-	adr   x0, nota4
+	// Carga de variable nota4_Global de tipo INTEGER
+	adr   x0, nota4_Global
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str w0, [x1]
 	
 	
-	// Carga de variable edad4 de tipo INTEGER
-	adr   x0, edad4
+	// Carga de variable edad4_Global de tipo INTEGER
+	adr   x0, edad4_Global
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str w0, [x1]
 	
 	b end_if_9
@@ -1552,8 +1388,8 @@ MOV X29, SP
 	// ELSE IF 12
 	elseif_12:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 5
@@ -1564,57 +1400,31 @@ MOV X29, SP
 	mov w3, w0
 	cbz w3, end_if_9
 	
-	// Carga de variable estudiante5 de tipo STRING
-	adr   x0, estudiante5
+	// Carga de variable estudiante5_Global de tipo STRING
+	adr   x0, estudiante5_Global
 	ldr    x0, [x0]
-	ldr x1, =nombre
+	ldr x1, =nombre_While2
 	str x0, [x1]
 	
 	
-	// Carga de variable nota5 de tipo INTEGER
-	adr   x0, nota5
+	// Carga de variable nota5_Global de tipo INTEGER
+	adr   x0, nota5_Global
 	ldr    w0, [x0]
-	ldr x1, =nota
+	ldr x1, =nota_While2
 	str w0, [x1]
 	
 	
-	// Carga de variable edad5 de tipo INTEGER
-	adr   x0, edad5
+	// Carga de variable edad5_Global de tipo INTEGER
+	adr   x0, edad5_Global
 	ldr    w0, [x0]
-	ldr x1, =edad
+	ldr x1, =edad_While2
 	str w0, [x1]
 	
 	b end_if_9
 	end_if_9:
 	
-	// Instrucción de impresión
-	
-	// Carga de variable nota de tipo INTEGER
-	adr   x0, nota
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer6
-	bl itao
-	adr x0, print
-	bl printf
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de variable edad de tipo INTEGER
-	adr   x0, edad
-	ldr    w0, [x0]
-	
-	// Conversion de INTEGER a STRING
-	adr     x1, buffer7
-	bl itao
-	adr x0, print
-	bl printf
-	
-	
-	// Carga de variable nota de tipo INTEGER
-	adr   x1, nota
+	// Carga de variable nota_While2 de tipo INTEGER
+	adr   x1, nota_While2
 	ldr    w1, [x1]
 	
 	// Carga de entero 90
@@ -1624,8 +1434,8 @@ MOV X29, SP
 	cset w0, ge
 	mov w3, w0
 	
-	// Carga de variable edad de tipo INTEGER
-	adr   x1, edad
+	// Carga de variable edad_While2 de tipo INTEGER
+	adr   x1, edad_While2
 	ldr    w1, [x1]
 	
 	// Carga de entero 20
@@ -1646,8 +1456,8 @@ MOV X29, SP
 	adr     x1, string_40
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nombre de tipo STRING
-	adr   x2, nombre
+	// Carga de variable nombre_While2 de tipo STRING
+	adr   x2, nombre_While2
 	ldr    x2, [x2]
 	ldr     x1, [sp], #16
 	bl string_concat
@@ -1661,12 +1471,12 @@ MOV X29, SP
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable edad de tipo INTEGER
-	adr   x0, edad
+	// Carga de variable edad_While2 de tipo INTEGER
+	adr   x0, edad_While2
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
-	adr     x1, buffer8
+	adr     x1, buffer5
 	bl itao
 	mov    x2, x1
 	ldr     x1, [sp], #16
@@ -1681,12 +1491,12 @@ MOV X29, SP
 	mov     x1, x0
 	str     x1, [sp, #-16]!
 	
-	// Carga de variable nota de tipo INTEGER
-	adr   x0, nota
+	// Carga de variable nota_While2 de tipo INTEGER
+	adr   x0, nota_While2
 	ldr    w0, [x0]
 	
 	// Conversion de INTEGER a STRING
-	adr     x1, buffer9
+	adr     x1, buffer6
 	bl itao
 	mov    x2, x1
 	ldr     x1, [sp], #16
@@ -1705,8 +1515,8 @@ MOV X29, SP
 	b end_if_10
 	end_if_10:
 	
-	// Carga de variable indice de tipo INTEGER
-	adr   x1, indice
+	// Carga de variable indice_Global de tipo INTEGER
+	adr   x1, indice_Global
 	ldr    w1, [x1]
 	
 	// Carga de entero 1
@@ -1715,13 +1525,561 @@ MOV X29, SP
 	add    w0, w1, w2
 	mov    w3, w0
 	
-	// Asignación de variable indice
+	// Asignación de variable indice_Global
 	mov    w0, w3
-	ldr x1, =indice
+	ldr x1, =indice_Global
 	str w0, [x1]
 	
 	b while_2
 	end_while_2:
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- PROCESAMIENTO CON FOR CLASICO ---
+	adr     x1, string_44
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Listado numerado:
+	adr     x1, string_45
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable i_For13
+	
+	// Carga de entero 1
+	adr    x0, int_48
+	ldr    w0, [x0]
+	ldr x1, =i_For13
+	str x0, [x1]
+	
+	
+	// Instrucción FOR 13
+	for_13:
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 5
+	adr    x2, int_49
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w3, w0
+	cbz w3, end_for_13
+	
+	// Declaración de variable nombre_For13
+	
+	// Carga de string 
+	adr     x0, string_46
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Declaración de variable nota_For13
+	
+	// Carga de entero 0
+	adr    x0, int_50
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_51
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	
+	// Instrucción IF 11
+	cbz w3, elseif_13
+	
+	// Carga de variable estudiante1_Global de tipo STRING
+	adr   x0, estudiante1_Global
+	ldr    x0, [x0]
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable nota1_Global de tipo INTEGER
+	adr   x0, nota1_Global
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str w0, [x1]
+	
+	b end_if_11
+	
+	// ELSE IF 13
+	elseif_13:
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 2
+	adr    x2, int_52
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	cbz w3, elseif_14
+	
+	// Carga de variable estudiante2_Global de tipo STRING
+	adr   x0, estudiante2_Global
+	ldr    x0, [x0]
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable nota2_Global de tipo INTEGER
+	adr   x0, nota2_Global
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str w0, [x1]
+	
+	b end_if_11
+	
+	// ELSE IF 14
+	elseif_14:
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 3
+	adr    x2, int_53
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	cbz w3, elseif_15
+	
+	// Carga de variable estudiante3_Global de tipo STRING
+	adr   x0, estudiante3_Global
+	ldr    x0, [x0]
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable nota3_Global de tipo INTEGER
+	adr   x0, nota3_Global
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str w0, [x1]
+	
+	b end_if_11
+	
+	// ELSE IF 15
+	elseif_15:
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 4
+	adr    x2, int_54
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	cbz w3, elseif_16
+	
+	// Carga de variable estudiante4_Global de tipo STRING
+	adr   x0, estudiante4_Global
+	ldr    x0, [x0]
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable nota4_Global de tipo INTEGER
+	adr   x0, nota4_Global
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str w0, [x1]
+	
+	b end_if_11
+	
+	// ELSE IF 16
+	elseif_16:
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 5
+	adr    x2, int_55
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, eq
+	mov w3, w0
+	cbz w3, end_if_11
+	
+	// Carga de variable estudiante5_Global de tipo STRING
+	adr   x0, estudiante5_Global
+	ldr    x0, [x0]
+	ldr x1, =nombre_For13
+	str x0, [x1]
+	
+	
+	// Carga de variable nota5_Global de tipo INTEGER
+	adr   x0, nota5_Global
+	ldr    w0, [x0]
+	ldr x1, =nota_For13
+	str w0, [x1]
+	
+	b end_if_11
+	end_if_11:
+	
+	// Instrucción de impresión
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x0, i_For13
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer7
+	bl itao
+	str     x1, [sp, #-16]!
+	
+	// Carga de string . 
+	adr     x2, string_47
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable nombre_For13 de tipo STRING
+	adr   x2, nombre_For13
+	ldr    x2, [x2]
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  - Nota: 
+	adr     x2, string_48
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable nota_For13 de tipo INTEGER
+	adr   x0, nota_For13
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer8
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_56
+	ldr    w2, [x2]
+	add    w0, w1, w2
+	mov    w3, w0
+	
+	// Asignación de variable i_For13
+	mov    w0, w3
+	ldr x1, =i_For13
+	str w0, [x1]
+	
+	
+	// Carga de variable i_For13 de tipo INTEGER
+	adr   x1, i_For13
+	ldr    w1, [x1]
+	
+	// Carga de entero 5
+	adr    x2, int_57
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w4, w0
+	b for_13
+	end_for_13:
+	
+	// Instrucción de impresión
+	
+	// Carga de string \nProceso inverso:
+	adr     x1, string_49
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable i_For14
+	
+	// Carga de entero 5
+	adr    x0, int_58
+	ldr    w0, [x0]
+	ldr x1, =i_For14
+	str x0, [x1]
+	
+	
+	// Instrucción FOR 14
+	for_14:
+	
+	// Carga de variable i_For14 de tipo INTEGER
+	adr   x1, i_For14
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_59
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, ge
+	mov w3, w0
+	cbz w3, end_for_14
+	
+	// Instrucción de impresión
+	
+	// Carga de string Procesando posicion: 
+	adr     x1, string_50
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable i_For14 de tipo INTEGER
+	adr   x0, i_For14
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer9
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Carga de variable i_For14 de tipo INTEGER
+	adr   x1, i_For14
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_60
+	ldr    w2, [x2]
+	sub    w0, w1, w2
+	mov    w3, w0
+	
+	// Asignación de variable i_For14
+	mov    w0, w3
+	ldr x1, =i_For14
+	str w0, [x1]
+	
+	
+	// Carga de variable i_For14 de tipo INTEGER
+	adr   x1, i_For14
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_61
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, ge
+	mov w4, w0
+	b for_14
+	end_for_14:
+	
+	// Instrucción de impresión
+	
+	// Carga de string \nTabla de multiplicar (1-3 x 1-4):
+	adr     x1, string_51
+	adr x0, print
+	bl printf
+	
+	
+	// Declaración de variable i_For15
+	
+	// Carga de entero 1
+	adr    x0, int_62
+	ldr    w0, [x0]
+	ldr x1, =i_For15
+	str x0, [x1]
+	
+	
+	// Instrucción FOR 15
+	for_15:
+	
+	// Carga de variable i_For15 de tipo INTEGER
+	adr   x1, i_For15
+	ldr    w1, [x1]
+	
+	// Carga de entero 3
+	adr    x2, int_63
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w3, w0
+	cbz w3, end_for_15
+	
+	// Declaración de variable j_For16
+	
+	// Carga de entero 1
+	adr    x0, int_64
+	ldr    w0, [x0]
+	ldr x1, =j_For16
+	str x0, [x1]
+	
+	
+	// Instrucción FOR 16
+	for_16:
+	
+	// Carga de variable j_For16 de tipo INTEGER
+	adr   x1, j_For16
+	ldr    w1, [x1]
+	
+	// Carga de entero 4
+	adr    x2, int_65
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w3, w0
+	cbz w3, end_for_16
+	
+	// Declaración de variable resultado_For16
+	
+	// Carga de variable i_For15 de tipo INTEGER
+	adr   x1, i_For15
+	ldr    w1, [x1]
+	
+	// Carga de variable j_For16 de tipo INTEGER
+	adr   x2, j_For16
+	ldr    w2, [x2]
+	mul    w0, w1, w2
+	mov    w3, w0
+	ldr x1, =resultado_For16
+	str x3, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de variable i_For15 de tipo INTEGER
+	adr   x0, i_For15
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer10
+	bl itao
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  x 
+	adr     x2, string_52
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable j_For16 de tipo INTEGER
+	adr   x0, j_For16
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer11
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  = 
+	adr     x2, string_53
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable resultado_For16 de tipo INTEGER
+	adr   x0, resultado_For16
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer12
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Carga de variable j_For16 de tipo INTEGER
+	adr   x1, j_For16
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_66
+	ldr    w2, [x2]
+	add    w0, w1, w2
+	mov    w3, w0
+	
+	// Asignación de variable j_For16
+	mov    w0, w3
+	ldr x1, =j_For16
+	str w0, [x1]
+	
+	
+	// Carga de variable j_For16 de tipo INTEGER
+	adr   x1, j_For16
+	ldr    w1, [x1]
+	
+	// Carga de entero 4
+	adr    x2, int_67
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w4, w0
+	b for_16
+	end_for_16:
+	
+	// Carga de variable i_For15 de tipo INTEGER
+	adr   x1, i_For15
+	ldr    w1, [x1]
+	
+	// Carga de entero 1
+	adr    x2, int_68
+	ldr    w2, [x2]
+	add    w0, w1, w2
+	mov    w3, w0
+	
+	// Asignación de variable i_For15
+	mov    w0, w3
+	ldr x1, =i_For15
+	str w0, [x1]
+	
+	
+	// Carga de variable i_For15 de tipo INTEGER
+	adr   x1, i_For15
+	ldr    w1, [x1]
+	
+	// Carga de entero 3
+	adr    x2, int_69
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w4, w0
+	b for_15
+	end_for_15:
 
 
 MOV W0, #0 

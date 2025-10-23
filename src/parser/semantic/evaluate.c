@@ -489,8 +489,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             snprintf(bufferARM, sizeof(bufferARM), "adr     x1, %s\n", bufferName);
             result->text_section = arm_data_add(result->text_section, bufferARM);
 
-            fprintf(stderr, "Converting type %s to STRING\n", to_convert->dataType);
-
             if (strcmp(to_convert->dataType, "INTEGER") == 0)
                 toaFunction = "itao";
             else if (strcmp(to_convert->dataType, "FLOAT") == 0 || strcmp(to_convert->dataType, "DOUBLE") == 0)
@@ -881,9 +879,14 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     case EXP_ID:
     {
         Context *ctx_search = context;
+        char *original_id = strdup(expr->value);
 
         while (ctx_search)
         {
+
+            char new_id[256]; // Ajusta el tamaño según sea necesario
+            snprintf(new_id, sizeof(new_id), "%s_%s", original_id, ctx_search->nombre);
+
             // Verificar que ctx_search sea válido antes de usar
             if (ctx_search->symbols_context == NULL)
             {
@@ -891,9 +894,9 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 continue;
             }
 
-            if (SearchID(ctx_search->symbols_context, expr->value))
+            if (SearchID(ctx_search->symbols_context, new_id))
             {
-                symbol *sym = SearchSymbol(ctx_search->symbols_context, expr->value);
+                symbol *sym = SearchSymbol(ctx_search->symbols_context, new_id);
 
                 // En lugar de crear una nueva expresión y evaluar recursivamente,
                 // devolvemos directamente una copia del símbolo
@@ -904,8 +907,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 result_copy->id = strdup(sym->id);
                 result_copy->environment = strdup(sym->environment);
                 result_copy->text_section = "";
-
-                fprintf(stderr, "Copying symbol %s of type %s\n", sym->id, sym->type);
 
                 if (strcmp(sym->type, "VECTOR") == 0 && sym->vectorValues)
                 {

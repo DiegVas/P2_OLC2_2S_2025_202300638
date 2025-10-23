@@ -25,6 +25,7 @@ typedef struct ARM_data
     int count_case;
 
     int count_while;
+    int count_for;
 
 } ARM_data;
 

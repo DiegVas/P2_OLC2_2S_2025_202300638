@@ -135,11 +135,12 @@ extern int yydebug;
     GREATER_EQUALS = 317,          /* GREATER_EQUALS  */
     LESS_EQUALS = 318,             /* LESS_EQUALS  */
     INCREMENT = 319,               /* INCREMENT  */
-    ARRAYS = 320,                  /* ARRAYS  */
-    INDEXOF = 321,                 /* INDEXOF  */
-    LENGTH = 322,                  /* LENGTH  */
-    ADD = 323,                     /* ADD  */
-    UMINUS = 324                   /* UMINUS  */
+    DECREMENT = 320,               /* DECREMENT  */
+    ARRAYS = 321,                  /* ARRAYS  */
+    INDEXOF = 322,                 /* INDEXOF  */
+    LENGTH = 323,                  /* LENGTH  */
+    ADD = 324,                     /* ADD  */
+    UMINUS = 325                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -167,7 +168,7 @@ union YYSTYPE
     paramsList* paramlist;
     DimensionsList* dimlist;
 
-#line 171 "build/parser.tab.h"
+#line 172 "build/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

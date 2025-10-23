@@ -154,8 +154,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             return;
         }
 
-        fprintf(stderr, "Declaración de variable detectada para ID: %s\n", instruction->id);
-
         symbol *evaluated_value = evaluate_expression(instruction->value, context);
 
         // Validar que la evaluación no retornó NULL
@@ -165,11 +163,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             return;
         }
 
-        fprintf(stderr, "Evaluated value: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
-
         evaluated_value = apply_casting_auto(evaluated_value, instruction->type, context);
-
-        fprintf(stderr, "After casting, value: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
         if (strcmp(evaluated_value->dataType, "UNDEFINED") == 0)
             // Error: Evaluación de expresión fallida
@@ -196,12 +190,10 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         new_symbol->value = evaluated_value->value;
         new_symbol->dataType = instruction->type;
         new_symbol->type = instruction->symbolType;
-        new_symbol->id = instruction->id;
+        new_symbol->id = strcat(strcat(instruction->id, "_"), context->nombre);
         new_symbol->environment = context->nombre;
         new_symbol->line = &(instruction->line);
         new_symbol->column = &(instruction->column);
-
-        fprintf(stderr, "Evaluated value before ARM declaration: %s of type %s\n", evaluated_value->value, evaluated_value->dataType);
 
         char bufferComment[128];
         snprintf(bufferComment, sizeof(bufferComment), "\n// Declaración de variable %s\n", new_symbol->id);
@@ -224,8 +216,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
             snprintf(buffer, sizeof(buffer), "str %s%d, [x1]\n\n", register_type, evaluated_value->num_register);
             arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
-
-            fprintf(stderr, "La variable %s no se declara en ARM porque su valor no es literal.\n", new_symbol->id);
         }
 
         fprintf(stderr, "Nuevo símbolo: %s, Tipo: %s, Valor: %s\n",
@@ -250,15 +240,20 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             return Error_exists(evaluated_assign->value, context->nombre, instruction);
 
         Context *ctx = context;
+        char *original_id = strdup(instruction->id);
+
         while (ctx)
         {
-            if (SearchID(ctx->symbols_context, instruction->id))
+
+            char new_id[256]; // Ajusta el tamaño según sea necesario
+            snprintf(new_id, sizeof(new_id), "%s_%s", original_id, ctx->nombre);
+
+            if (SearchID(ctx->symbols_context, new_id))
             {
-                symbol *sym_to_update = SearchSymbol(ctx->symbols_context, instruction->id);
+                symbol *sym_to_update = SearchSymbol(ctx->symbols_context, new_id);
 
                 if (strcmp(sym_to_update->type, "VECTOR") == 0 && instruction->IndexVector)
                 {
-                    fprintf(stderr, "Asignación a elemento de vector detectada para ID: %s\n", instruction->id);
 
                     // Obtener puntero directo al elemento del vector
                     symbol **vector_element_ptr = get_VectorElementPointer(ctx, instruction->IndexVector, sym_to_update->vectorValues);
@@ -279,7 +274,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
                 if (strcmp(sym_to_update->type, "MATRIX") == 0 && instruction->IndexMatrix)
                 {
-                    fprintf(stderr, "Asignación a elemento de matriz detectada para ID: %s\n", instruction->id);
                     symbol **matrix_element_ptr = get_MatrixElementPointer(ctx, instruction->IndexMatrix, instruction->IndexVector, sym_to_update->matrixValues);
 
                     if (!matrix_element_ptr)
@@ -308,7 +302,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
                 if (strcmp(sym_to_update->type, "LIST") == 0 && instruction->indexList)
                 {
-                    fprintf(stderr, "Asignación a elemento de arreglo multidimensional detectada para ID: %s\n", instruction->id);
 
                     // Validar que el número de índices coincida con las dimensiones
                     int provided_indices = 0;
@@ -411,19 +404,7 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
                     register_type = "d";
                 else if (strcmp(sym_to_update->dataType, "STRING") == 0)
-                {
                     register_type = "x";
-                    /*
-                                        if (evaluated_assign->is_id)
-                                        {
-                                            snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de cadena a variable %s\n", sym_to_update->id);
-                                            arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
-
-                                            char buffer[128];
-                                            snprintf(buffer, sizeof(buffer), "ldr    x%d, [x%d]\n", evaluated_value->num_register, evaluated_value->num_register);
-                                            arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
-                                        }*/
-                }
 
                 arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
 
@@ -798,7 +779,10 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         Context *ctx_while = calloc(1, sizeof(Context));
         ctx_while->after = context;
         ctx_while->symbols_context = Symbol_table_create();
-        ctx_while->nombre = "While";
+
+        char ctx_name[32];
+        snprintf(ctx_name, sizeof(ctx_name), "While%d", arm_global_data->count_while);
+        ctx_while->nombre = strdup(ctx_name);
 
         symbol *evaluated_while = evaluate_expression(condition, ctx_while);
         if (strcmp(evaluated_while->dataType, "UNDEFINED") == 0)
@@ -828,27 +812,22 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
         InstruccionNode *curr = while_block->head;
 
-        Context *inner_ctx = calloc(1, sizeof(Context));
-        inner_ctx->after = ctx_while;
-        inner_ctx->symbols_context = Symbol_table_create();
-        inner_ctx->nombre = "Inner_While";
-
         while (curr)
         {
-            semantic_analysis_execute(curr->instr, inner_ctx);
-            if (inner_ctx->break_instruction)
+            semantic_analysis_execute(curr->instr, ctx_while);
+            if (ctx_while->break_instruction)
                 break;
 
-            if (inner_ctx->continue_instruction)
+            if (ctx_while->continue_instruction)
             {
-                inner_ctx->continue_instruction = false;
+                ctx_while->continue_instruction = false;
                 break;
             }
 
             curr = curr->next;
         }
 
-        if (inner_ctx->break_instruction)
+        if (ctx_while->break_instruction)
             break;
 
         snprintf(bufferComment, sizeof(bufferComment), "b while_%d\n", arm_global_data->count_while);
@@ -976,47 +955,69 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         Context *ctx_for = calloc(1, sizeof(Context));
         ctx_for->after = context;
         ctx_for->symbols_context = Symbol_table_create();
-        ctx_for->nombre = "For";
+
+        char ctx_name[32];
+        snprintf(ctx_name, sizeof(ctx_name), "For%d", arm_global_data->count_for);
+
+        ctx_for->nombre = strdup(ctx_name);
 
         semantic_analysis_execute(init, ctx_for);
 
         symbol *evaluated_for = evaluate_expression(condition, ctx_for);
         bool condition_value = boolean_value(evaluated_for->value);
 
-        while (condition_value)
+        //* ARM FOR
+        int for_register = arm_global_data->count_for;
+        arm_global_data->count_for++;
+        char bufferComment[128];
+        snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción FOR %d\n", for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        snprintf(bufferComment, sizeof(bufferComment), "for_%d:\n", for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_for->text_section);
+        arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_for->data_section);
+
+        snprintf(bufferComment, sizeof(bufferComment), "cbz w%d, end_for_%d\n", evaluated_for->num_register, for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        InstruccionNode *curr = for_block->head;
+        while (curr)
         {
 
-            Context *inner_ctx = calloc(1, sizeof(Context));
-            inner_ctx->after = ctx_for;
-            inner_ctx->symbols_context = Symbol_table_create();
-            inner_ctx->nombre = "Inner_For";
-
-            InstruccionNode *curr = for_block->head;
-            while (curr)
-            {
-
-                semantic_analysis_execute(curr->instr, inner_ctx);
-
-                if (inner_ctx->break_instruction)
-                    break;
-
-                if (inner_ctx->continue_instruction)
-                {
-                    inner_ctx->continue_instruction = false;
-                    break;
-                }
-
-                curr = curr->next;
-            }
-
-            // Ejecutar actualización
+            semantic_analysis_execute(curr->instr, ctx_for);
 
             if (ctx_for->break_instruction)
                 break;
 
-            semantic_analysis_execute(update, ctx_for);
-            condition_value = boolean_value(evaluate_expression(condition, ctx_for)->value);
+            if (ctx_for->continue_instruction)
+            {
+                ctx_for->continue_instruction = false;
+                break;
+            }
+
+            curr = curr->next;
         }
+
+        // Ejecutar actualización
+
+        if (ctx_for->break_instruction)
+            break;
+
+        semantic_analysis_execute(update, ctx_for);
+        symbol *updated_condition = evaluate_expression(condition, ctx_for);
+        condition_value = boolean_value(updated_condition->value);
+
+        arm_global_data->text = arm_text_add(arm_global_data->text, updated_condition->text_section);
+        arm_global_data->data = arm_data_add(arm_global_data->data, updated_condition->data_section);
+
+        snprintf(bufferComment, sizeof(bufferComment), "b for_%d\n", for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        snprintf(bufferComment, sizeof(bufferComment), "end_for_%d:\n", for_register);
+        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
         Symbol_table_insertContext(SymbolTable_General, ctx_for->symbols_context);
         break;
     }
