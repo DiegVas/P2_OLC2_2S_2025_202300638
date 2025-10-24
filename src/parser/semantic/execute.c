@@ -933,7 +933,9 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         Context *ctx_foreach = calloc(1, sizeof(Context));
         ctx_foreach->after = context;
         ctx_foreach->symbols_context = Symbol_table_create();
-        ctx_foreach->nombre = "Foreach";
+        char ctx_name[32];
+        snprintf(ctx_name, sizeof(ctx_name), "Foreach%d", arm_global_data->count_foreach);
+        ctx_foreach->nombre = strdup(ctx_name);
         char *orignal_id = strdup(instruction->forEachData->array);
         Context *search_ctx = context;
         while (search_ctx)
