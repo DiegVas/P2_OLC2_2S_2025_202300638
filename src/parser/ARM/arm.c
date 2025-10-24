@@ -15,7 +15,9 @@ ARM_data *arm_data_create()
                              ".extern booltoa \n"
                              ".extern string_compare \n"
                              ".extern string_concat \n"
-                             ".extern chartoa \n";
+                             ".extern chartoa \n"
+                             ".extern buscar_entero \n"
+                             ".extern buscar_string \n";
     data->data = ".data \n"
                  "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";
@@ -44,6 +46,8 @@ ARM_data *arm_data_create()
     data->count_switch = 0;
 
     data->count_while = 0;
+    data->count_for = 0;
+    data->count_foreach = 0;
     return data;
 }
 

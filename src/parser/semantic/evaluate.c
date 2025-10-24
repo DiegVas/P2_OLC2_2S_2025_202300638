@@ -553,12 +553,17 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     {
 
         Context *ctx_search = context;
+        char *original_id = strdup(expr->value);
 
         while (ctx_search)
         {
-            if (SearchID(ctx_search->symbols_context, expr->value))
+
+            char *new_id = (char *)calloc(256, sizeof(char)); // Ajusta el tamaño según sea necesario
+            snprintf(new_id, 256, "%s_%s", original_id, ctx_search->nombre);
+
+            if (SearchID(ctx_search->symbols_context, new_id))
             {
-                symbol *sym = SearchSymbol(ctx_search->symbols_context, expr->value);
+                symbol *sym = SearchSymbol(ctx_search->symbols_context, new_id);
 
                 if (strcmp(sym->type, "VECTOR") == 0 && sym->vectorValues)
                 {
@@ -572,6 +577,43 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                             result->dataType = "INTEGER";
                             result->value = (char *)calloc(20, sizeof(char));
                             sprintf(result->value, "%d", index);
+
+                            char buffer[128];
+                            snprintf(buffer, sizeof(buffer), "\n// Obtener indexOf del valor en el vector %s\n", sym->id);
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
+                            result->data_section = arm_data_add(result->data_section, to_find->data_section);
+                            result->text_section = arm_data_add(result->text_section, to_find->text_section);
+
+                            if (to_find->num_register != 2)
+                            {
+                                snprintf(buffer, sizeof(buffer), "mov  x2, x%d\n", to_find->num_register);
+                                result->text_section = arm_data_add(result->text_section, buffer);
+                            }
+
+                            snprintf(buffer, sizeof(buffer), "adrp x0, %s\n", sym->id);
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
+                            snprintf(buffer, sizeof(buffer), "add  x0, x0, :lo12:%s\n", sym->id);
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
+                            snprintf(buffer, sizeof(buffer), "adr  x1, %s_length\n", sym->id);
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
+                            snprintf(buffer, sizeof(buffer), "ldr  w1, [x1]\n");
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
+                            if (strcmp(to_find->dataType, "STRING") == 0)
+                            {
+                                snprintf(buffer, sizeof(buffer), "bl   buscar_string\n");
+                            }
+                            else
+                            {
+                                snprintf(buffer, sizeof(buffer), "bl   buscar_entero\n");
+                            }
+
+                            result->text_section = arm_data_add(result->text_section, buffer);
+
                             return result;
                         }
                         index++;
@@ -775,25 +817,15 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 // ldr x22, [x19, x21, lsl #3]
 
                 if (strcmp(found_symbol->dataType, "INTEGER") == 0 || strcmp(found_symbol->dataType, "BOOLEAN") == 0)
-                {
                     snprintf(buffer, sizeof(buffer), "ldr    w%d, [x1, x%d, lsl #2]\n", expr->num_register, index_access->num_register);
-                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
-                }
                 else if (strcmp(found_symbol->dataType, "DOUBLE") == 0 || strcmp(found_symbol->dataType, "FLOAT") == 0)
-                {
                     snprintf(buffer, sizeof(buffer), "ldr    d%d, [x1, x%d, lsl #3]\n", expr->num_register, index_access->num_register);
-                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
-                }
                 else if (strcmp(found_symbol->dataType, "CHARACTER") == 0)
-                {
                     snprintf(buffer, sizeof(buffer), "ldrb    w%d, [x1, x%d, lsl #0]\n", expr->num_register, index_access->num_register);
-                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
-                }
                 else if (strcmp(found_symbol->dataType, "STRING") == 0)
-                {
                     snprintf(buffer, sizeof(buffer), "ldr    x%d, [x1, x%d, lsl #3]\n", expr->num_register, index_access->num_register);
-                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
-                }
+
+                found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
 
                 if (!found_symbol)
                 {

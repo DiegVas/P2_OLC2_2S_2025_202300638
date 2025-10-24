@@ -934,14 +934,16 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         ctx_foreach->after = context;
         ctx_foreach->symbols_context = Symbol_table_create();
         ctx_foreach->nombre = "Foreach";
-
+        char *orignal_id = strdup(instruction->forEachData->array);
         Context *search_ctx = context;
         while (search_ctx)
         {
+            char search_id[256];
+            snprintf(search_id, sizeof(search_id), "%s_%s", orignal_id, search_ctx->nombre);
 
-            if (SearchID(search_ctx->symbols_context, instruction->forEachData->array))
+            if (SearchID(search_ctx->symbols_context, search_id))
             {
-                symbol *array_symbol = SearchSymbol(search_ctx->symbols_context, instruction->forEachData->array);
+                symbol *array_symbol = SearchSymbol(search_ctx->symbols_context, search_id);
 
                 if (strcmp(array_symbol->type, "VECTOR") != 0)
                     return Error_exists("FOREACH solo soporta vectores", context->nombre, instruction);
@@ -953,81 +955,123 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                     return;
                 }
 
-                // Iterar sobre cada elemento del vector
                 VectorNode *vector_node = vector_values->head;
-                while (vector_node)
+                fprintf(stderr, "DEBUG: Foreach - Procesando elemento del vector\n");
+
+                symbol *loop_symbol = (symbol *)calloc(1, sizeof(symbol));
+                loop_symbol->id = strcat(strcat(instruction->forEachData->item, "_"), ctx_foreach->nombre);
+                loop_symbol->dataType = instruction->forEachData->type;
+                loop_symbol->type = "VARIABLE";
+                loop_symbol->environment = ctx_foreach->nombre;
+                loop_symbol->line = &(instruction->line);
+                loop_symbol->column = &(instruction->column);
+
+                // Asignar el valor del elemento actual
+                if (vector_node->value)
                 {
-                    fprintf(stderr, "DEBUG: Foreach - Procesando elemento del vector\n");
-
-                    // Crear o actualizar el símbolo de iteración para el elemento actual
-                    symbol *loop_symbol = (symbol *)calloc(1, sizeof(symbol));
-                    loop_symbol->id = instruction->forEachData->item;
-                    loop_symbol->dataType = instruction->forEachData->type;
-                    loop_symbol->type = "VARIABLE";
-                    loop_symbol->environment = ctx_foreach->nombre;
-                    loop_symbol->line = &(instruction->line);
-                    loop_symbol->column = &(instruction->column);
-
-                    // Asignar el valor del elemento actual
-                    if (vector_node->value)
+                    loop_symbol->value = vector_node->value->value ? strdup(vector_node->value->value) : strdup("NULL");
+                    fprintf(stderr, "DEBUG: Foreach - Variable '%s' = '%s'\n",
+                            loop_symbol->id, loop_symbol->value);
+                }
+                else if (vector_node->exprData)
+                {
+                    symbol *eval_expr = evaluate_expression(vector_node->exprData, context);
+                    if (eval_expr)
                     {
-                        loop_symbol->value = vector_node->value->value ? strdup(vector_node->value->value) : strdup("NULL");
-                        fprintf(stderr, "DEBUG: Foreach - Variable '%s' = '%s'\n",
+                        loop_symbol->value = eval_expr->value ? strdup(eval_expr->value) : strdup("NULL");
+                        fprintf(stderr, "DEBUG: Foreach - Variable '%s' = '%s' (from expression)\n",
                                 loop_symbol->id, loop_symbol->value);
-                    }
-                    else if (vector_node->exprData)
-                    {
-                        symbol *eval_expr = evaluate_expression(vector_node->exprData, context);
-                        if (eval_expr)
-                        {
-                            loop_symbol->value = eval_expr->value ? strdup(eval_expr->value) : strdup("NULL");
-                            fprintf(stderr, "DEBUG: Foreach - Variable '%s' = '%s' (from expression)\n",
-                                    loop_symbol->id, loop_symbol->value);
-                        }
-                        else
-                        {
-                            loop_symbol->value = strdup("NULL");
-                        }
                     }
                     else
                     {
                         loop_symbol->value = strdup("NULL");
                     }
-
-                    // Insertar la variable de iteración en el contexto del foreach
-                    Symbol_table_insert(ctx_foreach->symbols_context, loop_symbol);
-
-                    // Ejecutar todo el bloque de instrucciones con el elemento actual
-                    InstruccionNode *curr = instruction->forEachData->block->head;
-                    while (curr)
-                    {
-                        semantic_analysis_execute(curr->instr, ctx_foreach);
-
-                        if (ctx_foreach->break_instruction)
-                            break;
-
-                        if (ctx_foreach->continue_instruction)
-                        {
-                            ctx_foreach->continue_instruction = false;
-                            break;
-                        }
-
-                        curr = curr->next;
-                    }
-
-                    if (ctx_foreach->break_instruction)
-                        break;
-
-                    // Limpiar la tabla de símbolos para la siguiente iteración
-                    // (mantener solo los símbolos que no sean la variable de iteración)
-                    ctx_foreach->symbols_context = Symbol_table_create();
-
-                    vector_node = vector_node->next;
                 }
-                Symbol_table_insertContext(SymbolTable_General, ctx_foreach->symbols_context);
+                else
+                {
+                    loop_symbol->value = strdup("NULL");
+                }
+
+                // Insertar la variable de iteración en el contexto del foreach
+                Symbol_table_insert(ctx_foreach->symbols_context, loop_symbol);
+
+                char bufferComment[128];
+                snprintf(bufferComment, sizeof(bufferComment), "\n// Instrucción FOREACH\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "adr x21, %s_length \n", array_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "ldr w21, [x21]\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "mov x22, #0\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "adrp x19, %s\n", array_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "add x19, x19, :lo12:%s\n", array_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "foreach_%d:\n", arm_global_data->count_foreach);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "cmp x22, x21\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "bge end_foreach_%d\n", arm_global_data->count_foreach);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                if (strcmp(array_symbol->dataType, "INTEGER") == 0 || strcmp(array_symbol->dataType, "BOOLEAN") == 0)
+                    snprintf(bufferComment, sizeof(bufferComment), "ldr    w20, [x19, x22, lsl #2]\n");
+                else if (strcmp(array_symbol->dataType, "DOUBLE") == 0 || strcmp(array_symbol->dataType, "FLOAT") == 0)
+                    snprintf(bufferComment, sizeof(bufferComment), "ldr    d20, [x19, x22, lsl #3]\n");
+                else if (strcmp(array_symbol->dataType, "CHARACTER") == 0)
+                    snprintf(bufferComment, sizeof(bufferComment), "ldrb    w20, [x19, x22, lsl #0]\n");
+                else if (strcmp(array_symbol->dataType, "STRING") == 0)
+                    snprintf(bufferComment, sizeof(bufferComment), "ldr    x20, [x19, x22, lsl #3]\n");
+                arm_global_data->text = arm_data_add(arm_global_data->text, bufferComment);
+
+                arm_global_data->bss = arm_data_add(arm_global_data->bss, arm_declarate_bss(loop_symbol->id, loop_symbol->dataType));
+
+                char *register_type = "w";
+                if (strcmp(loop_symbol->dataType, "DOUBLE") == 0 || strcmp(loop_symbol->dataType, "FLOAT") == 0)
+                    register_type = "d";
+                else if (strcmp(loop_symbol->dataType, "STRING") == 0)
+                    register_type = "x";
+
+                //* ARM FOREACH STORE LOOP VARIABLE
+                char buffer[128];
+                snprintf(buffer, sizeof(buffer), "ldr x1, =%s\n", loop_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+                snprintf(buffer, sizeof(buffer), "str %s20, [x1]\n", register_type);
+                arm_global_data->text = arm_text_add(arm_global_data->text, buffer);
+
+                InstruccionNode *curr = instruction->forEachData->block->head;
+
+                while (curr)
+                {
+                    semantic_analysis_execute(curr->instr, ctx_foreach);
+                    curr = curr->next;
+                }
+
+                snprintf(bufferComment, sizeof(bufferComment), " add x22, x22, #1\n");
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "b foreach_%d\n", arm_global_data->count_foreach);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "end_foreach_%d:\n", arm_global_data->count_foreach);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                arm_global_data->count_foreach++;
+
                 return;
             }
 
+            fprintf(stderr, "DEBUG: Foreach - Buscando en contexto: %s\n", search_ctx->nombre);
             search_ctx = search_ctx->after;
         }
 

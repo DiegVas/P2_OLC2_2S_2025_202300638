@@ -26,6 +26,7 @@ typedef struct ARM_data
 
     int count_while;
     int count_for;
+    int count_foreach;
 
 } ARM_data;
 
