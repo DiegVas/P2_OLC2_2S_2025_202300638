@@ -3,15 +3,29 @@
 Dimensiones encontradas: 1
 Dimensiones encontradas: 1
 Dimensiones encontradas: 1
+Dimensiones encontradas: 1
+Dimensiones encontradas: 1
+Dimensiones encontradas: 1
+Dimensiones encontradas: 1
 Nuevo símbolo de tipo vector: productos_Global, Tipo: STRING, Valor: productos_Global_elem_0, productos_Global_elem_1, productos_Global_elem_2, productos_Global_elem_3, productos_Global_elem_4
 Nuevo símbolo de tipo vector: precios_Global, Tipo: INTEGER, Valor: 15000, 250, 800, 3500, 2200
 Nuevo símbolo de tipo vector: cantidades_Global, Tipo: INTEGER, Valor: 10, 50, 30, 15, 8
 Nuevo símbolo de tipo vector: disponibles_Global, Tipo: BOOLEAN, Valor: 1, 1, 1, 1, 0
 Nuevo símbolo de tipo vector: codigosProducto_Global, Tipo: INTEGER, Valor: 0, 0, 0, 0, 0
 Nuevo símbolo de tipo vector: proveedores_Global, Tipo: STRING, Valor: proveedores_Global_elem_0, proveedores_Global_elem_1, proveedores_Global_elem_2, proveedores_Global_elem_3, proveedores_Global_elem_4
-Searching for vector with original ID: precios
-Searching for vector with original ID: cantidades
-Searching for vector with original ID: disponibles
+Vector completo actualizado: 15000, 280, 800, 3500, 2200
+Vector completo actualizado: 10, 45, 30, 15, 8
+Vector completo actualizado: 1, 1, 1, 1, 1
+Vector completo actualizado: 1001, 0, 0, 0, 0
+Vector completo actualizado: 1001, 1002, 0, 0, 0
+Vector completo actualizado: 1001, 1002, 1003, 0, 0
+Vector completo actualizado: 1001, 1002, 1003, 1004, 0
+Vector completo actualizado: 1001, 1002, 1003, 1004, 1005
+Vector completo actualizado: TechCorp, , , , 
+Vector completo actualizado: TechCorp, DeviceMax, , , 
+Vector completo actualizado: TechCorp, DeviceMax, KeyboardPro, , 
+Vector completo actualizado: TechCorp, DeviceMax, KeyboardPro, ScreenTech, 
+Vector completo actualizado: TechCorp, DeviceMax, KeyboardPro, ScreenTech, PrintSolutions
 .global main 
 .extern printf 
 .extern itao 
@@ -23,7 +37,8 @@ Searching for vector with original ID: disponibles
 
 .data 
 print: .asciz "%s\n" 
-string_0: .asciz "\n--- DECLARACION DE ARREGLOS ---"
+string_0: .asciz "=== SISTEMA DE GESTION DE INVENTARIO ==="
+string_1: .asciz "\n--- DECLARACION DE ARREGLOS ---"
 productos_Global: .quad productos_Global_elem_0, productos_Global_elem_1, productos_Global_elem_2, productos_Global_elem_3, productos_Global_elem_4
 productos_Global_elem_0: .asciz "Laptop"
 productos_Global_elem_1: .asciz "Mouse"
@@ -46,16 +61,73 @@ proveedores_Global_elem_2: .asciz ""
 proveedores_Global_elem_3: .asciz ""
 proveedores_Global_elem_4: .asciz ""
 proveedores_Global_length: .word 5
-string_11: .asciz "\nDespués de modificaciones:"
-string_12: .asciz "- Nuevo precio Mouse: "
-int_15: .word 1
+string_12: .asciz "Arreglos declarados exitosamente:"
+string_13: .asciz "- productos: arreglo de String con "
 buffer1: .space 32
-string_13: .asciz "- Nueva cantidad Mouse: "
-int_16: .word 1
+string_14: .asciz " elementos"
+string_15: .asciz "- precios: arreglo de int con "
 buffer2: .space 32
-string_14: .asciz "- Impresora ahora disponible: "
-int_17: .word 4
+string_16: .asciz " elementos"
+string_17: .asciz "- cantidades: arreglo de int con "
 buffer3: .space 32
+string_18: .asciz " elementos"
+string_19: .asciz "- disponibles: arreglo de boolean con "
+buffer4: .space 32
+string_20: .asciz " elementos"
+string_21: .asciz "- codigosProducto: arreglo vacío de "
+buffer5: .space 32
+string_22: .asciz " elementos"
+string_23: .asciz "- proveedores: arreglo vacío de "
+buffer6: .space 32
+string_24: .asciz " elementos"
+string_25: .asciz "\n--- MODIFICACION DE ELEMENTOS ---"
+string_26: .asciz "Estado inicial del Mouse:"
+string_27: .asciz "- Precio: "
+int_15: .word 1
+buffer7: .space 32
+string_28: .asciz "- Cantidad: "
+int_16: .word 1
+buffer8: .space 32
+string_29: .asciz "- Disponible: "
+int_17: .word 1
+buffer9: .space 32
+int_19: .word 1
+int_18: .word 280
+int_21: .word 1
+int_20: .word 45
+int_22: .word 4
+string_30: .asciz "\nDespués de modificaciones:"
+string_31: .asciz "- Nuevo precio Mouse: "
+int_23: .word 1
+buffer10: .space 32
+string_32: .asciz "- Nueva cantidad Mouse: "
+int_24: .word 1
+buffer11: .space 32
+string_33: .asciz "- Impresora ahora disponible: "
+int_25: .word 4
+buffer12: .space 32
+int_27: .word 0
+int_26: .word 1001
+int_29: .word 1
+int_28: .word 1002
+int_31: .word 2
+int_30: .word 1003
+int_33: .word 3
+int_32: .word 1004
+int_35: .word 4
+int_34: .word 1005
+int_36: .word 0
+string_34: .asciz "TechCorp"
+int_37: .word 1
+string_35: .asciz "DeviceMax"
+int_38: .word 2
+string_36: .asciz "KeyboardPro"
+int_39: .word 3
+string_37: .asciz "ScreenTech"
+int_40: .word 4
+string_38: .asciz "PrintSolutions"
+string_39: .asciz "- Nuevo precio Mouse: "
+int_41: .word 1
 
 .bss 
 
@@ -66,7 +138,7 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string \n--- DECLARACION DE ARREGLOS ---
+	// Carga de string === SISTEMA DE GESTION DE INVENTARIO ===
 	adr     x1, string_0
 	adr x0, print
 	bl printf
@@ -74,16 +146,208 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string \nDespués de modificaciones:
-	adr     x1, string_11
+	// Carga de string \n--- DECLARACION DE ARREGLOS ---
+	adr     x1, string_1
 	adr x0, print
 	bl printf
 	
 	
 	// Instrucción de impresión
 	
-	// Carga de string - Nuevo precio Mouse: 
+	// Carga de string Arreglos declarados exitosamente:
 	adr     x1, string_12
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - productos: arreglo de String con 
+	adr     x1, string_13
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector productos_Global
+	adr    x0, productos_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer1
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_14
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - precios: arreglo de int con 
+	adr     x1, string_15
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector precios_Global
+	adr    x0, precios_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer2
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_16
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - cantidades: arreglo de int con 
+	adr     x1, string_17
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector cantidades_Global
+	adr    x0, cantidades_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer3
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_18
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - disponibles: arreglo de boolean con 
+	adr     x1, string_19
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector disponibles_Global
+	adr    x0, disponibles_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer4
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_20
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - codigosProducto: arreglo vacío de 
+	adr     x1, string_21
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector codigosProducto_Global
+	adr    x0, codigosProducto_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer5
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_22
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - proveedores: arreglo vacío de 
+	adr     x1, string_23
+	str     x1, [sp, #-16]!
+	
+	// Obtener longitud del vector proveedores_Global
+	adr    x0, proveedores_Global_length
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer6
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string  elementos
+	adr     x2, string_24
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string \n--- MODIFICACION DE ELEMENTOS ---
+	adr     x1, string_25
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Estado inicial del Mouse:
+	adr     x1, string_26
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - Precio: 
+	adr     x1, string_27
 	str     x1, [sp, #-16]!
 	
 	// Carga de entero 1
@@ -96,7 +360,7 @@ MOV X29, SP
 	ldr    w0, [x1, x0, lsl #2]
 	
 	// Conversion de INTEGER a STRING
-	adr     x1, buffer1
+	adr     x1, buffer7
 	bl itao
 	mov    x2, x1
 	ldr     x1, [sp], #16
@@ -108,8 +372,8 @@ MOV X29, SP
 	
 	// Instrucción de impresión
 	
-	// Carga de string - Nueva cantidad Mouse: 
-	adr     x1, string_13
+	// Carga de string - Cantidad: 
+	adr     x1, string_28
 	str     x1, [sp, #-16]!
 	
 	// Carga de entero 1
@@ -122,7 +386,137 @@ MOV X29, SP
 	ldr    w0, [x1, x0, lsl #2]
 	
 	// Conversion de INTEGER a STRING
-	adr     x1, buffer2
+	adr     x1, buffer8
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - Disponible: 
+	adr     x1, string_29
+	str     x1, [sp, #-16]!
+	
+	// Carga de entero 1
+	adr    x0, int_17
+	ldr    w0, [x0]
+	
+	// Carga de variable disponibles_Global de tipo BOOLEAN
+	adrp   x1, disponibles_Global
+	add    x1, x1, :lo12:disponibles_Global
+	ldr    w0, [x1, x0, lsl #2]
+	
+	// Conversion de BOOLEAN a STRING
+	adr     x1, buffer9
+	bl booltoa
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Carga de entero 1
+	adr    x2, int_19
+	ldr    w2, [x2]
+	
+	// Carga de entero 280
+	adr    x0, int_18
+	ldr    w0, [x0]
+	
+	// Asignación de vector precios_Global[1]
+	
+	// Carga de variable precios_Global de tipo INTEGER
+	adrp   x1, precios_Global
+	add    x1, x1, :lo12:precios_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 1
+	adr    x2, int_21
+	ldr    w2, [x2]
+	
+	// Carga de entero 45
+	adr    x0, int_20
+	ldr    w0, [x0]
+	
+	// Asignación de vector cantidades_Global[1]
+	
+	// Carga de variable cantidades_Global de tipo INTEGER
+	adrp   x1, cantidades_Global
+	add    x1, x1, :lo12:cantidades_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 4
+	adr    x2, int_22
+	ldr    w2, [x2]
+	
+	// Carga de boolean true
+	mov     w0, #1
+	
+	// Asignación de vector disponibles_Global[4]
+	
+	// Carga de variable disponibles_Global de tipo BOOLEAN
+	adrp   x1, disponibles_Global
+	add    x1, x1, :lo12:disponibles_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Instrucción de impresión
+	
+	// Carga de string \nDespués de modificaciones:
+	adr     x1, string_30
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - Nuevo precio Mouse: 
+	adr     x1, string_31
+	str     x1, [sp, #-16]!
+	
+	// Carga de entero 1
+	adr    x0, int_23
+	ldr    w0, [x0]
+	
+	// Carga de variable precios_Global de tipo INTEGER
+	adrp   x1, precios_Global
+	add    x1, x1, :lo12:precios_Global
+	ldr    w0, [x1, x0, lsl #2]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer10
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string - Nueva cantidad Mouse: 
+	adr     x1, string_32
+	str     x1, [sp, #-16]!
+	
+	// Carga de entero 1
+	adr    x0, int_24
+	ldr    w0, [x0]
+	
+	// Carga de variable cantidades_Global de tipo INTEGER
+	adrp   x1, cantidades_Global
+	add    x1, x1, :lo12:cantidades_Global
+	ldr    w0, [x1, x0, lsl #2]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer11
 	bl itao
 	mov    x2, x1
 	ldr     x1, [sp], #16
@@ -135,11 +529,11 @@ MOV X29, SP
 	// Instrucción de impresión
 	
 	// Carga de string - Impresora ahora disponible: 
-	adr     x1, string_14
+	adr     x1, string_33
 	str     x1, [sp, #-16]!
 	
 	// Carga de entero 4
-	adr    x0, int_17
+	adr    x0, int_25
 	ldr    w0, [x0]
 	
 	// Carga de variable disponibles_Global de tipo BOOLEAN
@@ -148,9 +542,175 @@ MOV X29, SP
 	ldr    w0, [x1, x0, lsl #2]
 	
 	// Conversion de BOOLEAN a STRING
-	adr     x1, buffer3
+	adr     x1, buffer12
 	bl booltoa
 	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Carga de entero 0
+	adr    x2, int_27
+	ldr    w2, [x2]
+	
+	// Carga de entero 1001
+	adr    x0, int_26
+	ldr    w0, [x0]
+	
+	// Asignación de vector codigosProducto_Global[0]
+	
+	// Carga de variable codigosProducto_Global de tipo INTEGER
+	adrp   x1, codigosProducto_Global
+	add    x1, x1, :lo12:codigosProducto_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 1
+	adr    x2, int_29
+	ldr    w2, [x2]
+	
+	// Carga de entero 1002
+	adr    x0, int_28
+	ldr    w0, [x0]
+	
+	// Asignación de vector codigosProducto_Global[1]
+	
+	// Carga de variable codigosProducto_Global de tipo INTEGER
+	adrp   x1, codigosProducto_Global
+	add    x1, x1, :lo12:codigosProducto_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 2
+	adr    x2, int_31
+	ldr    w2, [x2]
+	
+	// Carga de entero 1003
+	adr    x0, int_30
+	ldr    w0, [x0]
+	
+	// Asignación de vector codigosProducto_Global[2]
+	
+	// Carga de variable codigosProducto_Global de tipo INTEGER
+	adrp   x1, codigosProducto_Global
+	add    x1, x1, :lo12:codigosProducto_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 3
+	adr    x2, int_33
+	ldr    w2, [x2]
+	
+	// Carga de entero 1004
+	adr    x0, int_32
+	ldr    w0, [x0]
+	
+	// Asignación de vector codigosProducto_Global[3]
+	
+	// Carga de variable codigosProducto_Global de tipo INTEGER
+	adrp   x1, codigosProducto_Global
+	add    x1, x1, :lo12:codigosProducto_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 4
+	adr    x2, int_35
+	ldr    w2, [x2]
+	
+	// Carga de entero 1005
+	adr    x0, int_34
+	ldr    w0, [x0]
+	
+	// Asignación de vector codigosProducto_Global[4]
+	
+	// Carga de variable codigosProducto_Global de tipo INTEGER
+	adrp   x1, codigosProducto_Global
+	add    x1, x1, :lo12:codigosProducto_Global
+	str    w0, [x1, x2, lsl #2]
+	
+	// Carga de entero 0
+	adr    x2, int_36
+	ldr    w2, [x2]
+	
+	// Carga de string TechCorp
+	adr     x0, string_34
+	
+	// Asignación de vector proveedores_Global[0]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	str    x0, [x1, x2, lsl #3]
+	
+	// Carga de entero 1
+	adr    x2, int_37
+	ldr    w2, [x2]
+	
+	// Carga de string DeviceMax
+	adr     x0, string_35
+	
+	// Asignación de vector proveedores_Global[1]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	str    x0, [x1, x2, lsl #3]
+	
+	// Carga de entero 2
+	adr    x2, int_38
+	ldr    w2, [x2]
+	
+	// Carga de string KeyboardPro
+	adr     x0, string_36
+	
+	// Asignación de vector proveedores_Global[2]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	str    x0, [x1, x2, lsl #3]
+	
+	// Carga de entero 3
+	adr    x2, int_39
+	ldr    w2, [x2]
+	
+	// Carga de string ScreenTech
+	adr     x0, string_37
+	
+	// Asignación de vector proveedores_Global[3]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	str    x0, [x1, x2, lsl #3]
+	
+	// Carga de entero 4
+	adr    x2, int_40
+	ldr    w2, [x2]
+	
+	// Carga de string PrintSolutions
+	adr     x0, string_38
+	
+	// Asignación de vector proveedores_Global[4]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	str    x0, [x1, x2, lsl #3]
+	
+	// Instrucción de impresión
+	
+	// Carga de string - Nuevo precio Mouse: 
+	adr     x1, string_39
+	str     x1, [sp, #-16]!
+	
+	// Carga de entero 1
+	adr    x0, int_41
+	ldr    w0, [x0]
+	
+	// Carga de variable proveedores_Global de tipo STRING
+	adrp   x1, proveedores_Global
+	add    x1, x1, :lo12:proveedores_Global
+	ldr    x2, [x1, x0, lsl #3]
 	ldr     x1, [sp], #16
 	bl string_concat
 	mov x1, x0

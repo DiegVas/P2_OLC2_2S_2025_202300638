@@ -117,7 +117,7 @@ char *printVector(VectorList *vec);
 
 void Error_exists(char *message, char *environment, Instruccion *instruccion);
 
-symbol **get_VectorElementPointer(Context *context, Expression *index_exp, VectorList *vector);
+symbol **get_VectorElementPointer(Context *context, symbol *index_access, VectorList *vector);
 symbol **get_MatrixElementPointer(Context *context, Expression *row_exp, Expression *col_exp, MatrixList *matrix);
 
 symbol *get_legth_of_vector(VectorList *vector);

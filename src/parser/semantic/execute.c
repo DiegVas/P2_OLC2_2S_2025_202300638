@@ -304,9 +304,20 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
                 if (strcmp(sym_to_update->type, "VECTOR") == 0 && instruction->IndexVector)
                 {
+                    instruction->IndexVector->num_register = 2;
+                    symbol *index_eval = evaluate_expression(instruction->IndexVector, context);
+
+                    if (index_eval == NULL || strcmp(index_eval->dataType, "INTEGER") != 0)
+                    {
+                        fprintf(stderr, "Error: evaluate_expression returned NULL or not is INTEGER for vector index\n");
+                        return;
+                    }
+
+                    arm_global_data->text = arm_text_add(arm_global_data->text, index_eval->text_section);
+                    arm_global_data->data = arm_data_add(arm_global_data->data, index_eval->data_section);
 
                     // Obtener puntero directo al elemento del vector
-                    symbol **vector_element_ptr = get_VectorElementPointer(ctx, instruction->IndexVector, sym_to_update->vectorValues);
+                    symbol **vector_element_ptr = get_VectorElementPointer(ctx, index_eval, sym_to_update->vectorValues);
 
                     if (!vector_element_ptr)
                         return Error_exists("Vector index must be INTEGER or out of bounds", ctx->nombre, instruction);
@@ -315,6 +326,43 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
                     // Modificar directamente el valor en el vector
                     vector_element->value = evaluated_assign->value;
+
+                    arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_assign->text_section);
+                    arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_assign->data_section);
+
+                    char bufferComment[128];
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de vector %s[%s]\n", sym_to_update->id, index_eval->value);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym_to_update->id, sym_to_update->dataType);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "adrp   x1, %s\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "add    x1, x1, :lo12:%s\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    if (strcmp(sym_to_update->dataType, "INTEGER") == 0 || strcmp(sym_to_update->dataType, "BOOLEAN") == 0)
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "str    w%d, [x1, x%d, lsl #2]\n", sym_to_update->num_register, index_eval->num_register);
+                        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+                    }
+                    else if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "str    d%d, [x1, x%d, lsl #3]\n", sym_to_update->num_register, index_eval->num_register);
+                        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+                    }
+                    else if (strcmp(sym_to_update->dataType, "CHARACTER") == 0)
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "strb    w%d, [x1, x%d, lsl #0]\n", sym_to_update->num_register, index_eval->num_register);
+                        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+                    }
+                    else if (strcmp(sym_to_update->dataType, "STRING") == 0)
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "str    x%d, [x1, x%d, lsl #3]\n", sym_to_update->num_register, index_eval->num_register);
+                        arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+                    }
 
                     // Actualizar la representación string del vector completo
                     sym_to_update->value = printVector(sym_to_update->vectorValues);
@@ -449,14 +497,13 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
                 snprintf(bufferComment, sizeof(bufferComment), "\n// Asignación de variable %s\n", sym_to_update->id);
 
                 arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_value->text_section);
+                arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
 
                 char *register_type = "w";
                 if (strcmp(sym_to_update->dataType, "DOUBLE") == 0 || strcmp(sym_to_update->dataType, "FLOAT") == 0)
                     register_type = "d";
                 else if (strcmp(sym_to_update->dataType, "STRING") == 0)
                     register_type = "x";
-
-                arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_value->data_section);
 
                 if (evaluated_value->num_register != 0)
                 {

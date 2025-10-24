@@ -99,18 +99,8 @@ VectorList *evaluate_vector(char *dataType, VectorList *vec, Context *evaluateCo
     return evaluated_vector;
 }
 
-symbol **get_VectorElementPointer(Context *context, Expression *index_exp, VectorList *vector)
+symbol **get_VectorElementPointer(Context *context, symbol *index_access, VectorList *vector)
 {
-    symbol *index_access = evaluate_expression(index_exp, context);
-
-    if (index_access == NULL)
-    {
-        fprintf(stderr, "Error: evaluate_expression returned NULL for vector index\n");
-        return NULL;
-    }
-
-    if (strcmp(index_access->dataType, "INTEGER") != 0)
-        return NULL;
 
     int index = atoi(index_access->value);
 
@@ -150,13 +140,14 @@ symbol **get_MatrixElementPointer(Context *context, Expression *row_exp, Express
     {
         if (row == curr_row_index)
         {
-
+            /*
             symbol **curr_col = get_VectorElementPointer(context, col_exp, curr_row->vector);
 
             if (!curr_col)
                 return NULL;
 
             return curr_col;
+            */
         }
         curr_row = curr_row->next;
         curr_row_index++;

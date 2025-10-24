@@ -596,18 +596,40 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     case EXP_LENGTH:
     {
 
+        char *original_id = strdup(expr->value);
+
         Context *ctx_search = context;
         while (ctx_search)
         {
-            if (SearchID(ctx_search->symbols_context, expr->value))
-            {
-                symbol *sym = SearchSymbol(ctx_search->symbols_context, expr->value);
+            char *new_id = (char *)calloc(256, sizeof(char)); // Ajusta el tamaño según sea necesario
+            snprintf(new_id, 256, "%s_%s", original_id, ctx_search->nombre);
 
-                fprintf(stderr, "Getting length of symbol %s of type %s\n", sym->id, sym->type);
-                fprintf(stderr, "Vector values: %p\n", (void *)sym->vectorValues);
+            if (SearchID(ctx_search->symbols_context, new_id))
+            {
+                symbol *sym = SearchSymbol(ctx_search->symbols_context, new_id);
 
                 if (strcmp(sym->type, "VECTOR") == 0 && sym->vectorValues)
-                    return get_legth_of_vector(sym->vectorValues);
+                {
+
+                    symbol *length_sym = get_legth_of_vector(sym->vectorValues);
+
+                    length_sym->text_section = "";
+                    length_sym->data_section = "";
+
+                    char buffer[128];
+                    snprintf(buffer, sizeof(buffer), "\n// Obtener longitud del vector %s\n", sym->id);
+                    length_sym->text_section = arm_data_add(length_sym->text_section, buffer);
+
+                    snprintf(buffer, sizeof(buffer), "adr    x%d, %s_length\n", expr->num_register, sym->id);
+                    length_sym->text_section = arm_data_add(length_sym->text_section, buffer);
+
+                    snprintf(buffer, sizeof(buffer), "ldr    w%d, [x%d]\n", expr->num_register, expr->num_register);
+                    length_sym->text_section = arm_data_add(length_sym->text_section, buffer);
+
+                    length_sym->num_register = expr->num_register;
+
+                    return length_sym;
+                }
                 if (strcmp(sym->type, "MATRIX") == 0 && sym->matrixValues)
                     return get_legth_of_matrix(sym->matrixValues);
 
@@ -703,7 +725,6 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         Context *ctx_search = context;
         while (ctx_search)
         {
-            fprintf(stderr, "Searching for vector with original ID: %s\n", original_id);
             char *new_id = (char *)calloc(256, sizeof(char)); // Ajusta el tamaño según sea necesario
             snprintf(new_id, 256, "%s_%s", original_id, ctx_search->nombre);
 
@@ -770,7 +791,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 }
                 else if (strcmp(found_symbol->dataType, "STRING") == 0)
                 {
-                    snprintf(buffer, sizeof(buffer), "ldr    x%d, [x1, x%d, lsl #0]\n", expr->num_register, index_access->num_register);
+                    snprintf(buffer, sizeof(buffer), "ldr    x%d, [x1, x%d, lsl #3]\n", expr->num_register, index_access->num_register);
                     found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
                 }
 
