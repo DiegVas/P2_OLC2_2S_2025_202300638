@@ -102,7 +102,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     }
     case EXP_STRING:
     {
-        result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("NULL") : strdup(expr->value);
+        result->value = strcmp(expr->value, "UNDEFINED") == 0 ? strdup("") : strdup(expr->value);
         result->dataType = strdup("STRING");
         result->declared_in_arm = true;
 
@@ -694,14 +694,22 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             return result;
         }
 
+        result->data_section = arm_data_add(result->data_section, index_access->data_section);
+        result->text_section = arm_data_add(result->text_section, index_access->text_section);
+
         int index = atoi(index_access->value);
+        char *original_id = strdup(expr->value);
 
         Context *ctx_search = context;
         while (ctx_search)
         {
-            if (SearchID(ctx_search->symbols_context, expr->value))
+            fprintf(stderr, "Searching for vector with original ID: %s\n", original_id);
+            char *new_id = (char *)calloc(256, sizeof(char)); // Ajusta el tamaño según sea necesario
+            snprintf(new_id, 256, "%s_%s", original_id, ctx_search->nombre);
+
+            if (SearchID(ctx_search->symbols_context, new_id))
             {
-                symbol *sym = SearchSymbol(ctx_search->symbols_context, expr->value);
+                symbol *sym = SearchSymbol(ctx_search->symbols_context, new_id);
                 if (strcmp(sym->type, "VECTOR") != 0 || !sym->vectorValues)
                 {
                     result->dataType = "UNDEFINED";
@@ -724,6 +732,48 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                     curr_index++;
                 }
 
+                found_symbol->text_section = "";
+                found_symbol->data_section = "";
+
+                found_symbol->text_section = arm_data_add(found_symbol->text_section, index_access->text_section);
+                found_symbol->data_section = arm_data_add(found_symbol->data_section, index_access->data_section);
+
+                char *arm_load = NULL;
+                char buffer[128];
+                char bufferComment[128];
+
+                snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym->id, sym->dataType);
+                found_symbol->text_section = arm_data_add(found_symbol->text_section, bufferComment);
+
+                snprintf(buffer, sizeof(buffer), "adrp   x1, %s\n", sym->id);
+                found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+
+                snprintf(buffer, sizeof(buffer), "add    x1, x1, :lo12:%s\n", sym->id);
+                found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+
+                // ldr x22, [x19, x21, lsl #3]
+
+                if (strcmp(found_symbol->dataType, "INTEGER") == 0 || strcmp(found_symbol->dataType, "BOOLEAN") == 0)
+                {
+                    snprintf(buffer, sizeof(buffer), "ldr    w%d, [x1, x%d, lsl #2]\n", expr->num_register, index_access->num_register);
+                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+                }
+                else if (strcmp(found_symbol->dataType, "DOUBLE") == 0 || strcmp(found_symbol->dataType, "FLOAT") == 0)
+                {
+                    snprintf(buffer, sizeof(buffer), "ldr    d%d, [x1, x%d, lsl #3]\n", expr->num_register, index_access->num_register);
+                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+                }
+                else if (strcmp(found_symbol->dataType, "CHARACTER") == 0)
+                {
+                    snprintf(buffer, sizeof(buffer), "ldrb    w%d, [x1, x%d, lsl #0]\n", expr->num_register, index_access->num_register);
+                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+                }
+                else if (strcmp(found_symbol->dataType, "STRING") == 0)
+                {
+                    snprintf(buffer, sizeof(buffer), "ldr    x%d, [x1, x%d, lsl #0]\n", expr->num_register, index_access->num_register);
+                    found_symbol->text_section = arm_data_add(found_symbol->text_section, buffer);
+                }
+
                 if (!found_symbol)
                 {
                     result->dataType = "UNDEFINED";
@@ -736,6 +786,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             ctx_search = ctx_search->after;
         }
+        break;
     }
     case EXP_MATRIX_ACCESS:
     {
@@ -911,6 +962,24 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 if (strcmp(sym->type, "VECTOR") == 0 && sym->vectorValues)
                 {
                     result_copy->vectorValues = copy_VectorList(sym->vectorValues);
+
+                    char *arm_load = NULL;
+                    char buffer[128];
+                    char bufferComment[128];
+
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// Carga de variable %s de tipo %s\n", sym->id, sym->dataType);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, bufferComment);
+
+                    snprintf(buffer, sizeof(buffer), "adrp   x%d, %s\n", expr->num_register, sym->id);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
+
+                    snprintf(buffer, sizeof(buffer), "add    x%d, x%d, :lo12:%s\n", expr->num_register, expr->num_register, sym->id);
+                    result_copy->text_section = arm_data_add(result_copy->text_section, buffer);
+
+                    result_copy->is_id = true;
+
+                    result_copy->num_register = expr->num_register;
+                    return result_copy;
                 }
                 else if (strcmp(sym->type, "MATRIX") == 0 && sym->matrixValues)
                 {

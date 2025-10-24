@@ -225,14 +225,19 @@ symbol *get_VectorElement(Context *context, Expression *index_exp, char *id)
 char *printVector(VectorList *vec)
 {
     char *result = (char *)calloc(1024, sizeof(char));
-    strcat(result, "[");
 
     VectorNode *current = vec->head;
     while (current)
     {
         if (current->value && current->value->value)
         {
-            strcat(result, current->value->value);
+
+            if (strcmp(current->value->value, "true") == 0)
+                strcat(result, "1");
+            else if (strcmp(current->value->value, "false") == 0)
+                strcat(result, "0");
+            else
+                strcat(result, current->value->value);
         }
         else if (current->exprData)
         {
@@ -261,6 +266,5 @@ char *printVector(VectorList *vec)
         current = current->next;
     }
 
-    strcat(result, "]");
     return result;
 }

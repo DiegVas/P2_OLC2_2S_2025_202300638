@@ -128,8 +128,11 @@ symbol *access_multidimensional_array(List *array, ExpressionList *indices, Cont
 // Función para asignación en arreglos multidimensionales
 bool assign_multidimensional_array(List *array, ExpressionList *indices, Context *context, symbol *new_value, int expected_dimensions);
 
-// Eliminar ultima linea de un string
+// Función para eliminar la última instrucción
 char *remove_last_instruction(const char *text);
+
+// Contar el numero de comas
+int count_commas(const char *str);
 
 // AST relacionado
 

@@ -637,11 +637,11 @@ static const yytype_int16 yyrline[] =
      690,   697,   704,   711,   718,   719,   726,   733,   740,   748,
      757,   765,   775,   783,   791,   799,   807,   815,   823,   831,
      839,   846,   853,   860,   867,   874,   881,   888,   894,   901,
-     922,   931,   935,   940,   950,   960,   961,   970,   971,   975,
-     986,   987,   997,   998,  1006,  1018,  1033,  1046,  1047,  1050,
-    1057,  1065,  1070,  1077,  1081,  1086,  1094,  1098,  1103,  1109,
-    1112,  1113,  1118,  1121,  1124,  1131,  1132,  1139,  1140,  1145,
-    1153,  1157
+     923,   932,   936,   941,   951,   961,   962,   971,   972,   976,
+     987,   988,   998,   999,  1007,  1019,  1034,  1047,  1048,  1051,
+    1058,  1066,  1071,  1078,  1082,  1087,  1095,  1099,  1104,  1110,
+    1113,  1114,  1119,  1122,  1125,  1132,  1133,  1140,  1141,  1146,
+    1154,  1158
 };
 #endif
 
@@ -3224,6 +3224,7 @@ yyreduce:
         
         // Determinar el tipo según el número de dimensiones
         int size = ExpressionList_size((yyvsp[0].exprList));
+        fprintf(stderr, "Dimensiones encontradas: %d\n", size);
         if (size == 1) {
             exp->type = "VECTOR_ACCESS";
             exp->left = ExpressionList_get((yyvsp[0].exprList), 0); // Primera dimensión
@@ -3239,11 +3240,11 @@ yyreduce:
         exp->value = (yyvsp[-1].sval);
         (yyval.expr) = exp;
     }
-#line 3243 "build/parser.tab.c"
+#line 3244 "build/parser.tab.c"
     break;
 
   case 100: /* expression: ID '(' exprList ')'  */
-#line 922 "src/parser/parser.y"
+#line 923 "src/parser/parser.y"
                           {
         Expression* exp = (Expression*)calloc(1, sizeof(Expression));
         exp->type = "FUNCTION_CALL";
@@ -3251,39 +3252,39 @@ yyreduce:
         exp->list = (yyvsp[-1].exprList);
         (yyval.expr) = exp;
     }
-#line 3255 "build/parser.tab.c"
+#line 3256 "build/parser.tab.c"
     break;
 
   case 101: /* exprList: %empty  */
-#line 931 "src/parser/parser.y"
+#line 932 "src/parser/parser.y"
                 { 
         ExpressionList* exprList = create_expression_list();
         (yyval.exprList) = exprList;
     }
-#line 3264 "build/parser.tab.c"
+#line 3265 "build/parser.tab.c"
     break;
 
   case 102: /* exprList: expression  */
-#line 935 "src/parser/parser.y"
+#line 936 "src/parser/parser.y"
                  {
         ExpressionList* exprList = create_expression_list();
         ExpressionList_add(exprList, (yyvsp[0].expr));
         (yyval.exprList) = exprList;
      }
-#line 3274 "build/parser.tab.c"
+#line 3275 "build/parser.tab.c"
     break;
 
   case 103: /* exprList: exprList ',' expression  */
-#line 940 "src/parser/parser.y"
+#line 941 "src/parser/parser.y"
                               {
         ExpressionList_add((yyvsp[-2].exprList), (yyvsp[0].expr));
         (yyval.exprList) = (yyvsp[-2].exprList);
      }
-#line 3283 "build/parser.tab.c"
+#line 3284 "build/parser.tab.c"
     break;
 
   case 104: /* IF_STATEMENT: IF '(' expression ')' '{' BREAK_LINE sentences '}' IF_LIST ELSE_STATEMENT  */
-#line 950 "src/parser/parser.y"
+#line 951 "src/parser/parser.y"
                                                                                  {
         IfData* ifdata = (IfData*)calloc(1, sizeof(IfData));
         ifdata->condition = (yyvsp[-7].expr);
@@ -3292,17 +3293,17 @@ yyreduce:
         ifdata->elseBlock = (yyvsp[0].instrList);
         (yyval.ifdata) = ifdata;
     }
-#line 3296 "build/parser.tab.c"
+#line 3297 "build/parser.tab.c"
     break;
 
   case 105: /* IF_LIST: %empty  */
-#line 960 "src/parser/parser.y"
+#line 961 "src/parser/parser.y"
                 { (yyval.ifnodelist) = createIfNodeList(); }
-#line 3302 "build/parser.tab.c"
+#line 3303 "build/parser.tab.c"
     break;
 
   case 106: /* IF_LIST: IF_LIST ELSE IF '(' expression ')' '{' BREAK_LINE sentences '}'  */
-#line 961 "src/parser/parser.y"
+#line 962 "src/parser/parser.y"
                                                                         {
         IfData* elseIfNode = (IfData*)malloc(sizeof(IfData));
         elseIfNode->condition = (yyvsp[-5].expr);
@@ -3310,23 +3311,23 @@ yyreduce:
         insertIfNode((yyvsp[-9].ifnodelist), elseIfNode);
         (yyval.ifnodelist) = (yyvsp[-9].ifnodelist);
     }
-#line 3314 "build/parser.tab.c"
+#line 3315 "build/parser.tab.c"
     break;
 
   case 107: /* ELSE_STATEMENT: %empty  */
-#line 970 "src/parser/parser.y"
+#line 971 "src/parser/parser.y"
                 { (yyval.instrList) = NULL; }
-#line 3320 "build/parser.tab.c"
+#line 3321 "build/parser.tab.c"
     break;
 
   case 108: /* ELSE_STATEMENT: ELSE '{' BREAK_LINE sentences '}'  */
-#line 971 "src/parser/parser.y"
+#line 972 "src/parser/parser.y"
                                         { (yyval.instrList) = (yyvsp[-1].instrList); }
-#line 3326 "build/parser.tab.c"
+#line 3327 "build/parser.tab.c"
     break;
 
   case 109: /* SWITCH_STATEMENT: SWITCH '(' ID ')' '{' BREAK_LINE CASES DEFAULT_CASE '}'  */
-#line 975 "src/parser/parser.y"
+#line 976 "src/parser/parser.y"
                                                             {
         SwitchData* switchdata = (SwitchData*)malloc(sizeof(SwitchData));
         switchdata->condition = strdup((yyvsp[-6].sval));
@@ -3334,17 +3335,17 @@ yyreduce:
         switchdata->defaultCase = (yyvsp[-1].instrList);
         (yyval.switchdata) = switchdata;
     }
-#line 3338 "build/parser.tab.c"
+#line 3339 "build/parser.tab.c"
     break;
 
   case 110: /* CASES: %empty  */
-#line 986 "src/parser/parser.y"
+#line 987 "src/parser/parser.y"
                 { (yyval.casenodelist) = CaseNodeList_create(); }
-#line 3344 "build/parser.tab.c"
+#line 3345 "build/parser.tab.c"
     break;
 
   case 111: /* CASES: CASES CASE primitive_values ':' BREAK_LINE sentences BREAK ';' BREAK_LINE  */
-#line 987 "src/parser/parser.y"
+#line 988 "src/parser/parser.y"
                                                                                 {
         CaseData* new_case = (CaseData*)malloc(sizeof(CaseData));
         new_case->condition = (yyvsp[-6].expr);
@@ -3352,23 +3353,23 @@ yyreduce:
         CaseNodeList_add((yyvsp[-8].casenodelist), new_case);
         (yyval.casenodelist) = (yyvsp[-8].casenodelist);
     }
-#line 3356 "build/parser.tab.c"
+#line 3357 "build/parser.tab.c"
     break;
 
   case 112: /* DEFAULT_CASE: %empty  */
-#line 997 "src/parser/parser.y"
+#line 998 "src/parser/parser.y"
                 { (yyval.instrList) = NULL; }
-#line 3362 "build/parser.tab.c"
+#line 3363 "build/parser.tab.c"
     break;
 
   case 113: /* DEFAULT_CASE: DEFAULT ':' BREAK_LINE sentences  */
-#line 998 "src/parser/parser.y"
+#line 999 "src/parser/parser.y"
                                        { (yyval.instrList) = (yyvsp[0].instrList); }
-#line 3368 "build/parser.tab.c"
+#line 3369 "build/parser.tab.c"
     break;
 
   case 114: /* WHILE_STATEMENT: WHILE '(' expression ')' '{' BREAK_LINE sentences '}'  */
-#line 1006 "src/parser/parser.y"
+#line 1007 "src/parser/parser.y"
                                                           {
         Instruccion* instP = (Instruccion*)malloc(sizeof(Instruccion));
         instP->whileData = (WhileData*)malloc(sizeof(WhileData));
@@ -3377,11 +3378,11 @@ yyreduce:
         instP->column = (yylsp[-7]).first_column;
         (yyval.instr) = instP;
     }
-#line 3381 "build/parser.tab.c"
+#line 3382 "build/parser.tab.c"
     break;
 
   case 115: /* FOR_STATEMENT: FOR '(' declaration ';' expression ';' instruction ')' '{' BREAK_LINE sentences '}'  */
-#line 1018 "src/parser/parser.y"
+#line 1019 "src/parser/parser.y"
                                                                                         {
         Instruccion* instP = (Instruccion*)malloc(sizeof(Instruccion));
         instP->forData = (ForData*)malloc(sizeof(ForData));
@@ -3395,11 +3396,11 @@ yyreduce:
         instP->column = (yylsp[-11]).first_column;
         (yyval.instr) = instP;
     }
-#line 3399 "build/parser.tab.c"
+#line 3400 "build/parser.tab.c"
     break;
 
   case 116: /* FOREACH_STATEMENT: FOR '(' primitive_types ID ':' ID ')' '{' BREAK_LINE sentences '}'  */
-#line 1033 "src/parser/parser.y"
+#line 1034 "src/parser/parser.y"
                                                                        {
         Instruccion* instP = (Instruccion*)malloc(sizeof(Instruccion));
         instP->forEachData = (ForEachData*)malloc(sizeof(ForEachData));
@@ -3410,23 +3411,23 @@ yyreduce:
         instP->column = (yylsp[-10]).first_column;
         (yyval.instr) = instP;
     }
-#line 3414 "build/parser.tab.c"
+#line 3415 "build/parser.tab.c"
     break;
 
   case 117: /* dimensions: %empty  */
-#line 1046 "src/parser/parser.y"
+#line 1047 "src/parser/parser.y"
                   { (yyval.ival) = 0; }
-#line 3420 "build/parser.tab.c"
+#line 3421 "build/parser.tab.c"
     break;
 
   case 118: /* dimensions: dimensions '[' ']'  */
-#line 1047 "src/parser/parser.y"
+#line 1048 "src/parser/parser.y"
                          { (yyval.ival) = (yyvsp[-2].ival) + 1; }
-#line 3426 "build/parser.tab.c"
+#line 3427 "build/parser.tab.c"
     break;
 
   case 119: /* dimensions_value_list: '[' NUM ']'  */
-#line 1050 "src/parser/parser.y"
+#line 1051 "src/parser/parser.y"
                   { 
         DimensionsList* dimList = (DimensionsList*)malloc(sizeof(DimensionsList));
         dimList->dimensions = (int*)malloc(sizeof(int));
@@ -3434,159 +3435,159 @@ yyreduce:
         dimList->count = 1;
         (yyval.dimlist) = dimList;
     }
-#line 3438 "build/parser.tab.c"
+#line 3439 "build/parser.tab.c"
     break;
 
   case 120: /* dimensions_value_list: dimensions_value_list '[' NUM ']'  */
-#line 1057 "src/parser/parser.y"
+#line 1058 "src/parser/parser.y"
                                         { 
         (yyvsp[-3].dimlist)->dimensions = (int*)realloc((yyvsp[-3].dimlist)->dimensions, sizeof(int) * ((yyvsp[-3].dimlist)->count + 1));
         (yyvsp[-3].dimlist)->dimensions[(yyvsp[-3].dimlist)->count] = atoi((yyvsp[-1].sval));
         (yyvsp[-3].dimlist)->count += 1;
         (yyval.dimlist) = (yyvsp[-3].dimlist);
     }
-#line 3449 "build/parser.tab.c"
+#line 3450 "build/parser.tab.c"
     break;
 
   case 121: /* dimensions_expressions: '[' expression ']'  */
-#line 1065 "src/parser/parser.y"
+#line 1066 "src/parser/parser.y"
                        { 
         ExpressionList* exprList = create_expression_list();
         ExpressionList_add(exprList, (yyvsp[-1].expr));
         (yyval.exprList) = exprList;
     }
-#line 3459 "build/parser.tab.c"
+#line 3460 "build/parser.tab.c"
     break;
 
   case 122: /* dimensions_expressions: dimensions_expressions '[' expression ']'  */
-#line 1070 "src/parser/parser.y"
+#line 1071 "src/parser/parser.y"
                                                 {
         ExpressionList_add((yyvsp[-3].exprList), (yyvsp[-1].expr));
         (yyval.exprList) = (yyvsp[-3].exprList);
      }
-#line 3468 "build/parser.tab.c"
+#line 3469 "build/parser.tab.c"
     break;
 
   case 123: /* vectorList: %empty  */
-#line 1077 "src/parser/parser.y"
+#line 1078 "src/parser/parser.y"
                   { 
         VectorList* vecList = VectorList_create();
         (yyval.VList) = vecList;
     }
-#line 3477 "build/parser.tab.c"
+#line 3478 "build/parser.tab.c"
     break;
 
   case 124: /* vectorList: expression  */
-#line 1081 "src/parser/parser.y"
+#line 1082 "src/parser/parser.y"
                  {
         VectorList* vecList = VectorList_create();
         VectorList_addExp(vecList, (yyvsp[0].expr));
         (yyval.VList) = vecList;
      }
-#line 3487 "build/parser.tab.c"
+#line 3488 "build/parser.tab.c"
     break;
 
   case 125: /* vectorList: vectorList ',' expression  */
-#line 1086 "src/parser/parser.y"
+#line 1087 "src/parser/parser.y"
                                 {
         VectorList_addExp((yyvsp[-2].VList), (yyvsp[0].expr));
         (yyval.VList) = (yyvsp[-2].VList);
      }
-#line 3496 "build/parser.tab.c"
+#line 3497 "build/parser.tab.c"
     break;
 
   case 126: /* matrixList: %empty  */
-#line 1094 "src/parser/parser.y"
+#line 1095 "src/parser/parser.y"
                   { 
         MatrixList* matList = MatrixList_create();
         (yyval.MList) = matList;
     }
-#line 3505 "build/parser.tab.c"
+#line 3506 "build/parser.tab.c"
     break;
 
   case 127: /* matrixList: '{' vectorList '}' optional_newlines  */
-#line 1098 "src/parser/parser.y"
+#line 1099 "src/parser/parser.y"
                                           {
         MatrixList* matList = MatrixList_create();
         MatrixList_add(matList, (yyvsp[-2].VList));
         (yyval.MList) = matList;
      }
-#line 3515 "build/parser.tab.c"
+#line 3516 "build/parser.tab.c"
     break;
 
   case 128: /* matrixList: matrixList ',' optional_newlines '{' vectorList '}' optional_newlines  */
-#line 1103 "src/parser/parser.y"
+#line 1104 "src/parser/parser.y"
                                                                              {
         MatrixList_add((yyvsp[-6].MList), (yyvsp[-2].VList));
         (yyval.MList) = (yyvsp[-6].MList);
      }
-#line 3524 "build/parser.tab.c"
+#line 3525 "build/parser.tab.c"
     break;
 
   case 129: /* dimension_expression: '{' optional_newlines dimension_values_list optional_newlines '}'  */
-#line 1109 "src/parser/parser.y"
+#line 1110 "src/parser/parser.y"
                                                                       {(yyval.list) = (yyvsp[-2].list); }
-#line 3530 "build/parser.tab.c"
+#line 3531 "build/parser.tab.c"
     break;
 
   case 130: /* dimension_values_list: %empty  */
-#line 1112 "src/parser/parser.y"
+#line 1113 "src/parser/parser.y"
                   {  (yyval.list) = List_create(); }
-#line 3536 "build/parser.tab.c"
+#line 3537 "build/parser.tab.c"
     break;
 
   case 131: /* dimension_values_list: dimension_value optional_newlines  */
-#line 1113 "src/parser/parser.y"
+#line 1114 "src/parser/parser.y"
                                         { 
         List* list = List_create(); 
         List_add(list, (yyvsp[-1].listdata)); 
         (yyval.list) = list; 
     }
-#line 3546 "build/parser.tab.c"
+#line 3547 "build/parser.tab.c"
     break;
 
   case 132: /* dimension_values_list: dimension_values_list ',' optional_newlines dimension_value optional_newlines  */
-#line 1118 "src/parser/parser.y"
+#line 1119 "src/parser/parser.y"
                                                                                     {List_add((yyvsp[-4].list), (yyvsp[-1].listdata)); (yyval.list) = (yyvsp[-4].list);}
-#line 3552 "build/parser.tab.c"
+#line 3553 "build/parser.tab.c"
     break;
 
   case 133: /* dimension_value: expression  */
-#line 1121 "src/parser/parser.y"
+#line 1122 "src/parser/parser.y"
                { ListData* data = (ListData*)calloc(1, sizeof(ListData));
                   data->exprData = (yyvsp[0].expr);
                   (yyval.listdata) = data; }
-#line 3560 "build/parser.tab.c"
+#line 3561 "build/parser.tab.c"
     break;
 
   case 134: /* dimension_value: dimension_expression  */
-#line 1124 "src/parser/parser.y"
+#line 1125 "src/parser/parser.y"
                            {
         ListData* data = (ListData*)calloc(1, sizeof(ListData));
         data->listData = (yyvsp[0].list);
         (yyval.listdata) = data;
     }
-#line 3570 "build/parser.tab.c"
+#line 3571 "build/parser.tab.c"
     break;
 
   case 137: /* paramsList: %empty  */
-#line 1139 "src/parser/parser.y"
+#line 1140 "src/parser/parser.y"
                 { (yyval.paramlist) = createParamsList(); }
-#line 3576 "build/parser.tab.c"
+#line 3577 "build/parser.tab.c"
     break;
 
   case 138: /* paramsList: primitive_types ID  */
-#line 1140 "src/parser/parser.y"
+#line 1141 "src/parser/parser.y"
                          {
         paramsList* paramList = createParamsList();
         addParam(paramList, (yyvsp[-1].sval), (yyvsp[0].sval));
         (yyval.paramlist) = paramList;
      }
-#line 3586 "build/parser.tab.c"
+#line 3587 "build/parser.tab.c"
     break;
 
   case 139: /* paramsList: primitive_types '[' ']' ID  */
-#line 1145 "src/parser/parser.y"
+#line 1146 "src/parser/parser.y"
                                  {
         paramsList* paramList = createParamsList();
         // Puedes usar un tipo especial, por ejemplo: "VECTOR_INTEGER"
@@ -3595,31 +3596,31 @@ yyreduce:
         addParam(paramList, vectorType, (yyvsp[0].sval));
         (yyval.paramlist) = paramList;
      }
-#line 3599 "build/parser.tab.c"
+#line 3600 "build/parser.tab.c"
     break;
 
   case 140: /* paramsList: paramsList ',' primitive_types ID  */
-#line 1153 "src/parser/parser.y"
+#line 1154 "src/parser/parser.y"
                                         {
         addParam((yyvsp[-3].paramlist), (yyvsp[-1].sval), (yyvsp[0].sval));
         (yyval.paramlist) = (yyvsp[-3].paramlist);
      }
-#line 3608 "build/parser.tab.c"
+#line 3609 "build/parser.tab.c"
     break;
 
   case 141: /* paramsList: paramsList ',' primitive_types '[' ']' ID  */
-#line 1157 "src/parser/parser.y"
+#line 1158 "src/parser/parser.y"
                                                 {
         char* vectorType = (char*)malloc(strlen((yyvsp[-3].sval)) + 8);
         sprintf(vectorType, "VECTOR_%s", (yyvsp[-3].sval));
         addParam((yyvsp[-5].paramlist), vectorType, (yyvsp[0].sval));
         (yyval.paramlist) = (yyvsp[-5].paramlist);
      }
-#line 3619 "build/parser.tab.c"
+#line 3620 "build/parser.tab.c"
     break;
 
 
-#line 3623 "build/parser.tab.c"
+#line 3624 "build/parser.tab.c"
 
       default: break;
     }
@@ -3848,7 +3849,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 1164 "src/parser/parser.y"
+#line 1165 "src/parser/parser.y"
 
 
 // Función para reinicializar el estado del parser

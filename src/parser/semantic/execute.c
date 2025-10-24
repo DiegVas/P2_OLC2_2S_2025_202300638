@@ -104,12 +104,59 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             }
 
             char *vec_str = printVector(vec_values);
+            int total_length = 0;
+            char size_id[512];
+
+            if (strcmp(instruction->type, "STRING") == 0)
+            {
+                VectorNode *current = vec_values->head;
+                int elem_count = 0;
+                char *strings_ids = (char *)calloc(1024, sizeof(char));
+                char *data_temp = "";
+                // Crear ID con el nombre del contexto
+                char full_id[256];
+                snprintf(full_id, sizeof(full_id), "%s_%s", instruction->id, context->nombre);
+
+                while (current)
+                {
+                    char id_list_string[512];
+                    snprintf(id_list_string, sizeof(id_list_string), "%s_elem_%d", full_id, elem_count++);
+                    data_temp = arm_data_add(data_temp, arm_declarate_string(id_list_string, current->value->value));
+
+                    strcat(strings_ids, id_list_string);
+                    if (current->next)
+                        strcat(strings_ids, ", ");
+
+                    total_length++;
+                    current = current->next;
+                }
+                vec_str = strings_ids;
+                arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_list(full_id, instruction->type, vec_str));
+                arm_global_data->data = arm_data_add(arm_global_data->data, data_temp);
+            }
+            else
+            {
+                total_length = count_commas(vec_str) + 1;
+                // Crear ID con el nombre del contexto
+                char full_id[256];
+                snprintf(full_id, sizeof(full_id), "%s_%s", instruction->id, context->nombre);
+                arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_list(full_id, instruction->type, vec_str));
+            }
+            // Crear ID con el nombre del contexto para size_id también
+            char full_id[256];
+            snprintf(full_id, sizeof(full_id), "%s_%s", instruction->id, context->nombre);
+            snprintf(size_id, sizeof(size_id), "%s_length", full_id);
+
+            arm_global_data->data = arm_data_add(arm_global_data->data, arm_declarate_int(size_id, total_length));
 
             symbol *new_symbol = (symbol *)calloc(1, sizeof(symbol));
             new_symbol->value = vec_str;
             new_symbol->dataType = instruction->type;
             new_symbol->type = instruction->symbolType;
-            new_symbol->id = instruction->id;
+            // Crear un nuevo buffer con suficiente espacio para id + "_" + nombre
+            size_t id_len = strlen(instruction->id) + strlen(context->nombre) + 2; // +2 para "_" y '\0'
+            new_symbol->id = (char *)malloc(id_len);
+            snprintf(new_symbol->id, id_len, "%s_%s", instruction->id, context->nombre);
             new_symbol->vectorValues = vec_values;
             new_symbol->environment = context->nombre;
             new_symbol->line = &(instruction->line);
@@ -190,7 +237,10 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         new_symbol->value = evaluated_value->value;
         new_symbol->dataType = instruction->type;
         new_symbol->type = instruction->symbolType;
-        new_symbol->id = strcat(strcat(instruction->id, "_"), context->nombre);
+        // Crear un nuevo buffer con suficiente espacio para id + "_" + nombre
+        size_t id_len = strlen(instruction->id) + strlen(context->nombre) + 2; // +2 para "_" y '\0'
+        new_symbol->id = (char *)malloc(id_len);
+        snprintf(new_symbol->id, id_len, "%s_%s", instruction->id, context->nombre);
         new_symbol->environment = context->nombre;
         new_symbol->line = &(instruction->line);
         new_symbol->column = &(instruction->column);

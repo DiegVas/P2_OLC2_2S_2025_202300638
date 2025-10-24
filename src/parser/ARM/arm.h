@@ -39,13 +39,12 @@ char *arm_text_add(char *original, char *to_add);
 char *arm_register_type(const char *dataType);
 
 //* Declaraciones
-char *arm_declarate(char *id, char *type, char *value);
-char *arm_declarate_char(char *id, char *value);
-char *arm_declarate_int(char *id, int value);
+char *arm_declarate_list(char *id, char *type, char *value);
+;
 char *arm_declarate_double(char *id, double value);
 char *arm_declarate_string(char *id, char *value);
 char *arm_declarate_boolean(char *id, int value);
-
+char *arm_declarate_int(char *id, int value);
 // ? Declaracion en bss
 char *arm_declarate_bss(char *id, char *type);
 

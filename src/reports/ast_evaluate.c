@@ -266,6 +266,36 @@ ASTVal *ast_evaluate(Expression *expr)
         add_child(node, params_node);
         return node;
     }
+
+    case EXP_VECTOR_ACCESS:
+    {
+        ASTVal *node = create_ast_node("VECTOR_ACCESS");
+        add_child(node, create_ast_node(expr->value ? expr->value : "NULL"));
+        ExpressionNode *current = expr->list ? expr->list->head : NULL;
+        ASTVal *indices_node = create_ast_node("INDICES");
+        while (current)
+        {
+            add_child(indices_node, ast_evaluate(current->expr));
+            current = current->next;
+        }
+        add_child(node, indices_node);
+        return node;
+    }
+    case EXP_MATRIX_ACCESS:
+    {
+        ASTVal *node = create_ast_node("MATRIX_ACCESS");
+        add_child(node, create_ast_node(expr->value ? expr->value : "NULL"));
+        ExpressionNode *current = expr->list ? expr->list->head : NULL;
+        ASTVal *indices_node = create_ast_node("INDICES");
+        while (current)
+        {
+            add_child(indices_node, ast_evaluate(current->expr));
+            current = current->next;
+        }
+        add_child(node, indices_node);
+        return node;
+    }
+
     default:
         return create_ast_node("UNKNOWN");
     }

@@ -903,6 +903,7 @@ expression:
         
         // Determinar el tipo según el número de dimensiones
         int size = ExpressionList_size($2);
+        fprintf(stderr, "Dimensiones encontradas: %d\n", size);
         if (size == 1) {
             exp->type = "VECTOR_ACCESS";
             exp->left = ExpressionList_get($2, 0); // Primera dimensión

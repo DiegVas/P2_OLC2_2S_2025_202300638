@@ -480,3 +480,16 @@ bool assign_multidimensional_array(List *array, ExpressionList *indices, Context
     fprintf(stderr, "DEBUG: assign_multidimensional_array - Llegó al final sin retornar\n");
     return false;
 }
+
+int count_commas(const char *str)
+{
+    int count = 0;
+    for (int i = 0; i < strlen(str); i++)
+    {
+        if (str[i] == ',')
+        {
+            count++;
+        }
+    }
+    return count;
+}

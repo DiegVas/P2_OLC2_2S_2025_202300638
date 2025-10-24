@@ -3,37 +3,40 @@
 #include <stdio.h>
 #include <string.h>
 
-char *arm_declarate(char *id, char *type, char *value)
+char *arm_declarate_list(char *id, char *type, char *value)
 {
+    char *code = malloc(1000);
     if (strcmp(type, "CHARACTER") == 0)
     {
-        return arm_declarate_char(id, value);
+        snprintf(code, 1000, "%s: .byte %s\n", id, value);
     }
     else if (strcmp(type, "INTEGER") == 0)
     {
-        return arm_declarate_int(id, atoi(value));
+        snprintf(code, 1000, "%s: .word %s\n", id, value);
     }
     else if (strcmp(type, "FLOAT") == 0)
     {
-        return arm_declarate_double(id, atof(value));
+        snprintf(code, 1000, "%s: .float %s\n", id, value);
     }
     else if (strcmp(type, "DOUBLE") == 0)
     {
-        return arm_declarate_double(id, atof(value));
+        snprintf(code, 1000, "%s: .double %s\n", id, value);
     }
     else if (strcmp(type, "STRING") == 0)
     {
-        return arm_declarate_string(id, value);
+
+        snprintf(code, 1000, "%s: .quad %s\n", id, value);
     }
     else if (strcmp(type, "BOOLEAN") == 0)
     {
-        return arm_declarate_boolean(id, atoi(value));
+        snprintf(code, 1000, "%s: .word %s\n", id, value);
     }
     else
     {
         return "Error en la declaracion con la declaracion"; // Tipo no soportado
     }
-}
+    return code;
+};
 
 char *arm_declarate_char(char *id, char *value)
 {
@@ -73,18 +76,11 @@ char *arm_declarate_string(char *id, char *value)
 char *arm_declarate_boolean(char *id, int value)
 {
     char *code = malloc(100);
-    if (value)
-    {
-        sprintf(code,
-                "%s: .word 1\n", // true
-                id);
-    }
-    else
-    {
-        sprintf(code,
-                "%s: .word 0\n", // false
-                id);
-    }
+
+    sprintf(code,
+            "%s: .word %d\n", // true
+            id, value);
+
     return code;
 }
 
