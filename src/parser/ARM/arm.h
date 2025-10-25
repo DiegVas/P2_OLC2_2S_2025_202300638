@@ -28,6 +28,8 @@ typedef struct ARM_data
     int count_for;
     int count_foreach;
 
+    int count_block;
+
 } ARM_data;
 
 ARM_data *arm_data_create();

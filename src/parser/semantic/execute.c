@@ -96,7 +96,60 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
             if (strcmp(vec_values->head->exprData->type, "ADD") == 0)
             {
-                vec_values = evaluate_expression(vec_values->head->exprData, context)->vectorValues;
+                symbol *vec_values_add = evaluate_expression(vec_values->head->exprData, context);
+                symbol *new_symbol = (symbol *)calloc(1, sizeof(symbol));
+                size_t id_len = strlen(instruction->id) + strlen(context->nombre) + 2; // +2 para "_" y '\0'
+                new_symbol->id = (char *)malloc(id_len);
+                snprintf(new_symbol->id, id_len, "%s_%s", instruction->id, context->nombre);
+
+                char *vec_str = printVector(vec_values_add->vectorValues);
+
+                char bufferName[256];
+                snprintf(bufferName, sizeof(bufferName), "%s: .space 400\n", new_symbol->id);
+                arm_global_data->data = arm_data_add(arm_global_data->data, bufferName);
+
+                snprintf(bufferName, sizeof(bufferName), "%s_length: .word 0\n", new_symbol->id);
+                arm_global_data->data = arm_data_add(arm_global_data->data, bufferName);
+
+                char bufferComment[128];
+                snprintf(bufferComment, sizeof(bufferComment), "\n// Declaración de vector con add %s\n", instruction->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "adrp x2, %s\n", new_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "add x2, x2, :lo12:%s\n", new_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                snprintf(bufferComment, sizeof(bufferComment), "adr x3, %s_length\n", new_symbol->id);
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                arm_global_data->data = arm_data_add(arm_global_data->data, vec_values_add->data_section);
+                arm_global_data->text = arm_text_add(arm_global_data->text, vec_values_add->text_section);
+
+                if (strcmp(instruction->type, "STRING") == 0)
+                {
+                    snprintf(bufferComment, sizeof(bufferComment), "bl append_to_string_array");
+                }
+                else
+                {
+                    snprintf(bufferComment, sizeof(bufferComment), "bl append_to_array_integer");
+                }
+
+                arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                new_symbol->dataType = instruction->type;
+                new_symbol->type = instruction->symbolType;
+                new_symbol->vectorValues = vec_values_add->vectorValues;
+                new_symbol->environment = context->nombre;
+                new_symbol->line = &(instruction->line);
+                new_symbol->column = &(instruction->column);
+
+                fprintf(stderr, "Nuevo símbolo de tipo vector: %s, Tipo: %s, Valor: %s\n",
+                        new_symbol->id, new_symbol->dataType, new_symbol->value);
+
+                Symbol_table_insert(symbolTable_C, new_symbol);
+                return;
             }
             else
             {
@@ -302,6 +355,41 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
             {
                 symbol *sym_to_update = SearchSymbol(ctx->symbols_context, new_id);
 
+                if (evaluated_assign->type && strcmp(evaluated_assign->type, "VECTOR") == 0)
+                {
+
+                    sym_to_update->vectorValues = evaluated_assign->vectorValues;
+                    sym_to_update->value = evaluated_assign->value;
+                    char bufferComment[128];
+                    snprintf(bufferComment, sizeof(bufferComment), "\n// reasignacion de vector con add %s\n", instruction->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "adrp x2, %s\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "add x2, x2, :lo12:%s\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    snprintf(bufferComment, sizeof(bufferComment), "adr x3, %s_length\n", sym_to_update->id);
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    arm_global_data->text = arm_text_add(arm_global_data->text, evaluated_assign->text_section);
+                    arm_global_data->data = arm_data_add(arm_global_data->data, evaluated_assign->data_section);
+
+                    if (strcmp(evaluated_assign->dataType, "STRING") == 0)
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "bl append_to_string_array");
+                    }
+                    else
+                    {
+                        snprintf(bufferComment, sizeof(bufferComment), "bl append_to_array_integer");
+                    }
+
+                    arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+                    return;
+                }
+
                 if (strcmp(sym_to_update->type, "VECTOR") == 0 && instruction->IndexVector)
                 {
                     instruction->IndexVector->num_register = 2;
@@ -366,7 +454,6 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
                     // Actualizar la representación string del vector completo
                     sym_to_update->value = printVector(sym_to_update->vectorValues);
-                    fprintf(stderr, "Vector completo actualizado: %s\n", sym_to_update->value);
                     return;
                 }
 
@@ -1307,7 +1394,9 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
         Context *ctx_block = calloc(1, sizeof(Context));
         ctx_block->after = context;
         ctx_block->symbols_context = Symbol_table_create();
-        ctx_block->nombre = "Block";
+        char block_name[256];
+        snprintf(block_name, sizeof(block_name), "Block%d", arm_global_data->count_block);
+        ctx_block->nombre = block_name;
 
         while (curr)
         {

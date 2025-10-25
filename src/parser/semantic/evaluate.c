@@ -410,6 +410,29 @@ symbol *evaluate_expression(Expression *expr, Context *context)
         result->dataType = "INTEGER";
         result->value = (char *)calloc(20, sizeof(char));
         sprintf(result->value, "%ld", parsed_value);
+
+        char bufferARM[128];
+
+        snprintf(bufferARM, sizeof(bufferARM), "\n// PARSEDOUBLE de %s\n", to_parse->value);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->text_section = arm_data_add(result->text_section, to_parse->text_section);
+        result->data_section = arm_data_add(result->data_section, to_parse->data_section);
+
+        if (to_parse->num_register != 0)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", to_parse->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+
+        snprintf(bufferARM, sizeof(bufferARM), "bl string_to_int\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "mov x0, x1\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->num_register = 0;
+
         return result;
 
         break;
@@ -433,6 +456,25 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             result->value = "PARSEDOUBLE operation failed: invalid double format";
             return result;
         }
+
+        char bufferARM[128];
+
+        snprintf(bufferARM, sizeof(bufferARM), "\n// PARSEDOUBLE de %s\n", to_parse->value);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->text_section = arm_data_add(result->text_section, to_parse->text_section);
+        result->data_section = arm_data_add(result->data_section, to_parse->data_section);
+
+        if (to_parse->num_register != 0)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", to_parse->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+
+        snprintf(bufferARM, sizeof(bufferARM), "bl string_to_double\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->num_register = 0;
 
         result->dataType = "DOUBLE";
         result->value = (char *)calloc(30, sizeof(char));
@@ -458,6 +500,26 @@ symbol *evaluate_expression(Expression *expr, Context *context)
             result->value = "PARSEFLOAT operation failed: invalid float format";
             return result;
         }
+
+        char bufferARM[128];
+
+        snprintf(bufferARM, sizeof(bufferARM), "\n// PARSEFLOAT de %s\n", to_parse->value);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->text_section = arm_data_add(result->text_section, to_parse->text_section);
+        result->data_section = arm_data_add(result->data_section, to_parse->data_section);
+
+        if (to_parse->num_register != 0)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", to_parse->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+
+        snprintf(bufferARM, sizeof(bufferARM), "bl string_to_double\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->num_register = 0;
+
         result->dataType = "FLOAT";
         result->value = (char *)calloc(30, sizeof(char));
         sprintf(result->value, "%.6f", parsed_value);
@@ -687,14 +749,18 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     case EXP_ADD:
     {
         Context *ctx_search = context;
+        char *original_id = strdup(expr->value);
 
         while (ctx_search)
         {
 
-            if (SearchID(ctx_search->symbols_context, expr->value))
+            char *new_id = (char *)calloc(256, sizeof(char)); // Ajusta el tamaño según sea necesario
+            snprintf(new_id, 256, "%s_%s", original_id, ctx_search->nombre);
+
+            if (SearchID(ctx_search->symbols_context, new_id))
             {
 
-                symbol *sym = SearchSymbol(ctx_search->symbols_context, expr->value);
+                symbol *sym = SearchSymbol(ctx_search->symbols_context, new_id);
 
                 if (strcmp(sym->type, "VECTOR") == 0 && sym->vectorValues)
                 {
@@ -719,6 +785,28 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
                     // Crear una copia del símbolo original
                     symbol *new_sym = copy_symbol(sym);
+
+                    new_sym->data_section = arm_data_add("", to_add->data_section);
+                    new_sym->text_section = arm_data_add("", to_add->text_section);
+
+                    if (to_add->num_register != 4)
+                    {
+                        char bufferMove[128];
+                        snprintf(bufferMove, sizeof(bufferMove), "mov   x4, x%d\n", to_add->num_register);
+                        new_sym->text_section = arm_data_add(new_sym->text_section, bufferMove);
+                    }
+
+                    char buffer[128];
+                    snprintf(buffer, sizeof(buffer), "\n// Agregar elemento al vector %s\n", new_sym->id);
+                    new_sym->text_section = arm_data_add(new_sym->text_section, buffer);
+
+                    snprintf(buffer, sizeof(buffer), "adr   x0, %s\n", new_sym->id);
+                    new_sym->text_section = arm_data_add(new_sym->text_section, buffer);
+
+                    snprintf(buffer, sizeof(buffer), "adr   x1, %s_length\n", new_sym->id);
+                    new_sym->text_section = arm_data_add(new_sym->text_section, buffer);
+                    snprintf(buffer, sizeof(buffer), "ldr   w1, [x1]\n");
+                    new_sym->text_section = arm_data_add(new_sym->text_section, buffer);
 
                     VectorNode *new_node = (VectorNode *)calloc(1, sizeof(VectorNode));
                     new_node->value = to_add;
@@ -745,6 +833,9 @@ symbol *evaluate_expression(Expression *expr, Context *context)
 
             ctx_search = ctx_search->after;
         }
+        result->dataType = "UNDEFINED";
+        result->value = "ADD operation: symbol not found in any context";
+        return result;
         break;
     }
     case EXP_VECTOR_ACCESS:

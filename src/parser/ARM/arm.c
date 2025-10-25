@@ -17,7 +17,11 @@ ARM_data *arm_data_create()
                              ".extern string_concat \n"
                              ".extern chartoa \n"
                              ".extern buscar_entero \n"
-                             ".extern buscar_string \n";
+                             ".extern buscar_string \n"
+                             ".extern append_to_array_integer \n"
+                             " .extern append_to_string_array \n"
+                             ".extern string_to_double \n"
+                             ".extern string_to_int \n";
     data->data = ".data \n"
                  "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";
@@ -48,6 +52,8 @@ ARM_data *arm_data_create()
     data->count_while = 0;
     data->count_for = 0;
     data->count_foreach = 0;
+
+    data->count_block = 0;
     return data;
 }
 
