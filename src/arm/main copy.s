@@ -1,0 +1,220 @@
+.global main 
+.extern printf 
+.extern itao 
+.extern ftoa 
+.extern booltoa 
+.extern string_compare 
+.extern string_concat 
+.extern chartoa 
+.extern buscar_entero 
+.extern buscar_string 
+.extern append_to_array_integer 
+ .extern append_to_string_array 
+.extern string_to_double 
+.extern string_to_int 
+
+.data 
+print: .asciz "%s\n" 
+string_0: .asciz "123"
+string_1: .asciz "456"
+string_2: .asciz "789"
+string_3: .asciz "Parseando '"
+string_4: .asciz "' a entero: "
+buffer1: .space 32
+string_5: .asciz "Parseando '"
+string_6: .asciz "' a entero: "
+buffer2: .space 32
+string_7: .asciz "Parseando '"
+string_8: .asciz "' a entero: "
+buffer3: .space 32
+
+.bss 
+numeroTexto1_Global: .space 8
+numeroTexto2_Global: .space 8
+numeroTexto3_Global: .space 8
+num1_Global: .space 4
+num2_Global: .space 4
+num3_Global: .space 4
+
+.text 
+main: 
+STP X29, X30, [SP, #-16]! 
+MOV X29, SP 
+	
+	// Declaración de variable numeroTexto1_Global
+	
+	// Carga de string 123
+	adr     x0, string_0
+	ldr x1, =numeroTexto1_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable numeroTexto2_Global
+	
+	// Carga de string 456
+	adr     x0, string_1
+	ldr x1, =numeroTexto2_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable numeroTexto3_Global
+	
+	// Carga de string 789
+	adr     x0, string_2
+	ldr x1, =numeroTexto3_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable num1_Global
+	
+	// PARSEDOUBLE de 123
+	
+	// Carga de variable numeroTexto1_Global de tipo STRING
+	adr   x0, numeroTexto1_Global
+	ldr    x0, [x0]
+	bl string_to_int
+	mov x0, x1
+	ldr x1, =num1_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable num2_Global
+	
+	// PARSEDOUBLE de 456
+	
+	// Carga de variable numeroTexto2_Global de tipo STRING
+	adr   x0, numeroTexto2_Global
+	ldr    x0, [x0]
+	bl string_to_int
+	mov x0, x1
+	ldr x1, =num2_Global
+	str x0, [x1]
+	
+	
+	// Declaración de variable num3_Global
+	
+	// PARSEDOUBLE de 789
+	
+	// Carga de variable numeroTexto3_Global de tipo STRING
+	adr   x0, numeroTexto3_Global
+	ldr    x0, [x0]
+	bl string_to_int
+	mov x0, x1
+	ldr x1, =num3_Global
+	str x0, [x1]
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Parseando '
+	adr     x1, string_3
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable numeroTexto1_Global de tipo STRING
+	adr   x2, numeroTexto1_Global
+	ldr    x2, [x2]
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string ' a entero: 
+	adr     x2, string_4
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable num1_Global de tipo INTEGER
+	adr   x0, num1_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer1
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Parseando '
+	adr     x1, string_5
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable numeroTexto2_Global de tipo STRING
+	adr   x2, numeroTexto2_Global
+	ldr    x2, [x2]
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string ' a entero: 
+	adr     x2, string_6
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable num2_Global de tipo INTEGER
+	adr   x0, num2_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer2
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+	
+	// Instrucción de impresión
+	
+	// Carga de string Parseando '
+	adr     x1, string_7
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable numeroTexto3_Global de tipo STRING
+	adr   x2, numeroTexto3_Global
+	ldr    x2, [x2]
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de string ' a entero: 
+	adr     x2, string_8
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov     x1, x0
+	str     x1, [sp, #-16]!
+	
+	// Carga de variable num3_Global de tipo INTEGER
+	adr   x0, num3_Global
+	ldr    w0, [x0]
+	
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer3
+	bl itao
+	mov    x2, x1
+	ldr     x1, [sp], #16
+	bl string_concat
+	mov x1, x0
+	adr x0, print
+	bl printf
+	
+
+
+MOV W0, #0 
+LDP X29, X30, [SP], #16 
+mov x8, 93 
+svc 0 
+

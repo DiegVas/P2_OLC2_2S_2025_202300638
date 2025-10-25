@@ -36,5 +36,5 @@ void semantic_analysis()
 
     arm_global_data->text = arm_data_add(arm_global_data->text, "\n");
 
-    print_arm(arm_global_data);
+    // print_arm(arm_global_data);
 }

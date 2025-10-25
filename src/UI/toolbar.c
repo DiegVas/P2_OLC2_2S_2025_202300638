@@ -6,6 +6,7 @@
 #include "../structures/parser.h"
 #include "parser.tab.h"
 #include "../parser/semantic/semantic.h"
+#include "../parser/ARM/arm.h"
 // Callback para el botón "Nuevo"
 void on_new_clicked(GtkToolButton *button, gpointer user_data)
 {
@@ -220,18 +221,15 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
 
         // Redirigir stdout y stderr para capturar la salida del parser
         int stdout_backup = dup(STDOUT_FILENO);
-        int stderr_backup = dup(STDERR_FILENO);
         char output_filename[] = "/tmp/javalang_output_XXXXXX";
         char stderr_filename[] = "/tmp/javalang_stderr_XXXXXX";
         int output_fd = mkstemp(output_filename);
-        int stderr_fd = mkstemp(stderr_filename);
 
-        if (output_fd != -1 && stderr_fd != -1)
+        if (output_fd != -1)
         {
             dup2(output_fd, STDOUT_FILENO);
-            dup2(stderr_fd, STDERR_FILENO);
+
             close(output_fd);
-            close(stderr_fd);
 
             // Configurar yyin para leer del archivo temporal
             FILE *temp_file = fopen(temp_filename, "r");
@@ -276,6 +274,34 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
 
                 semantic_analysis();
 
+                // Escribir el código ARM en main.s
+                extern ARM_data *arm_global_data;
+                if (arm_global_data)
+                {
+                    FILE *arm_file = fopen("src/arm/main.s", "w");
+                    if (arm_file)
+                    {
+                        // Escribir en el orden especificado
+                        if (arm_global_data->extern_functions)
+                            fprintf(arm_file, "%s\n", arm_global_data->extern_functions);
+
+                        if (arm_global_data->data)
+                            fprintf(arm_file, "%s\n", arm_global_data->data);
+
+                        if (arm_global_data->bss)
+                            fprintf(arm_file, "%s\n", arm_global_data->bss);
+
+                        if (arm_global_data->text)
+                            fprintf(arm_file, "%s\n", arm_global_data->text);
+
+                        if (arm_global_data->final_text)
+                            fprintf(arm_file, "%s\n", arm_global_data->final_text);
+
+                        fclose(arm_file);
+                        gtk_text_buffer_insert_at_cursor(console_buffer, "\n📄 Código ARM generado en src/arm/main.s\n", -1);
+                    }
+                }
+
                 extern symbol_table *SymbolTable_General;
                 update_symbols_table_safe(global_widgets->symbols_store, SymbolTable_General);
                 update_errors_table_safe(global_widgets->errors_store, list_errors);
@@ -288,9 +314,8 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
 
                 // Restaurar stdout y stderr
                 dup2(stdout_backup, STDOUT_FILENO);
-                dup2(stderr_backup, STDERR_FILENO);
+
                 close(stdout_backup);
-                close(stderr_backup);
 
                 // Leer la salida capturada de stdout
                 FILE *output_file = fopen(output_filename, "r");
@@ -343,9 +368,9 @@ void on_run_clicked(GtkToolButton *button, gpointer user_data)
             else
             {
                 dup2(stdout_backup, STDOUT_FILENO);
-                dup2(stderr_backup, STDERR_FILENO);
+
                 close(stdout_backup);
-                close(stderr_backup);
+
                 gtk_text_buffer_insert_at_cursor(console_buffer, "Error: No se pudo abrir el archivo temporal\n", -1);
             }
         }
