@@ -1010,6 +1010,14 @@ void semantic_analysis_execute(Instruccion *instruction, Context *context)
 
         snprintf(bufferComment, sizeof(bufferComment), "end_while_%d:\n", arm_global_data->count_while);
         arm_global_data->text = arm_text_add(arm_global_data->text, bufferComment);
+
+        curr = while_block->head;
+        while (curr)
+        {
+            semantic_analysis_execute(curr->instr, ctx_while);
+            curr = curr->next;
+        }
+
         arm_global_data->count_while++;
 
         Symbol_table_insertContext(SymbolTable_General, ctx_while->symbols_context);

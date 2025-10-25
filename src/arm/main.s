@@ -16,146 +16,103 @@
 
 .data 
 print: .asciz "%s\n" 
-string_0: .asciz "\n--- UNIR CADENAS CON Strings.join ---"
-string_1: .asciz ", "
+int_0: .word 0
+int_1: .word 2
 buffer1: .space 32
-string_2: .asciz "Ana"
-string_3: .asciz "Luis"
-string_4: .asciz "Maria"
-string_5: .asciz "Carlos"
-joined_string_0: .quad string_2, string_3, string_4, string_5
-joined_string_0_length: .word 4
-string_6: .asciz "Lista de estudiantes: "
-string_7: .asciz " | "
+int_2: .word 1
 buffer2: .space 32
-string_8: .asciz "Matematicas"
-string_9: .asciz "Fisica"
-string_10: .asciz "Quimica"
-joined_string_1: .quad string_8, string_9, string_10
-joined_string_1_length: .word 3
-string_11: .asciz "Materias disponibles: "
-string_12: .asciz " - "
-buffer3: .space 32
-string_13: .asciz "85"
-string_14: .asciz "92"
-string_15: .asciz "78"
-string_16: .asciz "95"
-joined_string_2: .quad string_13, string_14, string_15, string_16
-joined_string_2_length: .word 4
-string_17: .asciz "Reporte de calificaciones: "
+int_3: .word 1
 
 .bss 
-listaEstudiantes_Global: .space 8
-listaMaterias_Global: .space 8
-reporteCalificaciones_Global: .space 8
+i_Global: .space 4
 
 .text 
 main: 
 STP X29, X30, [SP, #-16]! 
 MOV X29, SP 
 	
-	// Instrucción de impresión
+	// Declaración de variable i_Global
 	
-	// Carga de string \n--- UNIR CADENAS CON Strings.join ---
-	adr     x1, string_0
-	adr x0, print
-	bl printf
-	
-	
-	// Declaración de variable listaEstudiantes_Global
-	
-	// JOIN de elementos con separador , 
-	
-	// Carga de string , 
-	adr     x0, string_1
-	adr     x3, buffer1
-	adrp      x1, joined_string_0
-	add       x1, x1, :lo12:joined_string_0
-	adr       x2, joined_string_0_length
-	ldr       w2, [x2]
-	bl string_join
-	ldr x1, =listaEstudiantes_Global
+	// Carga de entero 0
+	adr    x0, int_0
+	ldr    w0, [x0]
+	ldr x1, =i_Global
 	str x0, [x1]
 	
 	
+	// Instrucción WHILE 0
+	while_0:
+	
+	// Carga de variable i_Global de tipo INTEGER
+	adr   x1, i_Global
+	ldr    w1, [x1]
+	
+	// Carga de entero 2
+	adr    x2, int_1
+	ldr    w2, [x2]
+	cmp w1, w2
+	cset w0, le
+	mov w3, w0
+	cbz w3, end_while_0
+	
 	// Instrucción de impresión
 	
-	// Carga de string Lista de estudiantes: 
-	adr     x1, string_6
-	str     x1, [sp, #-16]!
+	// Carga de variable i_Global de tipo INTEGER
+	adr   x0, i_Global
+	ldr    w0, [x0]
 	
-	// Carga de variable listaEstudiantes_Global de tipo STRING
-	adr   x2, listaEstudiantes_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer1
+	bl itao
 	adr x0, print
 	bl printf
 	
 	
-	// Declaración de variable listaMaterias_Global
+	// Carga de variable i_Global de tipo INTEGER
+	adr   x1, i_Global
+	ldr    w1, [x1]
 	
-	// JOIN de elementos con separador  | 
+	// Carga de entero 1
+	adr    x2, int_2
+	ldr    w2, [x2]
+	add    w0, w1, w2
+	mov    w3, w0
 	
-	// Carga de string  | 
-	adr     x0, string_7
-	adr     x3, buffer2
-	adrp      x1, joined_string_1
-	add       x1, x1, :lo12:joined_string_1
-	adr       x2, joined_string_1_length
-	ldr       w2, [x2]
-	bl string_join
-	ldr x1, =listaMaterias_Global
-	str x0, [x1]
+	// Asignación de variable i_Global
+	mov    w0, w3
+	ldr x1, =i_Global
+	str w0, [x1]
 	
+	b while_0
+	end_while_0:
 	
 	// Instrucción de impresión
 	
-	// Carga de string Materias disponibles: 
-	adr     x1, string_11
-	str     x1, [sp, #-16]!
+	// Carga de variable i_Global de tipo INTEGER
+	adr   x0, i_Global
+	ldr    w0, [x0]
 	
-	// Carga de variable listaMaterias_Global de tipo STRING
-	adr   x2, listaMaterias_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
+	// Conversion de INTEGER a STRING
+	adr     x1, buffer2
+	bl itao
 	adr x0, print
 	bl printf
 	
 	
-	// Declaración de variable reporteCalificaciones_Global
+	// Carga de variable i_Global de tipo INTEGER
+	adr   x1, i_Global
+	ldr    w1, [x1]
 	
-	// JOIN de elementos con separador  - 
+	// Carga de entero 1
+	adr    x2, int_3
+	ldr    w2, [x2]
+	add    w0, w1, w2
+	mov    w3, w0
 	
-	// Carga de string  - 
-	adr     x0, string_12
-	adr     x3, buffer3
-	adrp      x1, joined_string_2
-	add       x1, x1, :lo12:joined_string_2
-	adr       x2, joined_string_2_length
-	ldr       w2, [x2]
-	bl string_join
-	ldr x1, =reporteCalificaciones_Global
-	str x0, [x1]
-	
-	
-	// Instrucción de impresión
-	
-	// Carga de string Reporte de calificaciones: 
-	adr     x1, string_17
-	str     x1, [sp, #-16]!
-	
-	// Carga de variable reporteCalificaciones_Global de tipo STRING
-	adr   x2, reporteCalificaciones_Global
-	ldr    x2, [x2]
-	ldr     x1, [sp], #16
-	bl string_concat
-	mov x1, x0
-	adr x0, print
-	bl printf
+	// Asignación de variable i_Global
+	mov    w0, w3
+	ldr x1, =i_Global
+	str w0, [x1]
 	
 
 
