@@ -21,7 +21,8 @@ ARM_data *arm_data_create()
                              ".extern append_to_array_integer \n"
                              " .extern append_to_string_array \n"
                              ".extern string_to_double \n"
-                             ".extern string_to_int \n";
+                             ".extern string_to_int \n"
+                             ".extern string_join \n";
     data->data = ".data \n"
                  "print: .asciz \"%s\\n\" \n";
     data->bss = ".bss \n";
@@ -54,6 +55,7 @@ ARM_data *arm_data_create()
     data->count_foreach = 0;
 
     data->count_block = 0;
+    data->join_str = 0;
     return data;
 }
 

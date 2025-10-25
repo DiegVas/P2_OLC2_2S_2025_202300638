@@ -6,7 +6,7 @@ QEMU=qemu-aarch64
 CFLAGS=-static
 
 OBJDIR=obj
-SRC=main.s itao.s ftoa.s concat.s booltoa.s string_compare.s chartoa.s string_indexOf.s integer_indexOf.s append_to_array_integer.s append_to_array_strings.s string_to_double.s string_to_integer.s
+SRC=main.s itao.s ftoa.s concat.s booltoa.s string_compare.s chartoa.s string_indexOf.s integer_indexOf.s append_to_array_integer.s append_to_array_strings.s string_to_double.s string_to_integer.s string_join.s
 OBJ=$(patsubst %.s,$(OBJDIR)/%.o,$(SRC))
 BIN=main
 

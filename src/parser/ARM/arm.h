@@ -29,6 +29,7 @@ typedef struct ARM_data
     int count_foreach;
 
     int count_block;
+    int join_str;
 
 } ARM_data;
 

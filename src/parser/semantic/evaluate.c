@@ -583,8 +583,34 @@ symbol *evaluate_expression(Expression *expr, Context *context)
     {
         symbol *to_join = evaluate_expression(expr->list->head->expr, context);
 
+        char bufferARM[128];
+        snprintf(bufferARM, sizeof(bufferARM), "\n// JOIN de elementos con separador %s\n", to_join->value);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        result->data_section = arm_data_add(result->data_section, to_join->data_section);
+        result->text_section = arm_data_add(result->text_section, to_join->text_section);
+
+        if (to_join->num_register != 0)
+        {
+            snprintf(bufferARM, sizeof(bufferARM), "mov    x0, x%d\n", to_join->num_register);
+            result->text_section = arm_data_add(result->text_section, bufferARM);
+        }
+
+        arm_global_data->count_buffers++;
+
+        snprintf(bufferARM, sizeof(bufferARM), "buffer%d", arm_global_data->count_buffers);
+        result->data_section = arm_data_add(result->data_section, arm_declarate_bss(bufferARM, "DOUBLE"));
+
+        snprintf(bufferARM, sizeof(bufferARM), "adr     x3, buffer%d\n", arm_global_data->count_buffers);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
         char *joined_str = (char *)calloc(1, sizeof(char));
         joined_str[0] = '\0';
+
+        int elemnts_count = 0;
+        char *join_value = (char *)calloc(1024, sizeof(char)); // Buffer para los nombres de las variables
+        join_value[0] = '\0';
+
         ExpressionNode *current = expr->list->head->next;
         while (current)
         {
@@ -594,6 +620,7 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 result->dataType = "UNDEFINED";
                 result->value = "JOIN operation requires all elements to be of type STRING";
                 free(joined_str);
+                free(join_value);
                 return result;
             }
             if (joined_str[0] != '\0')
@@ -601,10 +628,50 @@ symbol *evaluate_expression(Expression *expr, Context *context)
                 joined_str = (char *)realloc(joined_str, strlen(joined_str) + strlen(to_join->value) + 1);
                 strcat(joined_str, to_join->value);
             }
+
+            result->data_section = arm_data_add(result->data_section, elem->data_section);
+
+            // Agregar el nombre de la variable a join_value
+            if (elemnts_count > 0)
+            {
+                strcat(join_value, ", "); // Agregar coma y espacio entre elementos
+            }
+
+            char string_name[32];
+            snprintf(string_name, sizeof(string_name), "string_%d", arm_global_data->count_strings - 1);
+            strcat(join_value, string_name);
+
+            fprintf(stderr, "Joining element: %s\n", elem->value);
             joined_str = (char *)realloc(joined_str, strlen(joined_str) + strlen(elem->value) + 1);
             strcat(joined_str, elem->value);
             current = current->next;
+            elemnts_count++;
         }
+
+        char join_string_label[32];
+        snprintf(join_string_label, sizeof(join_string_label), "joined_string_%d", arm_global_data->join_str);
+        result->data_section = arm_data_add(result->data_section, arm_declarate_list(join_string_label, "STRING", join_value));
+
+        char joined_string_length_label[40];
+        snprintf(joined_string_length_label, sizeof(joined_string_length_label), "%s_length", join_string_label);
+        result->data_section = arm_data_add(result->data_section, arm_declarate_int(joined_string_length_label, elemnts_count));
+
+        snprintf(bufferARM, sizeof(bufferARM), "adrp      x1, %s\n", join_string_label);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "add       x1, x1, :lo12:%s\n", join_string_label);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "adr       x2, %s\n", joined_string_length_label);
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "ldr       w2, [x2]\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        snprintf(bufferARM, sizeof(bufferARM), "bl string_join\n");
+        result->text_section = arm_data_add(result->text_section, bufferARM);
+
+        arm_global_data->join_str++;
 
         result->dataType = "STRING";
         result->value = joined_str;
